@@ -1,0 +1,24 @@
+/* poll form */
+form.poll ul {list-style: none}
+form.poll li {margin: 0; padding: 0}
+form.poll label {margin-left: 0.5em}
+
+/* results */
+ul.poll_results {list-style: none}
+
+/* display percentage bar after the label */
+ul.poll_results li {margin: 0; padding: 0;}
+div.poll_results {}
+div.poll_bar {background: green; margin: 5px 0 10px 0; height: 9px}
+
+/* display percentage bar underneath the label */
+/*
+ul.poll_results li {margin: 5px 0 10px 0; padding: 0; position: relative;}
+div.poll_results {position: relative; z-index: 1; height: 1.3em}
+div.poll_bar {position: absolute; top: 0; background: #aaa; height: 1.3em}
+*/
+
+/* back-end */
+#poll_admin {}
+img.poll_plugin_icon {display: block; float: left; margin: 0 10px 10px 0}
+p.poll_license {clear: both; text-align: justify}
