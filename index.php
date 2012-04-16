@@ -160,7 +160,7 @@ function poll_vote($name) {
 	setcookie('poll_'.$name, CMSIMPLE_ROOT, $data['end']);
 	$data = poll_data($name);
 	foreach ($_POST['poll_'.$name] as $vote) {
-	    $data['votes'][$vote]++;
+	    $data['votes'][stsl($vote)]++;
 	}
 	$data['total']++;
 	poll_data($name, $data);

@@ -1,2 +1,5 @@
+Version 1beta2 - released 2012-04-16
+cmb	fixed bug: quotes were not treated correctly when magic_quotes_gpc is on (reported by oldnema)
+
 Version 1beta1 - released 2012-04-15
 cmb	initial release
