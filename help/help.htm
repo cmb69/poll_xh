@@ -85,10 +85,10 @@ After he has voted, he can see the results of the poll.</p>
 <p>Currently the poll data files have to be created and edited manually.
 Just put a file name-of-the-poll.csv to Poll_XH's data folder (plugins/poll/data/ by default).
 Each voting option has it's own line in the file.
-Additionally there are two meta options, namely %%%MODE%%% and %%%END%%%,
+Additionally there are two meta options, namely %%%MAX%%% and %%%END%%%,
 which you have to put in separate lines too. Both are optional.<p>
-<pre>%%%MODE%%%&rarr;multi</pre>
-<p>will make a multiple-choice poll, and with</p>
+<pre>%%%MAX%%%&rarr;3</pre>
+<p>will make a multiple-choice poll where the user can check 3 options at most, and with</p>
 <pre>%%%END%%%&rarr;1335744000</pre>
 <p>you can specify the end date of the poll as UNIX timestamp.
 Note that the &rarr; stands for a &lt;tab&gt; character.
@@ -118,8 +118,9 @@ that those data are protected from non authorized access.</p>
 Many thanks for publishing this icon under CC BY-ND.</p>
 <p>This plugin uses free applications icons from <a href="http://www.aha-soft.com/">Aha-Soft</a>.
 Many thanks for making these icons freely available.</p>
-<!--<p>Many thanks to the community at the <a href="http://www.cmsimpleforum.com">CMSimple forum</a>-->
-<!--for tips, suggestions and testing.</p>-->
+<p>Many thanks to the community at the <a href="http://www.cmsimpleforum.com">CMSimple forum</a>
+for tips, suggestions and testing.
+Particularly I want to thank oldnema, svasti, bca and Tata for early feedback.</p>
 <p>And last but not least many thanks to <a href="http://www.harteg.dk/">Peter Harteg</a>,
 the "father" of CMSimple, and all developers of
 <a href="http://www.cmsimple-xh.com">CMSimple_XH</a>
