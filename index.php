@@ -203,15 +203,17 @@ function poll_voting_view($name) {
  * Returns the results view.
  *
  * @param string $name  The name of the poll.
+ * @param bool $immediate  Wether the results are shown immediately after voting.
  * @return string  The (X)HTML.
  */
-function poll_results_view($name) {
+function poll_results_view($name, $immediate = FALSE) {
     global $admin, $plugin_tx;
 
     $ptx = $plugin_tx['poll'];
     $data = poll_data($name);
     $o = $admin == 'plugin_main' ? ''
-	    : (poll_has_ended($name) ? $ptx['caption_ended'] : $ptx['caption_voted'])."\n"
+	    : (poll_has_ended($name) ? $ptx['caption_ended']
+	    : ($immediate ? $ptx['caption_just_voted'] : $ptx['caption_voted']))."\n"
 		.$ptx['caption_results']."\n";
     $o .= '<ul class="poll_results">'."\n";
     foreach ($data['votes'] as $key => $count) {
@@ -243,7 +245,7 @@ function poll($name) {
 	$o .= poll_results_view($name);
     } elseif (poll_is_voting($name)) {
 	poll_vote($name);
-	$o .= poll_results_view($name);
+	$o .= poll_results_view($name, TRUE);
     } else {
 	$o .= poll_voting_view($name);
     }
