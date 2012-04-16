@@ -17,7 +17,7 @@ define('POLL_VERSION', '1beta1');
 
 
 define('POLL_TOTAL', '%%%TOTAL%%%');
-define('POLL_MODE', '%%%MODE%%%');
+define('POLL_MAX', '%%%MAX%%%');
 define('POLL_END', '%%%END%%%');
 
 
@@ -64,13 +64,13 @@ function poll_data($name, $ndata = NULL) {
     if (is_null($ndata)) {
 	if (is_null($data) || $name != $cname) {
 	    $cname = $name;
-	    $data = array('multi' => FALSE, 'end' => 2147483647, 'total' => 0);
+	    $data = array('max' => 1, 'end' => 2147483647, 'total' => 0);
 	    if (($lines = file($fn)) !== FALSE) {
 		foreach ($lines as $line) {
 		    $rec = explode("\t", rtrim($line));
 		    switch ($rec[0]) {
-			case POLL_MODE:
-			    $data['multi'] = $rec[1] == 'multi';
+			case POLL_MAX:
+			    $data['max'] = $rec[1];
 			    break;
 			case POLL_END:
 			    $data['end'] = $rec[1];
@@ -91,7 +91,7 @@ function poll_data($name, $ndata = NULL) {
 	foreach ($data['votes'] as $key => $count) {
 	    $lines[] = $key."\t".$count;
 	}
-	$lines[] = POLL_MODE."\t".($data['multi'] ? 'multi' : 'single');
+	$lines[] = POLL_MAX."\t".($data['max']);
 	$lines[] = POLL_END."\t".$data['end'];
 	$lines[] = POLL_TOTAL."\t".$data['total'];
 	if (($fh = fopen($fn, 'w')) === FALSE
@@ -148,26 +148,37 @@ function poll_is_voting($name) {
 
 
 /**
- * Registers the new vote.
+ * Registers the new vote and returns the result view.
  *
  * @param string $name  The name of the poll.
- * @return void
+ * @return string  The (X)HTML.
  */
 function poll_vote($name) {
+    global $plugin_tx;
+
+    $ptx = $plugin_tx['poll'];
+    $data = poll_data($name);
+    if (count($_POST['poll_'.$name]) > $data['max']) {
+	return sprintf($ptx['error_exceeded_max'], $data['max'])
+		.poll_voting_view($name);
+    }
     $fn = poll_data_folder().$name.'.ips';
     if (($fh = fopen($fn, 'a')) !== FALSE
 	    && fwrite($fh, $_SERVER['REMOTE_ADDR']."\n") !== FALSE) {
 	setcookie('poll_'.$name, CMSIMPLE_ROOT, $data['end']);
-	$data = poll_data($name);
 	foreach ($_POST['poll_'.$name] as $vote) {
 	    $data['votes'][stsl($vote)]++;
 	}
 	$data['total']++;
 	poll_data($name, $data);
+	$err = FALSE;
     } else {
 	e('cntwriteto', 'file', $fn);
+	$err = TRUE;
     }
     if ($fh !== FALSE) {fclose($fh);}
+    return $err ? poll_voting_view($name)
+	    : $ptx['caption_just_voted'].poll_results_view($name, FALSE);
 }
 
 
@@ -182,7 +193,7 @@ function poll_voting_view($name) {
 
     $ptx = $plugin_tx['poll'];
     $data = poll_data($name);
-    $type = $data['multi'] ? 'checkbox' : 'radio';
+    $type = $data['max'] > 1 ? 'checkbox' : 'radio';
     $o = '<form class="poll" action="'.$sn.'?'.$su.'" method="POST">'."\n"
 	    .$ptx['caption_vote']."\n".'<ul>'."\n";
     $i = 0;
@@ -203,17 +214,16 @@ function poll_voting_view($name) {
  * Returns the results view.
  *
  * @param string $name  The name of the poll.
- * @param bool $immediate  Wether the results are shown immediately after voting.
+ * @param bool $msg  Wether the caption_voted should be displayed.
  * @return string  The (X)HTML.
  */
-function poll_results_view($name, $immediate = FALSE) {
+function poll_results_view($name, $msg = TRUE) {
     global $admin, $plugin_tx;
 
     $ptx = $plugin_tx['poll'];
     $data = poll_data($name);
     $o = $admin == 'plugin_main' ? ''
-	    : (poll_has_ended($name) ? $ptx['caption_ended']
-	    : ($immediate ? $ptx['caption_just_voted'] : $ptx['caption_voted']))."\n"
+	    : (poll_has_ended($name) ? $ptx['caption_ended'] : ($msg ? $ptx['caption_voted'] : ''))."\n"
 		.$ptx['caption_results']."\n";
     $o .= '<ul class="poll_results">'."\n";
     foreach ($data['votes'] as $key => $count) {
@@ -244,8 +254,7 @@ function poll($name) {
     if (poll_has_ended($name) || poll_has_voted($name)) {
 	$o .= poll_results_view($name);
     } elseif (poll_is_voting($name)) {
-	poll_vote($name);
-	$o .= poll_results_view($name, TRUE);
+	$o .= poll_vote($name);
     } else {
 	$o .= poll_voting_view($name);
     }

@@ -12,6 +12,7 @@ $plugin_tx['poll']['label_vote']="Vote now!";
 $plugin_tx['poll']['label_result']="%1\$s &ndash; %2\$.1f%% (%3\$d votes)";
 
 $plugin_tx['poll']['error_invalid_name']="Invalid poll name '%s'! (must consist of 'a'-'z', '0'-'9' and '-' only)";
+$plugin_tx['poll']['error_exceeded_max']="<p class=\"cmsimplecore_warning\">You may check %d options at most!</p>";
 
 $plugin_tx['poll']['syscheck_title']="System check";
 $plugin_tx['poll']['syscheck_phpversion']="PHP version &ge; %s";
