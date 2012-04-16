@@ -13,7 +13,7 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 }
 
 
-define('POLL_VERSION', '1beta1');
+define('POLL_VERSION', '1beta2');
 
 
 define('POLL_TOTAL', '%%%TOTAL%%%');
