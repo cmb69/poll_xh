@@ -105,7 +105,7 @@ function poll_data($name, $ndata = NULL) {
 
 
 /**
- * Returns wether the poll has ended.
+ * Returns whether the poll has ended.
  *
  * @param string $name  The name of the poll.
  * @return bool
@@ -117,7 +117,7 @@ function poll_has_ended($name) {
 
 
 /**
- * Returns wether the current user has already voted.
+ * Returns whether the current user has already voted.
  *
  * @return bool
  */
@@ -137,7 +137,7 @@ function poll_has_voted($name) {
 
 
 /**
- * Returns wether there's a vote for the given poll.
+ * Returns whether there's a vote for the given poll.
  *
  * @param string $name  The name of the poll.
  * @return bool
@@ -214,7 +214,7 @@ function poll_voting_view($name) {
  * Returns the results view.
  *
  * @param string $name  The name of the poll.
- * @param bool $msg  Wether the caption_voted should be displayed.
+ * @param bool $msg  Whether the caption_voted should be displayed.
  * @return string  The (X)HTML.
  */
 function poll_results_view($name, $msg = TRUE) {
