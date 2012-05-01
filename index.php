@@ -226,6 +226,7 @@ function poll_results_view($name, $msg = TRUE) {
 	    : (poll_has_ended($name) ? $ptx['caption_ended'] : ($msg ? $ptx['caption_voted'] : ''))."\n"
 		.$ptx['caption_results']."\n";
     $o .= '<ul class="poll_results">'."\n";
+    arsort($data['votes']);
     foreach ($data['votes'] as $key => $count) {
 	$percentage = $data['total'] == 0 ? 0 : 100 * $count / $data['total'];
 	$o .= '<li><div class="poll_results">'.sprintf($ptx['label_result'], htmlspecialchars($key), $percentage, $count).'</div>'
