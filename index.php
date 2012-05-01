@@ -3,7 +3,7 @@
 /**
  * Front-End of Poll_XH
  *
- * Copyright (c) 2012, Christoph M. Becker (see license.txt)
+ * Copyright (c) 2012 Christoph M. Becker (see license.txt)
  */
 
 
@@ -13,7 +13,7 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 }
 
 
-define('POLL_VERSION', '1beta2');
+define('POLL_VERSION', '1beta3');
 
 
 define('POLL_TOTAL', '%%%TOTAL%%%');
