@@ -7,6 +7,7 @@ $plugin_tx['poll']['caption_voted']="<p>You have already voted.</p>";
 $plugin_tx['poll']['caption_just_voted']="<p>Thank you for voting!</p>";
 $plugin_tx['poll']['caption_ended']="<p>The poll has ended.</p>";
 $plugin_tx['poll']['caption_results']="<h5>The Results</h5>";
+$plugin_tx['poll']['caption_total']="<p><strong>In total %d people have voted.</strong></p>";
 
 $plugin_tx['poll']['label_vote']="Vote now!";
 $plugin_tx['poll']['label_result']="%1\$s &ndash; %2\$.1f%% (%3\$d votes)";
