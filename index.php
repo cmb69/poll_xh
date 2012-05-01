@@ -22,6 +22,22 @@ define('POLL_END', '%%%END%%%');
 
 
 /**
+ * Returns the key for accessing the correct numerus.
+ *
+ * @param string $key  The base key.
+ * @param int $count
+ * @return string
+ */
+function poll_numerus($key, $count) {
+    global $plugin_tx;
+
+    $key .= $count == 1 ? '_singular' :
+	    ($count >= 2 && $count <= 4 ? '_plural_2-4' : '_plural_5');
+    return $plugin_tx['poll'][$key];
+}
+
+
+/**
  * Returns the path to the data folder.
  *
  * @return string
@@ -229,11 +245,13 @@ function poll_results_view($name, $msg = TRUE) {
     arsort($data['votes']);
     foreach ($data['votes'] as $key => $count) {
 	$percentage = $data['total'] == 0 ? 0 : 100 * $count / $data['total'];
-	$o .= '<li><div class="poll_results">'.sprintf($ptx['label_result'], htmlspecialchars($key), $percentage, $count).'</div>'
+	$o .= '<li><div class="poll_results">'
+		.sprintf(poll_numerus('label_result', $count), htmlspecialchars($key), $percentage, $count)
+		.'</div>'
 		.'<div class="poll_bar" style="width: '.$percentage.'%">&nbsp;</div></li>'."\n";
     }
     $o .= '</ul>'."\n"
-	    .sprintf($ptx['caption_total'], $data['total'])."\n";
+	    .sprintf(poll_numerus('caption_total', $data['total']), $data['total'])."\n";
     return $o;
 }
 

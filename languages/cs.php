@@ -6,7 +6,9 @@
 	$plugin_tx['poll']['caption_ended']="<p>Anketa byla uzavřena..</p>";
 	$plugin_tx['poll']['caption_results']="<h5>Výsledky hlasování</h5>";
 	$plugin_tx['poll']['label_vote']="Hlasujte!";
-	$plugin_tx['poll']['label_result']="%1\$s &ndash; %2\$.1f%% (%3\$d hlasů)";
+	$plugin_tx['poll']['label_result_singular']="%1\$s &ndash; %2\$.1f%% (%3\$d hlas)";
+	$plugin_tx['poll']['label_result_plural_2-4']="%1\$s &ndash; %2\$.1f%% (%3\$d hlasy)";
+	$plugin_tx['poll']['label_result_plural_5']="%1\$s &ndash; %2\$.1f%% (%3\$d hlasů)";
 	$plugin_tx['poll']['error_invalid_name']="Chybný název ankety '%s'! (může obsahovat pouze písmena 'a'-'z', čísla '0'-'9' a místo mezery pomlčku '-')";
 	$plugin_tx['poll']['syscheck_title']="Kontrola systému";
 	$plugin_tx['poll']['syscheck_phpversion']="PHP verze ≥ %s";
