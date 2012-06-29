@@ -16,6 +16,11 @@ $plugin_tx['poll']['label_result_singular']="%1\$s &ndash; %2\$.1f%% (%3\$d vote
 $plugin_tx['poll']['label_result_plural_2-4']="%1\$s &ndash; %2\$.1f%% (%3\$d votes)";
 $plugin_tx['poll']['label_result_plural_5']="%1\$s &ndash; %2\$.1f%% (%3\$d votes)";
 
+$plugin_tx['poll']['tool_add']="Add Option";
+$plugin_tx['poll']['tool_remove']="Remove Option";
+$plugin_tx['poll']['tool_up']="Move Option up";
+$plugin_tx['poll']['tool_down']="Move Option down";
+
 $plugin_tx['poll']['error_invalid_name']="Invalid poll name '%s'! (must consist of 'a'-'z', '0'-'9' and '-' only)";
 $plugin_tx['poll']['error_exceeded_max']="<p class=\"cmsimplecore_warning\">You may check %d options at most!</p>";
 

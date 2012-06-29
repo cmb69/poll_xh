@@ -1,5 +1,4 @@
 TODO
-    Paukal (http://www.cmsimpleforum.com/viewtopic.php?f=29&t=4563)
     back-end from PLUGINS/poll ?
 
 Version 1beta3 - released TODO
