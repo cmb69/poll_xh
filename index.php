@@ -25,7 +25,7 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 /**
  * The version number.
  */
-define('POLL_VERSION', '1beta3');
+define('POLL_VERSION', '@POLL_VERSION@');
 
 define('POLL_TOTAL', '%%%TOTAL%%%');
 define('POLL_MAX', '%%%MAX%%%');
