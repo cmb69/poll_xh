@@ -1,0 +1,19 @@
+TODO
+    Paukal (http://www.cmsimpleforum.com/viewtopic.php?f=29&t=4563)
+    back-end from PLUGINS/poll ?
+
+Version 1beta3 - released TODO
+cmb	added czech translation (contributed by oldnema)
+cmb	sorted result view (suggested by Bernd Strauch)
+cmb	added info about total number of voters to result view (suggested by simm)
+cmb	added seperate language strings for singular, paucal and plural (suggested by Tata)
+
+Version 1beta2 - released 2012-04-16
+cmb	fixed bug: quotes were not treated correctly when magic_quotes_gpc is on (reported by oldnema)
+cmb	added new language variable to be displayed directly after voting (inspired by svasti)
+cmb	changed %%%MODE%%% to %%%MAX%%% (inspired by oldnema)
+cmb	fixed wrong display of poll results when no vote has been made
+cmb	updated manual accordingly
+
+Version 1beta1 - released 2012-04-15
+cmb	initial release
