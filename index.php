@@ -80,7 +80,7 @@ function poll_data($name, $ndata = NULL) {
     if (is_null($ndata)) {
 	if (is_null($data) || $name != $cname) {
 	    $cname = $name;
-	    $data = array('max' => 1, 'end' => 2147483647, 'total' => 0, 'votes' => array());
+	    $data = array('max' => 1, 'end' => 2147483647, 'total' => 0);
 	    if (($lines = file($fn)) !== FALSE) {
 		foreach ($lines as $line) {
 		    $rec = explode("\t", rtrim($line));

@@ -20,20 +20,5 @@ div.poll_bar {position: absolute; top: 0; background: #aaa; height: 1.3em}
 
 /* back-end */
 #poll_admin {}
-
-#poll_edit fieldset {padding: 1em}
-
-#poll_general label {float: left; width: 10em}
-#poll_general input {width: 7em}
-#poll_general br {clear: both}
-
-#poll_toolbar {margin-bottom: 1em}
-
-/*div.poll_option {padding: 0.2em; background: blue; display: table-row}*/
-/*div.poll_option input {padding: 0.2em; background: blue; display:table-cell}*/
-div.poll_selected input {border: 2px solid green}
-input.poll_option {width: 20em}
-input.poll_count {width: 3em; text-align: right}
-
 img.poll_plugin_icon {display: block; float: left; margin: 0 10px 10px 0}
 p.poll_license {clear: both; text-align: justify}

@@ -94,80 +94,6 @@ function poll_polls() {
 }
 
 
-function poll_hjs() {
-    global $hjs, $pth, $plugin_cf;
-
-    include $pth['folder']['plugins'].'jquery/jquery.inc.php';
-    include_jquery();
-    $hjs .= '<script type="text/javascript" src="'.$pth['folder']['plugins']
-	    .'poll/admin.js"></script>'."\n";
-}
-
-
-function poll_tool_icon($name) {
-    global $pth, $plugin_tx;
-
-    $ptx = $plugin_tx['poll'];
-    $o = '<a href="javascript:Poll.'.$name.'()">'
-	    .tag('img src="'.$pth['folder']['plugins'].'poll/images/'.$name.'.png"'
-	    .' alt="'.$ptx['tool_'.$name].'" title="'.$ptx['tool_'.$name].'"')
-	    .'</a>'."\n";
-    return $o;
-}
-
-
-function poll_edit_option($key = NULL, $count = NULL) {
-    $attrs = isset($key) ? '' : ' id="poll_template" style="display: none"';
-    $o = '<div class="poll_option"'.$attrs.'>'
-	    .tag('input type="text" name="poll_option[]" value="'.htmlspecialchars($key, ENT_QUOTES, 'UTF-8').'" class="poll_option" onfocus="Poll.select(this)"')
-	    .tag('input type="text" name="poll_count[]" value="'.$count.'" class="poll_count" onfocus="Poll.select(this)"')
-	    .'</div>'."\n";
-
-    return $o;
-}
-
-
-function poll_edit($name) {
-    global $sn;
-
-    poll_hjs();
-    $data = poll_data($name);
-    $o = $name;
-    $url = $sn.'?&amp;poll&amp;admin=plugin_main&amp;action=save&amp;poll_name='.$name;
-    $o .= '<form id="poll_edit" action="'.$url.'" method="POST">'."\n"
-	    .'<fieldset id="poll_general">'
-	    .'<legend>General</legend>'
-	    .'<label>Max. Options</label>'
-	    .tag('input type="text" name="poll_max" value="'.$data['max'].'"').tag('br')
-	    .'<label>End Date</label>'
-	    .tag('input type="text" name="poll_end" value="'.$data['end'].'"').tag('br')
-	    .'<label>Total Voters</label>'
-	    .tag('input type="text" name="poll_total" value="'.$data['total'].'"').tag('br')
-	    .'</fieldset>'
-	    .'<fieldset id="poll_options">'
-	    .'<legend>Options</legend>';
-    $o .= poll_edit_option();
-    $o .= '<div id="poll_toolbar">';
-    foreach (array('add', 'remove', 'up', 'down') as $tool) {
-	$o .= poll_tool_icon($tool);
-    }
-    $o .= '</div>';
-    foreach ($data['votes'] as $key => $count) {
-	$o .= poll_edit_option($key, $count);
-    }
-    $o .= '</fieldset>'
-	    .tag('input type="submit" class="submit"')
-	    .'</form>'."\n";
-    return $o;
-}
-
-
-function poll_save($name) {
-    echo $name;
-    var_dump($_POST);
-}
-
-
 /**
  * Returns the plugin's main administration view.
  *
@@ -194,16 +120,7 @@ if (!empty($poll)) {
 	    $o .= poll_version().tag('hr').poll_system_check();
 	    break;
 	case 'plugin_main':
-	    switch ($action) {
-		case 'edit':
-		    $o .= poll_edit($_GET['poll_name']);
-		    break;
-		case 'save':
-		    $o .= poll_save($_GET['poll_name']);
-		    break;
-		default:
-		    $o .= poll_plugin_admin();
-	    }
+	    $o .= poll_plugin_admin();
 	    break;
 	default:
 	    $o .= plugin_admin_common($action, $admin, $plugin);

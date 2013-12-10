@@ -1,8 +1,7 @@
-CMSimple "classic"	2
-CMSimple LE	1
-CMSimple SE	1
-CMSimple Flex	0
-CMSimple_XH	1
+CMSimple "classic"
+CMSimple LE
+CMSimple SE
+CMSimple Flex
+CMSimple_XH
 %%%MAX%%%	3
 %%%END%%%	1356912000
-%%%TOTAL%%%	2
