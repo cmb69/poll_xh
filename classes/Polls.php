@@ -41,6 +41,20 @@ class Poll_Polls
         return $this->folder . '/' . $pollName . '.dat';
     }
 
+    function pollNames()
+    {
+        $files = array();
+        $handle = opendir($this->folder);
+        while (($entry = readdir($handle)) !== false) {
+            if (is_file($this->folder . '/' . $entry)
+                && pathinfo($entry, PATHINFO_EXTENSION) == 'dat'
+            ) {
+                $files[] = substr($entry, 0, -4);
+            }
+        }
+        return $files;
+    }
+
     function poll($name)
     {
         $contents = file_get_contents($this->filename($name));

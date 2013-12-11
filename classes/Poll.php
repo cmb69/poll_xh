@@ -3,7 +3,7 @@
 /**
  * Class modelling a poll.
  *
- * PHP versions 4 and 5
+ * PHP version 5
  *
  * @category  CMSimple_XH
  * @package   Poll
@@ -13,6 +13,9 @@
  * @version   SVN: $Id$
  * @link      http://3-magi.net/?CMSimple_XH/Poll_XH
  */
+
+class Poll_Exception extends Exception {}
+
 
 /**
  * Class modelling a poll.
@@ -26,83 +29,72 @@
 class Poll_Poll
 {
     /**
-     * @var string
-     */
-    var $filename;
-
-    /**
-     * @var string
-     */
-    var $name;
-
-    /**
      * @var int
      */
-    var $endingTime;
+    protected $endingTime;
 
     /**
      * @var array
      */
-    var $options;
+    protected $options;
 
     /**
      * @var int
      */
-    var $voteCount;
+    protected $voteCount;
 
     /**
-     * Initialized a new instance.
-     *
-     * @param string $filename Path of the data file.
+     * Initializes a new instance.
      */
-    function Poll_Poll($filename)
+    public function __construct()
     {
-        $this->filename = $filename;
-        $this->name = basename($filename, '.dat');
-
+        $this->endingTime = time();
         $this->options = array();
-        $this->votes = 0;
+        $this->voteCount = 0;
     }
 
-    function save()
-    {
-        file_put_contents($this->filename, serialize($this));
-    }
-
-    function getEndingTime()
+    public function getEndingTime()
     {
         return $this->endingTime;
     }
 
-    function setEndingTime($endingTime)
+    public function setEndingTime($endingTime)
     {
         $this->endingTime = $endingTime;
     }
 
-    function getVoteCount()
+    public function getOptionNames()
     {
-        return $this->voteCount;
+        return array_keys($this->options);
     }
 
-    function addOption($option)
+    public function addOption($option)
     {
         $this->options[$option] = 0;
     }
 
-    function renameOption($oldName, $newName)
+    public function renameOption($oldName, $newName)
     {
         $votes = $this->options[$oldName];
         unset($this->options[$oldName]);
         $this->options[$newName] = $votes;
     }
 
-    function voteFor($option)
+    public function getVoteCount()
     {
+        return $this->voteCount;
+    }
+
+    public function voteFor($option)
+    {
+        if (!isset($this->options[$option])) {
+            throw new Poll_Exception();
+        }
         $this->options[$option]++;
         $this->voteCount++;
     }
 
-    function votesFor($option)
+    public function votesFor($option)
     {
         return $this->options[$option];
     }
