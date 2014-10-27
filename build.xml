@@ -71,9 +71,10 @@
         </move>
         <move todir="dist">
             <fileset dir="export">
-                <exclude name="poll.komodoproject"/>
                 <exclude name="build.xml"/>
-                <exclude name="phpcompatinfo.xml"/>
+                <exclude name="composer.*"/>
+                <exclude name="phpcompatinfo.*"/>
+                <exclude name="poll.komodoproject"/>
                 <exclude name="TODO"/>
             </fileset>
         </move>
