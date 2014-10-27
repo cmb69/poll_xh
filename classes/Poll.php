@@ -442,7 +442,7 @@ EOT;
     {
         global $pth, $tx, $plugin_tx;
 
-        $phpVersion = '4.3.10';
+        $phpVersion = '5.0.0';
         $ptx = $plugin_tx['poll'];
         $imgdir = $pth['folder']['plugins'] . 'poll/images/';
         $ok = tag('img src="' . $imgdir . 'ok.png" alt="ok"');
