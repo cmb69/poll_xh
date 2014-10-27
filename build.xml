@@ -22,9 +22,13 @@
         </phpcodesniffer>
     </target>
 
-    <target name="compat" description="checks compatibility with PHP_CompatInfo 2">
-        <exec command="phpcompatinfo --configuration phpcompatinfo.xml print --exclude-pattern poll ."
+    <target name="compat2" description="checks compatibility with PHP_CompatInfo 2">
+        <exec command="C:\xampp\php\phpcompatinfo --configuration phpcompatinfo.xml print --exclude-pattern poll ."
               logoutput="true"/>
+    </target>
+
+    <target name="compat" description="checks compatibility with PHP_CompatInfo 3">
+        <exec command="phpcompatinfo analyser:run ." logoutput="true"/>
     </target>
 
     <target name="php-doc">
