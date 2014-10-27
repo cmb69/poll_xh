@@ -30,8 +30,6 @@ EOT
     );
 }
 
-require_once $pth['folder']['plugin_classes'] . 'Controller.php';
-
 /**
  * The version number.
  */
@@ -40,6 +38,28 @@ define('POLL_VERSION', '@POLL_VERSION@');
 define('POLL_TOTAL', '%%%TOTAL%%%');
 define('POLL_MAX', '%%%MAX%%%');
 define('POLL_END', '%%%END%%%');
+
+/**
+ * Autoloads a plugin class.
+ *
+ * @param string $class A class name.
+ *
+ * @return void
+ *
+ * @global array The paths of system files and folders.
+ */
+function Poll_autoload($class)
+{
+    global $pth;
+
+    $parts = explode('_', $class, 2);
+    if ($parts[0] == 'Poll') {
+        include_once $pth['folder']['plugins'] . 'poll/classes/'
+            . $parts[1] . '.php';
+    }
+}
+
+spl_autoload_register('Poll_autoload');
 
 /**
  * Returns the poll view or <var>false</var> in case of an invalid poll name.
