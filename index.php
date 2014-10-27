@@ -30,7 +30,7 @@ EOT
     );
 }
 
-require_once $pth['folder']['plugin_classes'] . 'Poll.php';
+require_once $pth['folder']['plugin_classes'] . 'Controller.php';
 
 /**
  * The version number.
@@ -50,9 +50,9 @@ define('POLL_END', '%%%END%%%');
  */
 function poll($name)
 {
-    return Poll::main($name);
+    return Poll_Controller::main($name);
 }
 
-Poll::dispatch();
+Poll_Controller::dispatch();
 
 ?>

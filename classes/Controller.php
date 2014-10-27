@@ -1,7 +1,7 @@
 <?php
 
 /**
- * The main object.
+ * The controller.
  *
  * PHP version 5
  *
@@ -15,7 +15,7 @@
  */
 
 /**
- * The main object.
+ * The controller.
  *
  * @category CMSimple_XH
  * @package  Poll
@@ -23,7 +23,7 @@
  * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link     http://3-magi.net/?CMSimple_XH/Poll_XH
  */
-class Poll
+class Poll_Controller
 {
     /**
      * Dispatches on plugin related requests.
@@ -36,8 +36,8 @@ class Poll
     {
         global $adm;
 
-        if ($adm && Poll::isAdministrationRequested()) {
-            Poll::handleAdministration();
+        if ($adm && self::isAdministrationRequested()) {
+            self::handleAdministration();
         }
     }
 
