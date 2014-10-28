@@ -103,51 +103,56 @@ class Poll_Controller
      *
      * The function caches the data of a single poll internally.
      *
-     * @param string $name    A poll name.
-     * @param array  $newData New poll data.
+     * @param string    $name    A poll name.
+     * @param Poll_Poll $newPoll A new poll.
      *
-     * @return array
+     * @return Poll_Poll
      */
-    protected static function data($name, $newData = null)
+    protected static function data($name, $newPoll = null)
     {
-        static $cname = null, $data = null;
+        static $cname = null, $poll = null;
 
         $filename = self::dataFolder() . $name . '.csv';
-        if (!isset($newData)) {
-            if (!isset($data) || $name != $cname) {
+        if (!isset($newPoll)) {
+            if (!isset($poll) || $name != $cname) {
                 $cname = $name;
-                $data = array('max' => 1, 'end' => 2147483647, 'total' => 0);
+                $poll = new Poll_Poll();
+                $poll->setName($name);
+                $poll->setMaxVotes(1);
+                $poll->setEndDate(2147483647);
+                $poll->setTotalVotes(0);
                 $lines = file($filename);
                 if ($lines !== false) {
                     foreach ($lines as $line) {
                         $record = explode("\t", rtrim($line));
                         switch ($record[0]) {
                         case POLL_MAX:
-                            $data['max'] = $record[1];
+                            $poll->setMaxVotes($record[1]);
                             break;
                         case POLL_END:
-                            $data['end'] = $record[1];
+                            $poll->setEndDate($record[1]);
                             break;
                         case POLL_TOTAL:
-                            $data['total'] = $record[1];
+                            $poll->setTotalVotes($record[1]);
                             break;
                         default:
-                            $data['votes'][$record[0]]
-                                = isset($record[1]) ? $record[1] : 0;
+                            $poll->setVoteCount(
+                                $record[0], isset($record[1]) ? $record[1] : 0
+                            );
                         }
                     }
                 }
             }
         } else {
             $cname = $name;
-            $data = $newData;
+            $poll = $newPoll;
             $lines = array();
-            foreach ($data['votes'] as $key => $count) {
+            foreach ($poll->getVotes() as $key => $count) {
                 $lines[] = $key . "\t" . $count;
             }
-            $lines[] = POLL_MAX . "\t" . $data['max'];
-            $lines[] = POLL_END . "\t" . $data['end'];
-            $lines[] = POLL_TOTAL . "\t" . $data['total'];
+            $lines[] = POLL_MAX . "\t" . $poll->getMaxVotes();
+            $lines[] = POLL_END . "\t" . $poll->getEndDate();
+            $lines[] = POLL_TOTAL . "\t" . $poll->getTotalVotes();
             if (($stream = fopen($filename, 'w')) === false
                 || fwrite($stream, implode(PHP_EOL, $lines) . PHP_EOL) === false
             ) {
@@ -157,20 +162,7 @@ class Poll_Controller
                 fclose($stream);
             }
         }
-        return $data;
-    }
-
-    /**
-     * Returns whether the poll has ended.
-     *
-     * @param string $name A poll name.
-     *
-     * @return bool
-     */
-    protected static function hasEnded($name)
-    {
-        $data = self::data($name);
-        return $data['end'] <= time();
+        return $poll;
     }
 
     /**
@@ -228,21 +220,21 @@ class Poll_Controller
         global $plugin_tx;
 
         $ptx = $plugin_tx['poll'];
-        $data = self::data($name);
-        if (count($_POST['poll_' . $name]) > $data['max']) {
-            return sprintf($ptx['error_exceeded_max'], $data['max'])
-                . self::votingView($name);
+        $poll = self::data($name);
+        if (count($_POST['poll_' . $name]) > $poll->getMaxVotes()) {
+            return sprintf($ptx['error_exceeded_max'], $poll->getMaxVotes())
+                . self::votingView($poll);
         }
         $filename = self::dataFolder() . $name . '.ips';
         if (($stream = fopen($filename, 'a')) !== false
             && fwrite($stream, $_SERVER['REMOTE_ADDR'] . PHP_EOL) !== false
         ) {
-            setcookie('poll_' . $name, CMSIMPLE_ROOT, $data['end']);
+            setcookie('poll_' . $name, CMSIMPLE_ROOT, $poll->getEndDate());
             foreach ($_POST['poll_' . $name] as $vote) {
-                $data['votes'][stsl($vote)]++;
+                $poll->increaseVoteCount(stsl($vote));
             }
-            $data['total']++;
-            self::data($name, $data);
+            $poll->increaseTotalVotes();
+            self::data($name, $poll);
             $err = false;
         } else {
             e('cntwriteto', 'file', $filename);
@@ -252,14 +244,14 @@ class Poll_Controller
             fclose($stream);
         }
         return $err
-            ? self::votingView($name)
-            : $ptx['caption_just_voted'] . self::resultsView($name, false);
+            ? self::votingView($poll)
+            : $ptx['caption_just_voted'] . self::resultsView($poll, false);
     }
 
     /**
      * Returns the voting view.
      *
-     * @param string $name A poll name.
+     * @param Poll_Poll $poll A poll.
      *
      * @return string (X)HTML.
      *
@@ -269,13 +261,13 @@ class Poll_Controller
      *
      * @todo Fix empty elements.
      */
-    protected static function votingView($name)
+    protected static function votingView(Poll_Poll $poll)
     {
         global $sn, $su, $plugin_tx;
 
         $ptx = $plugin_tx['poll'];
-        $data = self::data($name);
-        $type = $data['max'] > 1 ? 'checkbox' : 'radio';
+        $name = $poll->getName();
+        $type = $poll->getMaxVotes() > 1 ? 'checkbox' : 'radio';
         $o = <<<EOT
 <form class="poll" action="$sn?$su" method="post">
     $ptx[caption_vote]
@@ -283,7 +275,7 @@ class Poll_Controller
 
 EOT;
         $i = 0;
-        foreach ($data['votes'] as $key => $dummy) {
+        foreach ($poll->getVotes() as $key => $dummy) {
             $key = htmlspecialchars($key, ENT_COMPAT, 'UTF-8');
             $o .= <<<EOT
         <li>
@@ -307,23 +299,22 @@ EOT;
     /**
      * Returns the results view.
      *
-     * @param string $name A poll name.
-     * @param bool   $msg  Whether the caption_voted should be displayed.
+     * @param Poll_Poll $poll A poll.
+     * @param bool      $msg  Whether the caption_voted should be displayed.
      *
      * @return string (X)HTML.
      *
      * @global string The value of the admin parameter.
      * @global array  The localization of the core.
      */
-    protected static function resultsView($name, $msg = true)
+    protected static function resultsView(Poll_Poll $poll, $msg = true)
     {
         global $admin, $plugin_tx;
 
         $ptx = $plugin_tx['poll'];
-        $data = self::data($name);
         $o = '';
         if ($admin != 'plugin_main') {
-            if (self::hasEnded($name)) {
+            if ($poll->hasEnded()) {
                 $o .= $ptx['caption_ended'] . PHP_EOL;
             } elseif ($msg) {
                 $o .= $ptx['caption_voted'] . PHP_EOL;
@@ -331,11 +322,11 @@ EOT;
             $o .= $ptx['caption_results'] . PHP_EOL;
         }
         $o .= '<ul class="poll_results">' . PHP_EOL;
-        arsort($data['votes']);
-        foreach ($data['votes'] as $key => $count) {
-            $percentage = ($data['total'] == 0)
+        $poll->sortVotes();
+        foreach ($poll->getVotes() as $key => $count) {
+            $percentage = ($poll->getTotalVotes() == 0)
                 ? 0
-                : 100 * $count / $data['total'];
+                : 100 * $count / $poll->getTotalVotes();
             $result = sprintf(
                 self::number('label_result', $count),
                 htmlspecialchars($key, ENT_COMPAT, 'UTF-8'),
@@ -350,7 +341,10 @@ EOT;
 EOT;
         }
         $o .= '</ul>' . PHP_EOL
-            . sprintf(self::number('caption_total', $data['total']), $data['total'])
+            . sprintf(
+                self::number('caption_total', $poll->getTotalVotes()),
+                $poll->getTotalVotes()
+            )
             . PHP_EOL;
         return $o;
     }
@@ -376,12 +370,13 @@ EOT;
             return false;
         }
         $o = '';
-        if (self::hasEnded($name) || self::hasVoted($name)) {
-            $o .= self::resultsView($name);
+        $poll = self::data($name);
+        if ($poll->hasEnded() || self::hasVoted($name)) {
+            $o .= self::resultsView($poll);
         } elseif (self::isVoting($name)) {
             $o .= self::vote($name);
         } else {
-            $o .= self::votingView($name);
+            $o .= self::votingView($poll);
         }
         return $o;
     }
@@ -499,8 +494,9 @@ EOT;
     protected static function pluginAdminView()
     {
         $o = '<div id="poll_admin">' . PHP_EOL;
-        foreach (self::polls() as $poll) {
-            $o .= '<h1>' . $poll . '</h1>' . PHP_EOL
+        foreach (self::polls() as $name) {
+            $poll = self::data($name);
+            $o .= '<h1>' . $name . '</h1>' . PHP_EOL
                 . self::resultsView($poll) . PHP_EOL;
         }
         $o .= '</div>' . PHP_EOL;
