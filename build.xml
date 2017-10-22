@@ -46,7 +46,9 @@
 
     <target name="build" description="builds a distributable ZIP archive">
         <fail unless="version" message="version is not defined!"/>
-        <svnexport revision="" repositoryurl="." todir="export"/>
+        <exec command="git archive -o export.tar HEAD" checkreturn="true"/>
+        <untar file="export.tar" todir="export"/>
+        <delete file="export.tar"/>
         <move todir="dist">
             <fileset dir="export">
                 <include name="index.php"/>
@@ -62,9 +64,9 @@
             <fileset dir="export">
                 <exclude name="build.xml"/>
                 <exclude name="composer.*"/>
+                <exclude name="coverage.xml"/>
                 <exclude name="phpcompatinfo.*"/>
-                <exclude name="poll.komodoproject"/>
-                <exclude name="TODO"/>
+                <exclude name="tests/**"/>
             </fileset>
         </move>
         <delete dir="export"/>
