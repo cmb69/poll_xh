@@ -36,7 +36,7 @@ class Poll_Controller
     {
         global $adm;
 
-        if ($adm && self::isAdministrationRequested()) {
+        if ($adm && XH_wantsPluginAdministration('poll')) {
             self::handleAdministration();
         }
     }
@@ -501,20 +501,6 @@ EOT;
         }
         $o .= '</div>' . PHP_EOL;
         return $o;
-    }
-
-    /**
-     * Returns whether the administration is requested.
-     *
-     * @return bool
-     *
-     * @global string Whether the administration is requested.
-     */
-    protected static function isAdministrationRequested()
-    {
-        global $poll;
-
-        return isset($poll) && $poll == 'true';
     }
 
     /**
