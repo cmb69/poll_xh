@@ -327,34 +327,10 @@ EOT;
     {
         global $pth;
 
-        $version = POLL_VERSION;
-        $o = <<<EOT
-<h1><a href="http://3-magi.net/?CMSimple_XH/Poll_XH">Poll_XH</a></h1>
-<img src="{$pth['folder']['plugins']}poll/poll.png" width="128" height="128"
-     alt="Plugin icon" class="poll_plugin_icon" />
-<p style="margin-top: 1em">Version: $version</p>
-<p>Copyright &copy; 2012-2017
-    <a href="http://3-magi.net/">Christoph M. Becker</a></p>
-<p class="poll_license">
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-</p>
-<p class="poll_license">
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHAN&shy;TABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-</p>
-<p class="poll_license">
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see
-    <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.
-</p>
-
-EOT;
-        return $o;
+        $view = new View('info');
+        $view->logo = "{$pth['folder']['plugins']}poll/poll.png";
+        $view->version = POLL_VERSION;
+        return (string) $view;
     }
 
     /**
