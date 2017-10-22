@@ -47,7 +47,7 @@ define('POLL_END', '%%%END%%%');
  */
 function poll($name)
 {
-    return Poll\Controller::main($name);
+    return Poll\Plugin::main($name);
 }
 
-Poll\Controller::dispatch();
+Poll\Plugin::dispatch();

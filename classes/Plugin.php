@@ -23,7 +23,7 @@ namespace Poll;
 
 use stdClass;
 
-class Controller
+class Plugin
 {
     /**
      * @return void
