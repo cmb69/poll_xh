@@ -272,7 +272,7 @@ class Controller
 EOT;
         $i = 0;
         foreach ($poll->getVotes() as $key => $dummy) {
-            $key = htmlspecialchars($key, ENT_COMPAT, 'UTF-8');
+            $key = XH_hsc($key);
             $o .= <<<EOT
         <li>
             <input type="$type" id="poll_$name$i" name="poll_${name}[]"
@@ -325,7 +325,7 @@ EOT;
                 : 100 * $count / $poll->getTotalVotes();
             $result = sprintf(
                 self::number('label_result', $count),
-                htmlspecialchars($key, ENT_COMPAT, 'UTF-8'),
+                XH_hsc($key),
                 $percentage,
                 $count
             );
