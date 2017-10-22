@@ -2,7 +2,7 @@
 
 $plugin_tx['poll']['menu_main']="Polls";
 
-$plugin_tx['poll']['caption_vote']="<p>Your vote please:</p>";
+$plugin_tx['poll']['caption_vote']="Your vote please:";
 $plugin_tx['poll']['caption_voted']="<p>You have already voted.</p>";
 $plugin_tx['poll']['caption_just_voted']="<p>Thank you for voting!</p>";
 $plugin_tx['poll']['caption_ended']="<p>The poll has ended.</p>";

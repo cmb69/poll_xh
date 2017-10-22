@@ -1,7 +1,7 @@
 <?php
 
 	$plugin_tx['poll']['menu_main']="Ankety";
-	$plugin_tx['poll']['caption_vote']="<p>Hlasujte prosím:</p>";
+	$plugin_tx['poll']['caption_vote']="Hlasujte prosím:";
 	$plugin_tx['poll']['caption_voted']="<p>Již bylo hlasováno.</p>";
 	$plugin_tx['poll']['caption_ended']="<p>Anketa byla uzavřena..</p>";
 	$plugin_tx['poll']['caption_results']="<h5>Výsledky hlasování</h5>";

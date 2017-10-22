@@ -214,37 +214,14 @@ class Controller
      */
     protected static function votingView(Poll $poll)
     {
-        global $sn, $su, $plugin_tx;
+        global $sn, $su;
 
-        $ptx = $plugin_tx['poll'];
-        $name = $poll->getName();
-        $type = $poll->getMaxVotes() > 1 ? 'checkbox' : 'radio';
-        $o = <<<EOT
-<form class="poll" action="$sn?$su" method="post">
-    $ptx[caption_vote]
-    <ul>
-
-EOT;
-        $i = 0;
-        foreach ($poll->getVotes() as $key => $dummy) {
-            $key = XH_hsc($key);
-            $o .= <<<EOT
-        <li>
-            <input type="$type" id="poll_$name$i" name="poll_${name}[]"
-                   value="$key" />
-            <label for="poll_$name$i">$key</label>
-        </li>
-
-EOT;
-            $i++;
-        }
-        $o .= <<<EOT
-    </ul>
-    <input type="submit" value="$ptx[label_vote]" />
-</form>
-
-EOT;
-        return $o;
+        $view = new View('voting');
+        $view->action = "$sn?$su";
+        $view->name = $poll->getName();
+        $view->type = $poll->getMaxVotes() > 1 ? 'checkbox' : 'radio';
+        $view->keys = array_keys($poll->getVotes());
+        return (string) $view;
     }
 
     /**
