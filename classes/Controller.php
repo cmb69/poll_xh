@@ -437,7 +437,7 @@ EOT;
     {
         global $pth, $tx, $plugin_tx;
 
-        $phpVersion = '5.0.0';
+        $phpVersion = '5.1.2';
         $ptx = $plugin_tx['poll'];
         $imgdir = $pth['folder']['plugins'] . 'poll/images/';
         $ok = tag('img src="' . $imgdir . 'ok.png" alt="ok"');
@@ -447,7 +447,7 @@ EOT;
             . (version_compare(PHP_VERSION, $phpVersion) >= 0 ? $ok : $fail)
             . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_phpversion'], $phpVersion)
             . tag('br') . PHP_EOL;
-        foreach (array('pcre') as $ext) {
+        foreach (array() as $ext) {
             $o .= (extension_loaded($ext) ? $ok : $fail)
                 . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_extension'], $ext)
                 . tag('br') . PHP_EOL;
