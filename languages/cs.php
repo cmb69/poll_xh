@@ -2,13 +2,13 @@
 
 	$plugin_tx['poll']['menu_main']="Ankety";
 	$plugin_tx['poll']['caption_vote']="Hlasujte prosím:";
-	$plugin_tx['poll']['caption_voted']="<p>Již bylo hlasováno.</p>";
-	$plugin_tx['poll']['caption_ended']="<p>Anketa byla uzavřena..</p>";
-	$plugin_tx['poll']['caption_results']="<h5>Výsledky hlasování</h5>";
+	$plugin_tx['poll']['caption_voted']="Již bylo hlasováno.";
+	$plugin_tx['poll']['caption_ended']="Anketa byla uzavřena.";
+	$plugin_tx['poll']['caption_results']="Výsledky hlasování";
 	$plugin_tx['poll']['label_vote']="Hlasujte!";
-	$plugin_tx['poll']['label_result_singular']="%1\$s &ndash; %2\$.1f%% (%3\$d hlas)";
-	$plugin_tx['poll']['label_result_plural_2-4']="%1\$s &ndash; %2\$.1f%% (%3\$d hlasy)";
-	$plugin_tx['poll']['label_result_plural_5']="%1\$s &ndash; %2\$.1f%% (%3\$d hlasů)";
+	$plugin_tx['poll']['label_result_0']="%2\$s – %3\$.1f%% (%1\$d hlas)";
+	$plugin_tx['poll']['label_result_2_4']="%2\$s – %3\$.1f%% (%1\$d hlasy)";
+	$plugin_tx['poll']['label_result_5']="%2\$s – %3\$.1f%% (%1\$d hlasů)";
 	$plugin_tx['poll']['error_invalid_name']="Chybný název ankety '%s'! (může obsahovat pouze písmena 'a'-'z', čísla '0'-'9' a místo mezery pomlčku '-')";
 	$plugin_tx['poll']['syscheck_title']="Kontrola systému";
 	$plugin_tx['poll']['syscheck_phpversion']="PHP verze ≥ %s";

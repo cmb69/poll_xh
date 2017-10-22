@@ -21,6 +21,8 @@
 
 namespace Poll;
 
+use stdClass;
+
 class Controller
 {
     /**
@@ -31,25 +33,6 @@ class Controller
         if (XH_ADM && XH_wantsPluginAdministration('poll')) {
             self::handleAdministration();
         }
-    }
-
-    /**
-     * @param string $key
-     * @param int $count
-     * @return string
-     */
-    protected static function number($key, $count)
-    {
-        global $plugin_tx;
-
-        if ($count == 1) {
-            $suffix = '_singular';
-        } elseif ($count >= 2 && $count <= 4) {
-            $suffix = '_plural_2-4';
-        } else {
-            $suffix = '_plural_5';
-        }
-        return $plugin_tx['poll'][$key . $suffix];
     }
 
     /**
@@ -230,45 +213,31 @@ class Controller
      */
     protected static function resultsView(Poll $poll, $msg = true)
     {
-        global $admin, $plugin_tx;
+        global $admin;
 
-        $ptx = $plugin_tx['poll'];
-        $o = '';
-        if ($admin != 'plugin_main') {
-            if ($poll->hasEnded()) {
-                $o .= $ptx['caption_ended'] . PHP_EOL;
-            } elseif ($msg) {
-                $o .= $ptx['caption_voted'] . PHP_EOL;
-            }
-            $o .= $ptx['caption_results'] . PHP_EOL;
-        }
-        $o .= '<ul class="poll_results">' . PHP_EOL;
+        $view = new View('results');
+        $view->isAdministration = ($admin == 'plugin_main');
+        $view->isFinished = $poll->hasEnded();
+        $view->msg = $msg;
+        $view->totalVotes = $poll->getTotalVotes();
+        $view->votes = self::getVotes($poll);
+        return (string) $view;
+    }
+
+    /**
+     * @return stdClass
+     */
+    private static function getVotes(Poll $poll)
+    {
+        $votes = [];
         $poll->sortVotes();
         foreach ($poll->getVotes() as $key => $count) {
             $percentage = ($poll->getTotalVotes() == 0)
                 ? 0
                 : 100 * $count / $poll->getTotalVotes();
-            $result = sprintf(
-                self::number('label_result', $count),
-                XH_hsc($key),
-                $percentage,
-                $count
-            );
-            $o .= <<<EOT
-    <li>
-        <div class="poll_results">$result</div>
-        <div class="poll_bar" style="width: $percentage%">&nbsp;</div>
-    </li>
-
-EOT;
+            $votes[] = (object) compact('key', 'count', 'percentage');
         }
-        $o .= '</ul>' . PHP_EOL
-            . sprintf(
-                self::number('caption_total', $poll->getTotalVotes()),
-                $poll->getTotalVotes()
-            )
-            . PHP_EOL;
-        return $o;
+        return $votes;
     }
 
     /**
