@@ -35,9 +35,6 @@ EOT
     );
 }
 
-/**
- * The version number.
- */
 define('POLL_VERSION', '@POLL_VERSION@');
 
 define('POLL_TOTAL', '%%%TOTAL%%%');
@@ -45,11 +42,8 @@ define('POLL_MAX', '%%%MAX%%%');
 define('POLL_END', '%%%END%%%');
 
 /**
- * Returns the poll view or <var>false</var> in case of an invalid poll name.
- *
- * @param string $name A poll name.
- *
- * @return string (X)HTML.
+ * @param string $name
+ * @return string
  */
 function poll($name)
 {

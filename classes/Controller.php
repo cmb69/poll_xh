@@ -21,20 +21,9 @@
 
 namespace Poll;
 
-/**
- * The controller.
- *
- * @category CMSimple_XH
- * @package  Poll
- * @author   Christoph M. Becker <cmbecker69@gmx.de>
- * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
- * @link     http://3-magi.net/?CMSimple_XH/Poll_XH
- */
 class Controller
 {
     /**
-     * Dispatches on plugin related requests.
-     *
      * @return void
      */
     public static function dispatch()
@@ -45,14 +34,9 @@ class Controller
     }
 
     /**
-     * Returns a language string depending on the number.
-     *
-     * @param string $key   A base key.
-     * @param int    $count A number.
-     *
+     * @param string $key
+     * @param int $count
      * @return string
-     *
-     * @global array The localization of the plugins.
      */
     protected static function number($key, $count)
     {
@@ -69,12 +53,7 @@ class Controller
     }
 
     /**
-     * Returns the path to the data folder.
-     *
      * @return string
-     *
-     * @global array The paths of system files and folders.
-     * @global array The configuration of the plugins.
      */
     protected static function dataFolder()
     {
@@ -102,16 +81,10 @@ class Controller
     }
 
     /**
-     * Reads or writes a poll, and returns its data.
-     *
-     * The function caches the data of a single poll internally.
-     *
-     * @param string    $name    A poll name.
-     * @param Poll $newPoll A new poll.
-     *
+     * @param string $name
      * @return Poll
      */
-    protected static function data($name, $newPoll = null)
+    protected static function data($name, Poll $newPoll = null)
     {
         static $cname = null, $poll = null;
 
@@ -167,12 +140,7 @@ class Controller
     }
 
     /**
-     * Returns whether the current user has already voted.
-     *
-     * The current user is identified by a cookie and by his IP address.
-     *
-     * @param string $name A poll name.
-     *
+     * @param string $name
      * @return bool
      */
     protected static function hasVoted($name)
@@ -196,10 +164,7 @@ class Controller
     }
 
     /**
-     * Returns whether there's a submitted vote for the given poll.
-     *
-     * @param string $name A poll name.
-     *
+     * @param string $name
      * @return bool
      */
     protected static function isVoting($name)
@@ -208,13 +173,8 @@ class Controller
     }
 
     /**
-     * Registers the new vote and returns the result view.
-     *
-     * @param string $name A poll name.
-     *
-     * @return string (X)HTML.
-     *
-     * @global array The localization of the plugins.
+     * @param string $name
+     * @return string
      */
     protected static function vote($name)
     {
@@ -250,17 +210,7 @@ class Controller
     }
 
     /**
-     * Returns the voting view.
-     *
-     * @param Poll $poll A poll.
-     *
-     * @return string (X)HTML.
-     *
-     * @global string The script name.
-     * @global string The current page URL.
-     * @global array  The localization of the plugins.
-     *
-     * @todo Fix empty elements.
+     * @return string
      */
     protected static function votingView(Poll $poll)
     {
@@ -298,15 +248,8 @@ EOT;
     }
 
     /**
-     * Returns the results view.
-     *
-     * @param Poll $poll A poll.
-     * @param bool      $msg  Whether the caption_voted should be displayed.
-     *
-     * @return string (X)HTML.
-     *
-     * @global string The value of the admin parameter.
-     * @global array  The localization of the core.
+     * @param bool $msg
+     * @return string
      */
     protected static function resultsView(Poll $poll, $msg = true)
     {
@@ -352,14 +295,8 @@ EOT;
     }
 
     /**
-     * Returns the poll view or <var>false</var> in case of an invalid poll name.
-     *
-     * @param string $name A poll name.
-     *
-     * @return string (X)HTML.
-     *
-     * @global string The document fragment containing error messages.
-     * @global array  The localization of the plugins.
+     * @param string $name
+     * @return string
      */
     public static function main($name)
     {
@@ -384,13 +321,7 @@ EOT;
     }
 
     /**
-     * Returns the plugin's about view.
-     *
-     * @return string (X)HTML.
-     *
-     * @global array The paths of system files and folders.
-     *
-     * @todo Fix empty elements.
+     * @return string
      */
     protected static function aboutView()
     {
@@ -427,13 +358,7 @@ EOT;
     }
 
     /**
-     * Returns the system check view.
-     *
-     * @return string (X)HTML.
-     *
-     * @global array The paths of system files and folders.
-     * @global array The localization of the core.
-     * @global array The localization of the plugins.
+     * @return string
      */
     protected static function systemCheckView()
     {
@@ -473,8 +398,6 @@ EOT;
     }
 
     /**
-     * Returns the available polls.
-     *
      * @return array
      */
     protected static function polls()
@@ -489,9 +412,7 @@ EOT;
     }
 
     /**
-     * Returns the plugin's main administration view.
-     *
-     * @return string The (X)HTML.
+     * @return string
      */
     protected static function pluginAdminView()
     {
@@ -506,13 +427,7 @@ EOT;
     }
 
     /**
-     * Handles the plugin administration.
-     *
      * @return void
-     *
-     * @global string The value of the admin GP parameter.
-     * @global string The value of the action GP parameter.
-     * @global string The (X)HTML fragment of the contents area.
      */
     protected static function handleAdministration()
     {

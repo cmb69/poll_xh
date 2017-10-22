@@ -21,55 +21,34 @@
 
 namespace Poll;
 
-/**
- * The polls.
- *
- * @category CMSimple_XH
- * @package  Poll
- * @author   Christoph M. Becker <cmbecker69@gmx.de>
- * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
- * @link     http://3-magi.net/?CMSimple_XH/Poll_XH
- */
 class Poll
 {
     /**
-     * The name.
-     *
      * @var string
      */
     protected $name;
 
     /**
-     * The maximum number of votes.
-     *
      * @var int
      */
     protected $maxVotes;
 
     /**
-     * The end date of the voting.
-     *
      * @var int A UNIX timestamp.
      */
     protected $endDate;
 
     /**
-     * The total number of votes so far.
-     *
      * @var int
      */
     protected $totalVotes;
 
     /**
-     * The votes as map from option name to number of votes.
-     *
      * @var array<string, int>
      */
     protected $votes;
 
     /**
-     * Returns the name.
-     *
      * @return string
      */
     public function getName()
@@ -78,9 +57,7 @@ class Poll
     }
 
     /**
-     * Returns the maximum number of votes.
-     *
-     * @return int A UNIX timestamp.
+     * @return int
      */
     public function getMaxVotes()
     {
@@ -88,8 +65,6 @@ class Poll
     }
 
     /**
-     * Returns the end date of the voting.
-     *
      * @return int
      */
     public function getEndDate()
@@ -98,8 +73,6 @@ class Poll
     }
 
     /**
-     * Returns whether the poll has ended.
-     *
      * @return bool
      */
     public function hasEnded()
@@ -108,8 +81,6 @@ class Poll
     }
 
     /**
-     * Returns the total number of votes so far.
-     *
      * @return int
      */
     public function getTotalVotes()
@@ -118,10 +89,7 @@ class Poll
     }
 
     /**
-     * Returns the vote count of an option.
-     *
-     * @param string $optionName An option name.
-     *
+     * @param string $optionName
      * @return int
      */
     public function getVoteCount($optionName)
@@ -130,8 +98,6 @@ class Poll
     }
 
     /**
-     * Returns the votes as map from option name to number of votes.
-     *
      * @return array<string, int>
      */
     public function getVotes()
@@ -140,10 +106,7 @@ class Poll
     }
 
     /**
-     * Sets the name.
-     *
-     * @param string $name A name.
-     *
+     * @param string $name
      * @return void
      */
     public function setName($name)
@@ -152,10 +115,7 @@ class Poll
     }
 
     /**
-     * Sets the maximum number of votes.
-     *
-     * @param int $number A number.
-     *
+     * @param int $number
      * @return void
      */
     public function setMaxVotes($number)
@@ -164,10 +124,7 @@ class Poll
     }
 
     /**
-     * Returns the end date of the voting.
-     *
-     * @param int $timestamp A UNIX timestamp.
-     *
+     * @param int $timestamp
      * @return void
      */
     public function setEndDate($timestamp)
@@ -176,10 +133,7 @@ class Poll
     }
 
     /**
-     * Sets the total number of votes so far.
-     *
-     * @param int $number A number.
-     *
+     * @param int $number
      * @return void
      */
     public function setTotalVotes($number)
@@ -188,8 +142,6 @@ class Poll
     }
 
     /**
-     * Increases the total number of votes by one.
-     *
      * @return void
      */
     public function increaseTotalVotes()
@@ -198,11 +150,8 @@ class Poll
     }
 
     /**
-     * Sets the vote count for an option.
-     *
-     * @param string $optionName An option name.
-     * @param int    $count      A vote count.
-     *
+     * @param string $optionName
+     * @param int $count
      * @return void
      */
     public function setVoteCount($optionName, $count)
@@ -211,10 +160,7 @@ class Poll
     }
 
     /**
-     * Increases the vote count of an option by one.
-     *
-     * @param string $optionName An option name.
-     *
+     * @param string $optionName
      * @return void
      */
     public function increaseVoteCount($optionName)
@@ -223,8 +169,6 @@ class Poll
     }
 
     /**
-     * Sorts the votes descending by count.
-     *
      * @return void
      */
     public function sortVotes()
