@@ -1,5 +1,5 @@
 <h1>Poll</h1>
-<img src="<?=$this->logo()?>" width="128" height="128" alt="Plugin icon" class="poll_logo">
+<img src="<?=$this->logo()?>" width="128" height="128" alt="<?=$this->text('alt_logo')?>" class="poll_logo">
 <p>
     Version: <?=$this->version()?>
 </p>
