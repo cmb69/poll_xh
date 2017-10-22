@@ -284,7 +284,7 @@ class Plugin
      */
     protected static function systemCheckView()
     {
-        global $pth, $tx, $plugin_tx;
+        global $pth, $plugin_tx;
 
         $phpVersion = '5.1.2';
         $ptx = $plugin_tx['poll'];
@@ -303,9 +303,6 @@ class Plugin
         }
         $o .= (!get_magic_quotes_runtime() ? $ok : $fail)
             . '&nbsp;&nbsp;' . $ptx['syscheck_magic_quotes']
-            . tag('br') . tag('br') . PHP_EOL;
-        $o .= (strtoupper($tx['meta']['codepage']) == 'UTF-8' ? $ok : $warn)
-            . '&nbsp;&nbsp;' . $ptx['syscheck_encoding']
             . tag('br') . tag('br') . PHP_EOL;
         foreach (array('config/', 'css/', 'languages/') as $folder) {
             $folders[] = $pth['folder']['plugins'] . 'poll/' . $folder;

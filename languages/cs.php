@@ -13,7 +13,6 @@
 	$plugin_tx['poll']['syscheck_title']="Kontrola systému";
 	$plugin_tx['poll']['syscheck_phpversion']="PHP verze ≥ %s";
 	$plugin_tx['poll']['syscheck_extension']="Extension '%s' loaded";
-	$plugin_tx['poll']['syscheck_encoding']="Kodování 'UTF-8' nastaveno";
 	$plugin_tx['poll']['syscheck_magic_quotes']="Magic quotes runtime off";
 	$plugin_tx['poll']['syscheck_writable']="Adresář '%s' je zapisovatelný";
 	$plugin_tx['poll']['cf_folder_data']="Cesta k adresáři relativní ke kořenovému adresáři CMSimple, ve kterém se mají uložit data. Např. <em>userfiles/poll/</em>. Pokud nezazadáte nic, data se uloží v adresáii pluginu /folder.";
