@@ -14,6 +14,8 @@
  * @link      http://3-magi.net/?CMSimple_XH/Poll_XH
  */
 
+namespace Poll;
+
 /**
  * The controller.
  *
@@ -23,7 +25,7 @@
  * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link     http://3-magi.net/?CMSimple_XH/Poll_XH
  */
-class Poll_Controller
+class Controller
 {
     /**
      * Dispatches on plugin related requests.
@@ -100,9 +102,9 @@ class Poll_Controller
      * The function caches the data of a single poll internally.
      *
      * @param string    $name    A poll name.
-     * @param Poll_Poll $newPoll A new poll.
+     * @param Poll $newPoll A new poll.
      *
-     * @return Poll_Poll
+     * @return Poll
      */
     protected static function data($name, $newPoll = null)
     {
@@ -112,7 +114,7 @@ class Poll_Controller
         if (!isset($newPoll)) {
             if (!isset($poll) || $name != $cname) {
                 $cname = $name;
-                $poll = new Poll_Poll();
+                $poll = new Poll();
                 $poll->setName($name);
                 $poll->setMaxVotes(1);
                 $poll->setEndDate(2147483647);
@@ -247,7 +249,7 @@ class Poll_Controller
     /**
      * Returns the voting view.
      *
-     * @param Poll_Poll $poll A poll.
+     * @param Poll $poll A poll.
      *
      * @return string (X)HTML.
      *
@@ -257,7 +259,7 @@ class Poll_Controller
      *
      * @todo Fix empty elements.
      */
-    protected static function votingView(Poll_Poll $poll)
+    protected static function votingView(Poll $poll)
     {
         global $sn, $su, $plugin_tx;
 
@@ -295,7 +297,7 @@ EOT;
     /**
      * Returns the results view.
      *
-     * @param Poll_Poll $poll A poll.
+     * @param Poll $poll A poll.
      * @param bool      $msg  Whether the caption_voted should be displayed.
      *
      * @return string (X)HTML.
@@ -303,7 +305,7 @@ EOT;
      * @global string The value of the admin parameter.
      * @global array  The localization of the core.
      */
-    protected static function resultsView(Poll_Poll $poll, $msg = true)
+    protected static function resultsView(Poll $poll, $msg = true)
     {
         global $admin, $plugin_tx;
 

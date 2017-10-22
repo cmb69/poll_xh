@@ -14,6 +14,10 @@
  * @link      http://3-magi.net/?CMSimple_XH/Poll_XH
  */
 
+namespace Poll;
+
+use PHPUnit\Framework\TestCase;
+
 require_once './classes/Poll.php';
 
 /**
@@ -25,12 +29,12 @@ require_once './classes/Poll.php';
  * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link     http://3-magi.net/?CMSimple_XH/Poll_XH
  */
-class PollTest extends PHPUnit_Framework_TestCase
+class PollTest extends TestCase
 {
     /**
      * The test subject.
      *
-     * @var Poll_Poll
+     * @var Poll
      */
     protected $subject;
 
@@ -41,7 +45,7 @@ class PollTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->subject = new Poll_Poll();
+        $this->subject = new Poll();
     }
 
     /**

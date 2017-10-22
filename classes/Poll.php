@@ -14,6 +14,8 @@
  * @link      http://3-magi.net/?CMSimple_XH/Poll_XH
  */
 
+namespace Poll;
+
 /**
  * The polls.
  *
@@ -23,7 +25,7 @@
  * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link     http://3-magi.net/?CMSimple_XH/Poll_XH
  */
-class Poll_Poll
+class Poll
 {
     /**
      * The name.
