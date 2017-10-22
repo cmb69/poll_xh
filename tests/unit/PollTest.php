@@ -83,5 +83,3 @@ class PollTest extends TestCase
         $this->assertEquals(2, $this->subject->getTotalVotes());
     }
 }
-
-?>

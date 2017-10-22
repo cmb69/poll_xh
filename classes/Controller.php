@@ -124,19 +124,17 @@ class Controller
                     foreach ($lines as $line) {
                         $record = explode("\t", rtrim($line));
                         switch ($record[0]) {
-                        case POLL_MAX:
-                            $poll->setMaxVotes($record[1]);
-                            break;
-                        case POLL_END:
-                            $poll->setEndDate($record[1]);
-                            break;
-                        case POLL_TOTAL:
-                            $poll->setTotalVotes($record[1]);
-                            break;
-                        default:
-                            $poll->setVoteCount(
-                                $record[0], isset($record[1]) ? $record[1] : 0
-                            );
+                            case POLL_MAX:
+                                $poll->setMaxVotes($record[1]);
+                                break;
+                            case POLL_END:
+                                $poll->setEndDate($record[1]);
+                                break;
+                            case POLL_TOTAL:
+                                $poll->setTotalVotes($record[1]);
+                                break;
+                            default:
+                                $poll->setVoteCount($record[0], isset($record[1]) ? $record[1] : 0);
                         }
                     }
                 }
@@ -328,7 +326,8 @@ EOT;
             $result = sprintf(
                 self::number('label_result', $count),
                 htmlspecialchars($key, ENT_COMPAT, 'UTF-8'),
-                $percentage, $count
+                $percentage,
+                $count
             );
             $o .= <<<EOT
     <li>
@@ -516,16 +515,14 @@ EOT;
 
         $o .= print_plugin_admin('on');
         switch ($admin) {
-        case '':
-            $o .= self::aboutView() . tag('hr') . self::systemCheckView();
-            break;
-        case 'plugin_main':
-            $o .= self::pluginAdminView();
-            break;
-        default:
-            $o .= plugin_admin_common($action, $admin, 'poll');
+            case '':
+                $o .= self::aboutView() . tag('hr') . self::systemCheckView();
+                break;
+            case 'plugin_main':
+                $o .= self::pluginAdminView();
+                break;
+            default:
+                $o .= plugin_admin_common($action, $admin, 'poll');
         }
     }
 }
-
-?>

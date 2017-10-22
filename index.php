@@ -52,5 +52,3 @@ function poll($name)
 }
 
 Poll\Controller::dispatch();
-
-?>
