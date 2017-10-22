@@ -21,7 +21,7 @@
     </target>
 
     <target name="sniff" description="checks adherence to PEAR CS">
-        <phpcodesniffer standard="PEAR">
+        <phpcodesniffer standard="PEAR" haltonerror="true">
             <fileset refid="php-sources"/>
             <fileset refid="unit-tests"/>
         </phpcodesniffer>
