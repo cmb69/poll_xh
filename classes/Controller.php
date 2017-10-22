@@ -29,14 +29,10 @@ class Poll_Controller
      * Dispatches on plugin related requests.
      *
      * @return void
-     *
-     * @global bool Whether we're in admin mode.
      */
     public static function dispatch()
     {
-        global $adm;
-
-        if ($adm && XH_wantsPluginAdministration('poll')) {
+        if (XH_ADM && XH_wantsPluginAdministration('poll')) {
             self::handleAdministration();
         }
     }
