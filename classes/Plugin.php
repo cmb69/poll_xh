@@ -36,84 +36,6 @@ class Plugin
     }
 
     /**
-     * @return string
-     */
-    protected static function dataFolder()
-    {
-        global $pth, $sl, $cf;
-
-        $folder = $pth['folder']['content'];
-        if ($sl !== $cf['language']['default']) {
-            $folder = dirname($folder);
-        }
-        $folder .= 'poll/';
-        if (!file_exists($folder)) {
-            mkdir($folder, 0777, true);
-            chmod($folder, 0777);
-        }
-        return $folder;
-    }
-
-    /**
-     * @param string $name
-     * @return Poll
-     */
-    protected static function data($name, Poll $newPoll = null)
-    {
-        static $cname = null, $poll = null;
-
-        $filename = self::dataFolder() . $name . '.csv';
-        if (!isset($newPoll)) {
-            if (!isset($poll) || $name != $cname) {
-                $cname = $name;
-                $poll = new Poll();
-                $poll->setName($name);
-                $poll->setMaxVotes(1);
-                $poll->setEndDate(2147483647);
-                $poll->setTotalVotes(0);
-                $lines = file($filename);
-                if ($lines !== false) {
-                    foreach ($lines as $line) {
-                        $record = explode("\t", rtrim($line));
-                        switch ($record[0]) {
-                            case POLL_MAX:
-                                $poll->setMaxVotes($record[1]);
-                                break;
-                            case POLL_END:
-                                $poll->setEndDate($record[1]);
-                                break;
-                            case POLL_TOTAL:
-                                $poll->setTotalVotes($record[1]);
-                                break;
-                            default:
-                                $poll->setVoteCount($record[0], isset($record[1]) ? $record[1] : 0);
-                        }
-                    }
-                }
-            }
-        } else {
-            $cname = $name;
-            $poll = $newPoll;
-            $lines = array();
-            foreach ($poll->getVotes() as $key => $count) {
-                $lines[] = $key . "\t" . $count;
-            }
-            $lines[] = POLL_MAX . "\t" . $poll->getMaxVotes();
-            $lines[] = POLL_END . "\t" . $poll->getEndDate();
-            $lines[] = POLL_TOTAL . "\t" . $poll->getTotalVotes();
-            if (($stream = fopen($filename, 'w')) === false
-                || fwrite($stream, implode(PHP_EOL, $lines) . PHP_EOL) === false
-            ) {
-                e('cntsave', 'file', $filename);
-            }
-            if ($stream !== false) {
-                fclose($stream);
-            }
-        }
-        return $poll;
-    }
-
-    /**
      * @param string $name
      * @return bool
      */
@@ -124,7 +46,7 @@ class Plugin
         ) {
             return true;
         }
-        $filename = self::dataFolder() . $name . '.ips';
+        $filename = (new DataService)->getFolder() . $name . '.ips';
         if (!file_exists($filename)) {
             touch($filename);
         }
@@ -154,13 +76,14 @@ class Plugin
     {
         global $plugin_tx;
 
+        $dataService = new DataService;
         $ptx = $plugin_tx['poll'];
-        $poll = self::data($name);
+        $poll = $dataService->findPoll($name);
         if (count($_POST['poll_' . $name]) > $poll->getMaxVotes()) {
             return sprintf($ptx['error_exceeded_max'], $poll->getMaxVotes())
                 . self::votingView($poll);
         }
-        $filename = self::dataFolder() . $name . '.ips';
+        $filename = $dataService->getFolder() . $name . '.ips';
         if (($stream = fopen($filename, 'a')) !== false
             && fwrite($stream, $_SERVER['REMOTE_ADDR'] . PHP_EOL) !== false
         ) {
@@ -169,7 +92,9 @@ class Plugin
                 $poll->increaseVoteCount($vote);
             }
             $poll->increaseTotalVotes();
-            self::data($name, $poll);
+            if (!$dataService->storePoll($name, $poll)) {
+                e('cntsave', 'file', $dataService->getFolder() . $name . '.csv');
+            }
             $err = false;
         } else {
             e('cntwriteto', 'file', $filename);
@@ -246,7 +171,7 @@ class Plugin
             return false;
         }
         $o = '';
-        $poll = self::data($name);
+        $poll = (new DataService)->findPoll($name);
         if ($poll->hasEnded() || self::hasVoted($name)) {
             $o .= self::resultsView($poll);
         } elseif (self::isVoting($name)) {
@@ -295,7 +220,7 @@ class Plugin
         foreach (array('css/', 'languages/') as $folder) {
             $folders[] = $pth['folder']['plugins'] . 'poll/' . $folder;
         }
-        $folders[] = self::dataFolder();
+        $folders[] = (new DataService)->getFolder();
         foreach ($folders as $folder) {
             $o .= (is_writable($folder) ? $ok : $warn)
                 . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_writable'], $folder)
@@ -305,27 +230,14 @@ class Plugin
     }
 
     /**
-     * @return array
-     */
-    protected static function polls()
-    {
-        $folder = self::dataFolder();
-        $files = glob($folder . '*.csv');
-        $polls = array();
-        foreach ($files as $file) {
-            $polls[] = basename($file, '.csv');
-        }
-        return $polls;
-    }
-
-    /**
      * @return string
      */
     protected static function pluginAdminView()
     {
+        $dataService = new DataService;
         $o = '<div id="poll_admin">' . PHP_EOL;
-        foreach (self::polls() as $name) {
-            $poll = self::data($name);
+        foreach ($dataService->getPollNames() as $name) {
+            $poll = $dataService->findPoll($name);
             $o .= '<h1>' . $name . '</h1>' . PHP_EOL
                 . self::resultsView($poll) . PHP_EOL;
         }
