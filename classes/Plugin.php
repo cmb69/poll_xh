@@ -192,41 +192,8 @@ class Plugin
         $view = new View('info');
         $view->logo = "{$pth['folder']['plugins']}poll/poll.png";
         $view->version = POLL_VERSION;
+        $view->checks = (new SystemCheckService)->getChecks();
         return (string) $view;
-    }
-
-    /**
-     * @return string
-     */
-    protected static function systemCheckView()
-    {
-        global $pth, $plugin_tx;
-
-        $phpVersion = '5.4.0';
-        $ptx = $plugin_tx['poll'];
-        $imgdir = $pth['folder']['plugins'] . 'poll/images/';
-        $ok = tag('img src="' . $imgdir . 'ok.png" alt="ok"');
-        $warn = tag('img src="' . $imgdir . 'warn.png" alt="warning"');
-        $fail = tag('img src="' . $imgdir . 'fail.png" alt="failure"');
-        $o = '<h4>' . $ptx['syscheck_title'] . '</h4>' . PHP_EOL
-            . (version_compare(PHP_VERSION, $phpVersion) >= 0 ? $ok : $fail)
-            . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_phpversion'], $phpVersion)
-            . tag('br') . PHP_EOL;
-        foreach (array() as $ext) {
-            $o .= (extension_loaded($ext) ? $ok : $fail)
-                . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_extension'], $ext)
-                . tag('br') . PHP_EOL;
-        }
-        foreach (array('css/', 'languages/') as $folder) {
-            $folders[] = $pth['folder']['plugins'] . 'poll/' . $folder;
-        }
-        $folders[] = (new DataService)->getFolder();
-        foreach ($folders as $folder) {
-            $o .= (is_writable($folder) ? $ok : $warn)
-                . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_writable'], $folder)
-                . tag('br') . PHP_EOL;
-        }
-        return $o;
     }
 
     /**
@@ -255,7 +222,7 @@ class Plugin
         $o .= print_plugin_admin('on');
         switch ($admin) {
             case '':
-                $o .= self::aboutView() . tag('hr') . self::systemCheckView();
+                $o .= self::aboutView();
                 break;
             case 'plugin_main':
                 $o .= self::pluginAdminView();
