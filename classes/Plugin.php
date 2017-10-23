@@ -197,22 +197,6 @@ class Plugin
     }
 
     /**
-     * @return string
-     */
-    protected static function pluginAdminView()
-    {
-        $dataService = new DataService;
-        $o = '<div id="poll_admin">' . PHP_EOL;
-        foreach ($dataService->getPollNames() as $name) {
-            $poll = $dataService->findPoll($name);
-            $o .= '<h1>' . $name . '</h1>' . PHP_EOL
-                . self::resultsView($poll) . PHP_EOL;
-        }
-        $o .= '</div>' . PHP_EOL;
-        return $o;
-    }
-
-    /**
      * @return void
      */
     protected static function handleAdministration()
@@ -225,7 +209,9 @@ class Plugin
                 $o .= self::aboutView();
                 break;
             case 'plugin_main':
-                $o .= self::pluginAdminView();
+                ob_start();
+                (new MainAdminController)->defaultAction();
+                $o .= ob_get_clean();
                 break;
             default:
                 $o .= plugin_admin_common($action, $admin, 'poll');
