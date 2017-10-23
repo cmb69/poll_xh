@@ -183,20 +183,6 @@ class Plugin
     }
 
     /**
-     * @return string
-     */
-    protected static function aboutView()
-    {
-        global $pth;
-
-        $view = new View('info');
-        $view->logo = "{$pth['folder']['plugins']}poll/poll.png";
-        $view->version = POLL_VERSION;
-        $view->checks = (new SystemCheckService)->getChecks();
-        return (string) $view;
-    }
-
-    /**
      * @return void
      */
     protected static function handleAdministration()
@@ -206,7 +192,9 @@ class Plugin
         $o .= print_plugin_admin('on');
         switch ($admin) {
             case '':
-                $o .= self::aboutView();
+                ob_start();
+                (new InfoController)->defaultAction();
+                $o .= ob_get_clean();
                 break;
             case 'plugin_main':
                 ob_start();
