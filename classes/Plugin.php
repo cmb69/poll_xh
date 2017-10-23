@@ -36,42 +36,6 @@ class Plugin
     }
 
     /**
-     * @param string $name
-     * @return bool
-     */
-    protected static function isVoting($name)
-    {
-        return isset($_POST['poll_' . $name]);
-    }
-
-    /**
-     * @param string $name
-     * @return string
-     */
-    public static function main($name)
-    {
-        global $e, $plugin_tx;
-
-        if (!preg_match('/^[a-z0-9\-]+$/', $name)) {
-            $e = '<li><b>'
-                . sprintf($plugin_tx['poll']['error_invalid_name'], $name)
-                . '</b></li>' . PHP_EOL;
-            return false;
-        }
-        $o = '';
-        if (self::isVoting($name)) {
-            ob_start();
-            (new WidgetController($name))->voteAction();
-            $o .= ob_get_clean();
-        } else {
-            ob_start();
-            (new WidgetController($name))->defaultAction();
-            $o .= ob_get_clean();
-        }
-        return $o;
-    }
-
-    /**
      * @return void
      */
     protected static function handleAdministration()

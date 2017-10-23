@@ -47,7 +47,22 @@ define('POLL_END', '%%%END%%%');
  */
 function poll($name)
 {
-    return Poll\Plugin::main($name);
+    global $e, $plugin_tx;
+
+    if (!preg_match('/^[a-z0-9\-]+$/', $name)) {
+        $e = '<li><b>'
+            . sprintf($plugin_tx['poll']['error_invalid_name'], $name)
+            . '</b></li>' . PHP_EOL;
+        return '';
+    }
+    $controller = new Poll\WidgetController($name);
+    ob_start();
+    if (isset($_POST['poll_' . $name])) {
+        $controller->voteAction();
+    } else {
+        $controller->defaultAction();
+    }
+    return ob_get_clean();
 }
 
 Poll\Plugin::dispatch();
