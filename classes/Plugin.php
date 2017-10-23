@@ -286,7 +286,7 @@ class Plugin
     {
         global $pth, $plugin_tx;
 
-        $phpVersion = '5.1.2';
+        $phpVersion = '5.4.0';
         $ptx = $plugin_tx['poll'];
         $imgdir = $pth['folder']['plugins'] . 'poll/images/';
         $ok = tag('img src="' . $imgdir . 'ok.png" alt="ok"');
