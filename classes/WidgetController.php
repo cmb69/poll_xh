@@ -21,7 +21,7 @@
 
 namespace Poll;
 
-class WidgetController
+class WidgetController extends Controller
 {
     /**
      * @string
@@ -49,7 +49,7 @@ class WidgetController
     {
 
         if ($this->poll->hasEnded() || $this->hasVoted()) {
-            echo $this->prepareResultsView();
+            echo $this->prepareResultsView($this->poll);
         } else {
             echo $this->prepareVotingView();
         }
@@ -101,7 +101,7 @@ class WidgetController
         global $plugin_tx;
 
         if ($this->poll->hasEnded() || $this->hasVoted()) {
-            echo $this->prepareResultsView();
+            echo $this->prepareResultsView($this->poll);
             return;
         }
         $dataService = new DataService;
@@ -133,39 +133,6 @@ class WidgetController
         }
         echo $err
             ? $this->prepareVotingView()
-            : $ptx['caption_just_voted'] . $this->prepareResultsView(false);
-    }
-
-    /**
-     * @param bool $msg
-     * @return View
-     */
-    protected function prepareResultsView($msg = true)
-    {
-        global $admin;
-
-        $view = new View('results');
-        $view->isAdministration = ($admin == 'plugin_main');
-        $view->isFinished = $this->poll->hasEnded();
-        $view->msg = $msg;
-        $view->totalVotes = $this->poll->getTotalVotes();
-        $view->votes = $this->getVotes($this->poll);
-        return $view;
-    }
-
-    /**
-     * @return stdClass
-     */
-    private function getVotes(Poll $poll)
-    {
-        $votes = [];
-        $poll->sortVotes();
-        foreach ($poll->getVotes() as $key => $count) {
-            $percentage = ($poll->getTotalVotes() == 0)
-                ? 0
-                : 100 * $count / $poll->getTotalVotes();
-            $votes[] = (object) compact('key', 'count', 'percentage');
-        }
-        return $votes;
+            : $ptx['caption_just_voted'] . $this->prepareResultsView($this->poll, false);
     }
 }

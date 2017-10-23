@@ -21,7 +21,7 @@
 
 namespace Poll;
 
-class InfoController
+class InfoController extends Controller
 {
     /**
      * @return void
