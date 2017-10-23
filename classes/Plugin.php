@@ -40,25 +40,16 @@ class Plugin
      */
     protected static function dataFolder()
     {
-        global $pth, $plugin_cf;
+        global $pth, $sl, $cf;
 
-        $pcf = $plugin_cf['poll'];
-        if ($pcf['folder_data'] == '') {
-            $folder = $pth['folder']['plugins'] . 'poll/data/';
-        } else {
-            $folder = $pth['folder']['base'] . $pcf['folder_data'];
+        $folder = $pth['folder']['content'];
+        if ($sl !== $cf['language']['default']) {
+            $folder = dirname($folder);
         }
-        if (substr($folder, -1) != '/') {
-            $folder .= '/';
-        }
-        if (file_exists($folder)) {
-            if (!is_dir($folder)) {
-                e('cntopen', 'folder', $folder);
-            }
-        } else {
-            if (!mkdir($folder, 0777, true)) {
-                e('cntwriteto', 'folder', $folder);
-            }
+        $folder .= 'poll/';
+        if (!file_exists($folder)) {
+            mkdir($folder, 0777, true);
+            chmod($folder, 0777);
         }
         return $folder;
     }
@@ -301,7 +292,7 @@ class Plugin
                 . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_extension'], $ext)
                 . tag('br') . PHP_EOL;
         }
-        foreach (array('config/', 'css/', 'languages/') as $folder) {
+        foreach (array('css/', 'languages/') as $folder) {
             $folders[] = $pth['folder']['plugins'] . 'poll/' . $folder;
         }
         $folders[] = self::dataFolder();
