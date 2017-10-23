@@ -39,121 +39,9 @@ class Plugin
      * @param string $name
      * @return bool
      */
-    protected static function hasVoted($name)
-    {
-        if (isset($_COOKIE['poll_' . $name])
-            && $_COOKIE['poll_' . $name] == CMSIMPLE_ROOT
-        ) {
-            return true;
-        }
-        $filename = (new DataService)->getFolder() . $name . '.ips';
-        if (!file_exists($filename)) {
-            touch($filename);
-        }
-        $lines = file($filename);
-        if ($lines === false) {
-            e('cntopen', 'file', $filename);
-            return false;
-        }
-        $ips = array_map('rtrim', $lines);
-        return in_array($_SERVER['REMOTE_ADDR'], $ips);
-    }
-
-    /**
-     * @param string $name
-     * @return bool
-     */
     protected static function isVoting($name)
     {
         return isset($_POST['poll_' . $name]);
-    }
-
-    /**
-     * @param string $name
-     * @return string
-     */
-    protected static function vote($name)
-    {
-        global $plugin_tx;
-
-        $dataService = new DataService;
-        $ptx = $plugin_tx['poll'];
-        $poll = $dataService->findPoll($name);
-        if (count($_POST['poll_' . $name]) > $poll->getMaxVotes()) {
-            return sprintf($ptx['error_exceeded_max'], $poll->getMaxVotes())
-                . self::votingView($poll);
-        }
-        $filename = $dataService->getFolder() . $name . '.ips';
-        if (($stream = fopen($filename, 'a')) !== false
-            && fwrite($stream, $_SERVER['REMOTE_ADDR'] . PHP_EOL) !== false
-        ) {
-            setcookie('poll_' . $name, CMSIMPLE_ROOT, $poll->getEndDate());
-            foreach ($_POST['poll_' . $name] as $vote) {
-                $poll->increaseVoteCount($vote);
-            }
-            $poll->increaseTotalVotes();
-            if (!$dataService->storePoll($name, $poll)) {
-                e('cntsave', 'file', $dataService->getFolder() . $name . '.csv');
-            }
-            $err = false;
-        } else {
-            e('cntwriteto', 'file', $filename);
-            $err = true;
-        }
-        if ($stream !== false) {
-            fclose($stream);
-        }
-        return $err
-            ? self::votingView($poll)
-            : $ptx['caption_just_voted'] . self::resultsView($poll, false);
-    }
-
-    /**
-     * @return string
-     */
-    protected static function votingView(Poll $poll)
-    {
-        global $sn, $su;
-
-        $view = new View('voting');
-        $view->action = "$sn?$su";
-        $view->name = $poll->getName();
-        $view->type = $poll->getMaxVotes() > 1 ? 'checkbox' : 'radio';
-        $view->keys = array_keys($poll->getVotes());
-        return (string) $view;
-    }
-
-    /**
-     * @param bool $msg
-     * @return string
-     */
-    protected static function resultsView(Poll $poll, $msg = true)
-    {
-        global $admin;
-
-        $view = new View('results');
-        $view->isAdministration = ($admin == 'plugin_main');
-        $view->isFinished = $poll->hasEnded();
-        $view->msg = $msg;
-        $view->totalVotes = $poll->getTotalVotes();
-        $view->votes = self::getVotes($poll);
-        return (string) $view;
-    }
-
-    /**
-     * @return stdClass
-     */
-    private static function getVotes(Poll $poll)
-    {
-        $votes = [];
-        $poll->sortVotes();
-        foreach ($poll->getVotes() as $key => $count) {
-            $percentage = ($poll->getTotalVotes() == 0)
-                ? 0
-                : 100 * $count / $poll->getTotalVotes();
-            $votes[] = (object) compact('key', 'count', 'percentage');
-        }
-        return $votes;
     }
 
     /**
@@ -171,13 +59,14 @@ class Plugin
             return false;
         }
         $o = '';
-        $poll = (new DataService)->findPoll($name);
-        if ($poll->hasEnded() || self::hasVoted($name)) {
-            $o .= self::resultsView($poll);
-        } elseif (self::isVoting($name)) {
-            $o .= self::vote($name);
+        if (self::isVoting($name)) {
+            ob_start();
+            (new WidgetController($name))->voteAction();
+            $o .= ob_get_clean();
         } else {
-            $o .= self::votingView($poll);
+            ob_start();
+            (new WidgetController($name))->defaultAction();
+            $o .= ob_get_clean();
         }
         return $o;
     }
