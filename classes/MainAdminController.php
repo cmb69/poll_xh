@@ -52,7 +52,7 @@ class MainAdminController
         $view->isFinished = $poll->hasEnded();
         $view->msg = $msg;
         $view->totalVotes = $poll->getTotalVotes();
-        $view->votes = self::getVotes($poll);
+        $view->votes = $this->getVotes($poll);
         return $view;
     }
 
