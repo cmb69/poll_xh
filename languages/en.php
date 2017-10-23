@@ -25,7 +25,6 @@ $plugin_tx['poll']['alt_logo']="Poll results";
 $plugin_tx['poll']['syscheck_title']="System check";
 $plugin_tx['poll']['syscheck_phpversion']="PHP version &ge; %s";
 $plugin_tx['poll']['syscheck_extension']="Extension '%s' loaded";
-$plugin_tx['poll']['syscheck_magic_quotes']="Magic quotes runtime off";
 $plugin_tx['poll']['syscheck_writable']="Folder '%s' writable";
 
 $plugin_tx['poll']['cf_folder_data']="Path to a folder relative to the CMSimple root directory, where to store the plugin's data. E.g. <em>userfiles/poll/</em>. Leave empty to store into the plugin's data/ folder.";

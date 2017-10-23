@@ -175,7 +175,7 @@ class Plugin
         ) {
             setcookie('poll_' . $name, CMSIMPLE_ROOT, $poll->getEndDate());
             foreach ($_POST['poll_' . $name] as $vote) {
-                $poll->increaseVoteCount(stsl($vote));
+                $poll->increaseVoteCount($vote);
             }
             $poll->increaseTotalVotes();
             self::data($name, $poll);
@@ -301,9 +301,6 @@ class Plugin
                 . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_extension'], $ext)
                 . tag('br') . PHP_EOL;
         }
-        $o .= (!get_magic_quotes_runtime() ? $ok : $fail)
-            . '&nbsp;&nbsp;' . $ptx['syscheck_magic_quotes']
-            . tag('br') . tag('br') . PHP_EOL;
         foreach (array('config/', 'css/', 'languages/') as $folder) {
             $folders[] = $pth['folder']['plugins'] . 'poll/' . $folder;
         }
