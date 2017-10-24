@@ -30,8 +30,11 @@ class Plugin
      */
     public function run()
     {
-        if (XH_ADM && XH_wantsPluginAdministration('poll')) {
-            $this->handleAdministration();
+        if (XH_ADM) {
+            XH_registerStandardPluginMenuItems(true);
+            if (XH_wantsPluginAdministration('poll')) {
+                $this->handleAdministration();
+            }
         }
     }
 
