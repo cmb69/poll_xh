@@ -28,17 +28,17 @@ class Plugin
     /**
      * @return void
      */
-    public static function dispatch()
+    public function run()
     {
         if (XH_ADM && XH_wantsPluginAdministration('poll')) {
-            self::handleAdministration();
+            $this->handleAdministration();
         }
     }
 
     /**
      * @return void
      */
-    protected static function handleAdministration()
+    private function handleAdministration()
     {
         global $admin, $action, $o;
 

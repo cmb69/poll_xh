@@ -65,4 +65,4 @@ function poll($name)
     return ob_get_clean();
 }
 
-Poll\Plugin::dispatch();
+(new Poll\Plugin)->run();
