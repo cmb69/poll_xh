@@ -23,6 +23,12 @@ namespace Poll;
 
 class DataService
 {
+    const TOTAL = '%%%TOTAL%%%';
+
+    const MAX = '%%%MAX%%%';
+
+    const END = '%%%END%%%';
+
     /**
      * @param string $name
      * @return Poll
@@ -40,13 +46,13 @@ class DataService
             foreach ($lines as $line) {
                 $record = explode("\t", rtrim($line));
                 switch ($record[0]) {
-                    case POLL_MAX:
+                    case self::MAX:
                         $poll->setMaxVotes($record[1]);
                         break;
-                    case POLL_END:
+                    case self::END:
                         $poll->setEndDate($record[1]);
                         break;
-                    case POLL_TOTAL:
+                    case self::TOTAL:
                         $poll->setTotalVotes($record[1]);
                         break;
                     default:
@@ -68,9 +74,9 @@ class DataService
         foreach ($poll->getVotes() as $key => $count) {
             $lines[] = $key . "\t" . $count;
         }
-        $lines[] = POLL_MAX . "\t" . $poll->getMaxVotes();
-        $lines[] = POLL_END . "\t" . $poll->getEndDate();
-        $lines[] = POLL_TOTAL . "\t" . $poll->getTotalVotes();
+        $lines[] = self::MAX . "\t" . $poll->getMaxVotes();
+        $lines[] = self::END . "\t" . $poll->getEndDate();
+        $lines[] = self::TOTAL . "\t" . $poll->getTotalVotes();
         return XH_writeFile($filename, implode(PHP_EOL, $lines) . PHP_EOL) !== false;
     }
 

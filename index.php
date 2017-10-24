@@ -35,12 +35,6 @@ EOT
     );
 }
 
-define('POLL_VERSION', '@POLL_VERSION@');
-
-define('POLL_TOTAL', '%%%TOTAL%%%');
-define('POLL_MAX', '%%%MAX%%%');
-define('POLL_END', '%%%END%%%');
-
 /**
  * @param string $name
  * @return string

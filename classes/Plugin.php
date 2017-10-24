@@ -25,6 +25,8 @@ use stdClass;
 
 class Plugin
 {
+    const VERSION = '@POLL_VERSION@';
+
     /**
      * @return void
      */

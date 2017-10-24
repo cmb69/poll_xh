@@ -32,7 +32,7 @@ class InfoController extends Controller
 
         $view = new View('info');
         $view->logo = "{$pth['folder']['plugins']}poll/poll.png";
-        $view->version = POLL_VERSION;
+        $view->version = Plugin::VERSION;
         $view->checks = (new SystemCheckService)->getChecks();
         $view->render();
     }
