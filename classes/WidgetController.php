@@ -21,6 +21,8 @@
 
 namespace Poll;
 
+use Pfw\HtmlView;
+
 class WidgetController extends Controller
 {
     /**
@@ -49,9 +51,9 @@ class WidgetController extends Controller
     {
 
         if ($this->poll->hasEnded() || $this->hasVoted()) {
-            echo $this->prepareResultsView($this->poll);
+            $this->prepareResultsView($this->poll)->render();
         } else {
-            echo $this->prepareVotingView();
+            $this->prepareVotingView()->render();
         }
     }
 
@@ -85,12 +87,14 @@ class WidgetController extends Controller
     {
         global $sn, $su;
 
-        $view = new View('voting');
-        $view->action = "$sn?$su";
-        $view->name = $this->poll->getName();
-        $view->type = $this->poll->getMaxVotes() > 1 ? 'checkbox' : 'radio';
-        $view->keys = array_keys($this->poll->getVotes());
-        return $view;
+        return (new HtmlView('poll'))
+            ->template('voting')
+            ->data([
+                'action' => "$sn?$su",
+                'name' => $this->poll->getName(),
+                'type' => $this->poll->getMaxVotes() > 1 ? 'checkbox' : 'radio',
+                'keys' => array_keys($this->poll->getVotes())
+            ]);
     }
 
     /**

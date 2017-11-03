@@ -21,6 +21,8 @@
 
 namespace Poll;
 
+use Pfw\HtmlView;
+
 abstract class Controller
 {
     /**
@@ -31,13 +33,15 @@ abstract class Controller
     {
         global $admin;
 
-        $view = new View('results');
-        $view->isAdministration = ($admin == 'plugin_main');
-        $view->isFinished = $poll->hasEnded();
-        $view->msg = $msg;
-        $view->totalVotes = $poll->getTotalVotes();
-        $view->votes = $this->getVotes($poll);
-        return $view;
+        return (new HtmlView('poll'))
+            ->template('results')
+            ->data([
+                'isAdministration' => ($admin == 'plugin_main'),
+                'isFinished' => $poll->hasEnded(),
+                'hasMessage' => $msg,
+                'totalVotes'=> $poll->getTotalVotes(),
+                'votes' => $this->getVotes($poll)
+            ]);
     }
 
     /**
@@ -50,7 +54,7 @@ abstract class Controller
         foreach ($poll->getVotes() as $key => $count) {
             $percentage = ($poll->getTotalVotes() == 0)
                 ? 0
-                : 100 * $count / $poll->getTotalVotes();
+                : number_format(100 * $count / $poll->getTotalVotes());
             $votes[] = (object) compact('key', 'count', 'percentage');
         }
         return $votes;

@@ -6,9 +6,9 @@
 	$plugin_tx['poll']['caption_ended']="Anketa byla uzavřena.";
 	$plugin_tx['poll']['caption_results']="Výsledky hlasování";
 	$plugin_tx['poll']['label_vote']="Hlasujte!";
-	$plugin_tx['poll']['label_result_0']="%2\$s – %3\$.1f%% (%1\$d hlas)";
-	$plugin_tx['poll']['label_result_2_4']="%2\$s – %3\$.1f%% (%1\$d hlasy)";
-	$plugin_tx['poll']['label_result_5']="%2\$s – %3\$.1f%% (%1\$d hlasů)";
+	$plugin_tx['poll']['label_result_0']="%2\$s – %3\$s%% (%1\$s hlas)";
+	$plugin_tx['poll']['label_result_1']="%2\$s – %3\$s%% (%1\$s hlasy)";
+	$plugin_tx['poll']['label_result_2']="%2\$s – %3\$s%% (%1\$s hlasů)";
 	$plugin_tx['poll']['error_invalid_name']="Chybný název ankety '%s'! (může obsahovat pouze písmena 'a'-'z', čísla '0'-'9' a místo mezery pomlčku '-')";
 	$plugin_tx['poll']['syscheck_extension']="Rozšíření \"%s\" načteno";
 	$plugin_tx['poll']['syscheck_jquery']="jQuery4CMSimple plugin instalován";

@@ -32,8 +32,10 @@ class MainAdminController extends Controller
         $o = '<div id="poll_admin">' . PHP_EOL;
         foreach ($dataService->getPollNames() as $name) {
             $poll = $dataService->findPoll($name);
-            $o .= '<h1>' . $name . '</h1>' . PHP_EOL
-                . $this->prepareResultsView($poll) . PHP_EOL;
+            $o .= '<h1>' . $name . '</h1>' . PHP_EOL;
+            ob_start();
+            $this->prepareResultsView($poll)->render();
+            $o .= ob_get_clean();
         }
         $o .= '</div>' . PHP_EOL;
         echo $o;

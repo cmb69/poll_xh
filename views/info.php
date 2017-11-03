@@ -1,7 +1,7 @@
 <h1>Poll</h1>
-<img src="<?=$this->logo()?>" width="128" height="128" alt="<?=$this->text('alt_logo')?>" class="poll_logo">
+<img src="<?=$logo?>" width="128" height="128" alt="<?=$this->text('alt_logo')?>" class="poll_logo">
 <p>
-    Version: <?=$this->version()?>
+    Version: <?=$version?>
 </p>
 <p>
     Copyright &copy; 2012-2017 <a href="http://3-magi.net/"
@@ -26,7 +26,7 @@
 </p>
 <div class="poll_syscheck">
     <h2><?=$this->text('syscheck_title')?></h2>
-<?php foreach ($this->checks as $check):?>
-    <p class="xh_<?=$this->escape($check->state)?>"><?=$this->text('syscheck_message', $check->label, $check->stateLabel)?></p>
+<?php foreach ($checks as $check):?>
+    <p class="xh_<?=$check->state?>"><?=$this->text('syscheck_message', $check->label, $check->stateLabel)?></p>
 <?php endforeach?>
 </div>
