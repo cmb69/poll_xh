@@ -18,5 +18,3 @@ $plugin_tx['poll']['error_invalid_name']="Invalid poll name '%s'! (must consist 
 $plugin_tx['poll']['error_exceeded_max']="<p class=\"cmsimplecore_warning\">You may check %d options at most!</p>";
 
 $plugin_tx['poll']['alt_logo']="Poll results";
-
-$plugin_tx['poll']['cf_folder_data']="Path to a folder relative to the CMSimple root directory, where to store the plugin's data. E.g. <em>userfiles/poll/</em>. Leave empty to store into the plugin's data/ folder.";
