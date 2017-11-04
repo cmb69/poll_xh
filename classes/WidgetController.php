@@ -105,14 +105,14 @@ class WidgetController extends Controller
         global $plugin_tx;
 
         if ($this->poll->hasEnded() || $this->hasVoted()) {
-            echo $this->prepareResultsView($this->poll);
+            $this->prepareResultsView($this->poll)->render();
             return;
         }
         $dataService = new DataService;
         $ptx = $plugin_tx['poll'];
         if (count($_POST['poll_' . $this->name]) > $this->poll->getMaxVotes()) {
-            echo sprintf($ptx['error_exceeded_max'], $this->poll->getMaxVotes())
-                . $this->prepareVotingView();
+            echo sprintf($ptx['error_exceeded_max'], $this->poll->getMaxVotes());
+            $this->prepareVotingView()->render();
             return;
         }
         $filename = $dataService->getFolder() . $this->name . '.ips';
@@ -135,8 +135,11 @@ class WidgetController extends Controller
         if ($stream !== false) {
             fclose($stream);
         }
-        echo $err
-            ? $this->prepareVotingView()
-            : $ptx['caption_just_voted'] . $this->prepareResultsView($this->poll, false);
+        if ($err) {
+            $this->prepareVotingView()->render();
+        } else {
+            echo $ptx['caption_just_voted'];
+            $this->prepareResultsView($this->poll, false)->render();
+        }
     }
 }
