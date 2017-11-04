@@ -21,7 +21,7 @@
 
 namespace Poll;
 
-use Pfw\HtmlView;
+use Pfw\View\HtmlView;
 
 class WidgetController extends Controller
 {
