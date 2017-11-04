@@ -22,6 +22,7 @@
 namespace Poll;
 
 use Pfw\View\HtmlView;
+use Pfw\SystemCheckService;
 
 class InfoController extends Controller
 {
@@ -37,7 +38,14 @@ class InfoController extends Controller
             ->data([
                 'logo' => "{$pth['folder']['plugins']}poll/poll.png",
                 'version' => Plugin::VERSION,
-                'checks' => (new SystemCheckService)->getChecks()
+                'checks' => (new SystemCheckService)
+                    ->minPhpVersion('5.4.0')
+                    ->minXhVersion('1.6.3')
+                    ->plugin('pfw')
+                    ->writable("{$pth['folder']['plugins']}poll/css")
+                    ->writable("{$pth['folder']['plugins']}poll/languages")
+                    ->writable((new DataService)->getFolder())
+                    ->getChecks()
             ])
             ->render();
     }
