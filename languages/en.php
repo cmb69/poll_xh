@@ -17,4 +17,4 @@ $plugin_tx['poll']['label_result#1']="%2\$s – %3\$s%% (%1\$s votes)";
 $plugin_tx['poll']['error_invalid_name']="Invalid poll name '%s'! (must consist of 'a'-'z', '0'-'9' and '-' only)";
 $plugin_tx['poll']['error_exceeded_max']="<p class=\"cmsimplecore_warning\">You may check %d options at most!</p>";
 
-$plugin_tx['poll']['alt_logo']="Poll results";
+$plugin_tx['poll']['alt_logo']="Bar Chart";
