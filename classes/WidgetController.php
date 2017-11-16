@@ -111,7 +111,7 @@ class WidgetController extends Controller
         $dataService = new DataService;
         $ptx = $plugin_tx['poll'];
         if (count($_POST['poll_' . $this->name]) > $this->poll->getMaxVotes()) {
-            echo sprintf($ptx['error_exceeded_max'], $this->poll->getMaxVotes());
+            echo XH_message('fail', $ptx['error_exceeded_max'], $this->poll->getMaxVotes());
             $this->prepareVotingView()->render();
             return;
         }
@@ -138,7 +138,7 @@ class WidgetController extends Controller
         if ($err) {
             $this->prepareVotingView()->render();
         } else {
-            echo $ptx['caption_just_voted'];
+            echo XH_message('info', $ptx['caption_just_voted']);
             $this->prepareResultsView($this->poll, false)->render();
         }
     }
