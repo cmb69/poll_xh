@@ -65,7 +65,7 @@ class DataService
 
     /**
      * @param string $name
-     * @return void
+     * @return bool
      */
     public function storePoll($name, Poll $poll)
     {
