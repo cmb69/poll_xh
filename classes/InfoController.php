@@ -21,7 +21,7 @@
 
 namespace Poll;
 
-use Pfw\View\HtmlView;
+use Pfw\View\View;
 use Pfw\SystemCheckService;
 
 class InfoController extends Controller
@@ -33,7 +33,7 @@ class InfoController extends Controller
     {
         global $pth;
 
-        (new HtmlView('poll'))
+        (new View('poll'))
             ->template('info')
             ->data([
                 'logo' => "{$pth['folder']['plugins']}poll/poll.png",

@@ -21,7 +21,7 @@
 
 namespace Poll;
 
-use Pfw\View\HtmlView;
+use Pfw\View\View;
 
 class WidgetController extends Controller
 {
@@ -87,7 +87,7 @@ class WidgetController extends Controller
     {
         global $sn, $su;
 
-        return (new HtmlView('poll'))
+        return (new View('poll'))
             ->template('voting')
             ->data([
                 'action' => "$sn?$su",

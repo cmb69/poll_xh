@@ -21,7 +21,7 @@
 
 namespace Poll;
 
-use Pfw\View\HtmlView;
+use Pfw\View\View;
 
 abstract class Controller
 {
@@ -33,7 +33,7 @@ abstract class Controller
     {
         global $admin;
 
-        return (new HtmlView('poll'))
+        return (new View('poll'))
             ->template('results')
             ->data([
                 'isAdministration' => ($admin == 'plugin_main'),
