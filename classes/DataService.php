@@ -103,7 +103,7 @@ class DataService
 
         $folder = $pth['folder']['content'];
         if ($sl !== $cf['language']['default']) {
-            $folder = dirname($folder);
+            $folder = dirname($folder) . '/';
         }
         $folder .= 'poll/';
         if (!file_exists($folder)) {
