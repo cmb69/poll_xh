@@ -1,8 +1,5 @@
-Version 1beta3 - released TODO
-cmb	added czech translation (contributed by oldnema)
-cmb	sorted result view (suggested by Bernd Strauch)
-cmb	added info about total number of voters to result view (suggested by simm)
-cmb	added seperate language strings for singular, paucal and plural (suggested by Tata)
+Version 1beta3 – released 2017-11-17
+see <https://github.com/cmb69/poll_xh/milestone/1?closed=1>
 
 Version 1beta2 - released 2012-04-16
 cmb	fixed bug: quotes were not treated correctly when magic_quotes_gpc is on (reported by oldnema)
