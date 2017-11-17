@@ -15,6 +15,6 @@ $plugin_tx['poll']['label_result#0']="%2\$s – %3\$s%% (%1\$s Stimme)";
 $plugin_tx['poll']['label_result#1']="%2\$s – %3\$s%% (%1\$s Stimmen)";
 
 $plugin_tx['poll']['error_invalid_name']="Ungültiger Umfragename '%s'! (darf nur 'a'-'z', '0'-'9' und '-' enthalten)";
-$plugin_tx['poll']['error_exceeded_max']="Sie dürften höchstens %d Optionen wählen!";
+$plugin_tx['poll']['error_exceeded_max']="Sie dürfen höchstens %d Optionen wählen!";
 
 $plugin_tx['poll']['alt_logo']="Balkendiagramm";
