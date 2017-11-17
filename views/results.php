@@ -6,12 +6,12 @@
 <?php   endif?>
 <h5><?=$this->text('caption_results')?></h5>
 <?php endif?>
-<ul class="poll_results">
+<div class="poll_results">
 <?php foreach ($votes as $vote):?>
-    <li>
-        <div class="poll_results"><?=$this->plural('label_result', $vote->count, $vote->key, $vote->percentage)?></div>
+    <div class="poll_result">
+        <div class="poll_text"><?=$this->plural('label_result', $vote->count, $vote->key, $vote->percentage)?></div>
         <div class="poll_bar" style="width: <?=$vote->percentage?>%">&nbsp;</div>
-    </li>
+    </div>
 <?php endforeach?>
-</ul>
+</div>
 <p><strong><?=$this->plural('caption_total', $totalVotes)?></strong></p>
