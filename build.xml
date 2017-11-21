@@ -17,43 +17,6 @@
         <include name="*Test.php"/>
     </fileset>
 
-    <target name="help" description="lists available targets">
-        <exec command="phing -l" outputProperty="help"/>
-        <echo>${help}</echo>
-    </target>
-
-    <target name="uml" description="generates UML diagram">
-        <fail unless="plantuml" message="plantuml is not defined!"/>
-        <exec command="umlwriter diagram:render --reflector=reflect --processor=plantuml classes | java -jar ${plantuml} -p -tsvg > classes.svg"
-              logoutput="true"/>
-    </target>
-
-    <target name="sniff" description="checks adherence to the coding standards">
-        <phpcodesniffer standard="PSR2" haltonerror="true">
-            <fileset refid="php-sources"/>
-            <fileset refid="unit-tests"/>
-        </phpcodesniffer>
-    </target>
-
-    <target name="mess" description="detects code flaws">
-        <phpmd rulesets="codesize,unusedcode">
-            <fileset refid="php-sources"/>
-         </phpmd>
-    </target>
-
-    <target name="compat" description="checks compatibility with PHP CompatInfo">
-        <exec command="phpcompatinfo analyser:run --alias current" logoutput="true"/>
-    </target>
-
-    <target name="unit-tests" description="runs all unit tests">
-        <phpunit bootstrap="tests/unit/bootstrap.php" haltonerror="true" haltonfailure="true">
-            <formatter type="plain" usefile="false"/>
-            <batchtest>
-                <fileset refid="unit-tests"/>
-            </batchtest>
-        </phpunit>
-    </target>
-
     <target name="build" description="builds a distributable ZIP archive">
         <fail unless="version" message="version is not defined!"/>
         <exec command="git archive -o export.tar HEAD" checkreturn="true"/>
