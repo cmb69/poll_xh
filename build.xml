@@ -73,7 +73,6 @@
         <move todir="dist">
             <fileset dir="export">
                 <exclude name="build.xml"/>
-                <exclude name="composer.*"/>
                 <exclude name="phpcompatinfo.*"/>
                 <exclude name="README.md"/>
                 <exclude name="tests/**"/>
