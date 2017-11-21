@@ -23,8 +23,6 @@ namespace Poll;
 
 use PHPUnit\Framework\TestCase;
 
-require_once './classes/Poll.php';
-
 class PollTest extends TestCase
 {
     /**
