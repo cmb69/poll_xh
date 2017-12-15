@@ -41,7 +41,7 @@ class InfoController extends Controller
                 'checks' => (new SystemCheckService)
                     ->minPhpVersion('5.4.0')
                     ->minXhVersion('1.6.3')
-                    ->plugin('pfw')
+                    ->minPfwVersion('0.2.0')
                     ->writable("{$pth['folder']['plugins']}poll/css")
                     ->writable("{$pth['folder']['plugins']}poll/languages")
                     ->writable((new DataService)->getFolder())
