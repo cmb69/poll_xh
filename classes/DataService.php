@@ -47,10 +47,10 @@ class DataService
                 $record = explode("\t", rtrim($line));
                 switch ($record[0]) {
                     case self::MAX:
-                        $poll->setMaxVotes($record[1]);
+                        $poll->setMaxVotes((int) $record[1]);
                         break;
                     case self::END:
-                        $poll->setEndDate($record[1]);
+                        $poll->setEndDate($record[1] <= PHP_INT_MAX ? (int) $record[1] : PHP_INT_MAX);
                         break;
                     case self::TOTAL:
                         $poll->setTotalVotes($record[1]);

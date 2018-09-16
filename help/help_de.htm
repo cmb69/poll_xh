@@ -172,6 +172,11 @@
     können, so dass diese nicht erneut abstimmen könnten. Als Workaround müsste
     die Umfrage umbenannt werden.
 </p>
+<p>
+    32bit PHP-Versionen können nicht mit Unix Zeitstempeln umgehen, die größer
+    als 2147483647 sind (was dem 19. Januar 2038 entspricht). Daher ist es mit
+    solchen Versionen nicht möglich, dass Umfragen nach diesem Datum enden.
+</p>
 </section>
 
 <section id="license">
