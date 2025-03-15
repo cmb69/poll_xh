@@ -26,6 +26,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: cmsimplexh/plugins/poll
+      - name: Checkout Pfw_XH
+        uses: actions/checkout@v4
+        with:
+          repository: cmb69/pfw_xh
+          path: cmsimplexh/plugins/pfw
 #      - name: Checkout Plib_XH
 #        uses: actions/checkout@v4
 #        with:
