@@ -21,7 +21,7 @@
 
 namespace Poll;
 
-use Pfw\SystemCheckService;
+use Plib\SystemChecker;
 use Plib\View;
 
 class Dic
@@ -38,7 +38,7 @@ class Dic
         return new InfoController(
             $pth["folder"]["plugins"] . "poll/",
             new DataService(),
-            new SystemCheckService(),
+            new SystemChecker(),
             self::view()
         );
     }

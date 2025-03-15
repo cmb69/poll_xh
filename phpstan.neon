@@ -11,5 +11,4 @@ parameters:
     - ../../cmsimple/adminfuncs.php
     - ../../cmsimple/functions.php
   scanDirectories:
-    - ../pfw/classes
     - ../plib/classes
