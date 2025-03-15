@@ -29,9 +29,13 @@ class MainAdminController
     /** @var DataService */
     private $dataService;
 
-    public function __construct(DataService $dataService)
+    /** @var View */
+    private $view;
+
+    public function __construct(DataService $dataService, View $view)
     {
         $this->dataService = $dataService;
+        $this->view = $view;
     }
 
     /**
@@ -59,7 +63,7 @@ class MainAdminController
     {
         global $admin;
 
-        return (new View('poll'))
+        return $this->view
             ->template('results')
             ->data([
                 'isAdministration' => ($admin == 'plugin_main'),

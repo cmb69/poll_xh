@@ -58,7 +58,7 @@ class Plugin
                 break;
             case 'plugin_main':
                 ob_start();
-                (new MainAdminController(new DataService()))->defaultAction();
+                (new MainAdminController(new DataService(), new View('poll')))->defaultAction();
                 $o .= ob_get_clean();
                 break;
             default:

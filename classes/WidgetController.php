@@ -161,7 +161,7 @@ class WidgetController
     {
         global $admin;
 
-        return (new View('poll'))
+        return $this->view
             ->template('results')
             ->data([
                 'isAdministration' => ($admin == 'plugin_main'),
