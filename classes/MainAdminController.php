@@ -40,13 +40,13 @@ class MainAdminController
 
     public function defaultAction(): string
     {
-        $o = '<div id="poll_admin">' . PHP_EOL;
+        $o = '<div id="poll_admin">' . "\n";
         foreach ($this->dataService->getPollNames() as $name) {
             $poll = $this->dataService->findPoll($name);
-            $o .= '<h1>' . $name . '</h1>' . PHP_EOL;
+            $o .= '<h1>' . $name . '</h1>' . "\n";
             $o .= $this->renderResultsView($poll);
         }
-        $o .= '</div>' . PHP_EOL;
+        $o .= '</div>' . "\n";
         return $o;
     }
 
