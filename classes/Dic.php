@@ -29,19 +29,23 @@ class Dic
 {
     public static function widgetController(): WidgetController
     {
-        global $pth, $plugin_tx;
-
-        $view = new PlibView($pth["folder"]["plugins"] . "poll/views/", $plugin_tx["poll"]);
-        return new WidgetController(new DataService(), $view);
+        return new WidgetController(new DataService(), self::view());
     }
 
     public static function infoController(): InfoController
     {
-        return new InfoController(new DataService(), new SystemCheckService(), new View('poll'));
+        return new InfoController(new DataService(), new SystemCheckService(), self::view());
     }
 
     public static function mainAdminController(): MainAdminController
     {
         return new MainAdminController(new DataService(), new View('poll'));
+    }
+
+    private static function view(): PlibView
+    {
+        global $pth, $plugin_tx;
+
+        return new PlibView($pth["folder"]["plugins"] . "poll/views/", $plugin_tx["poll"]);
     }
 }

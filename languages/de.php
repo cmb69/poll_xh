@@ -25,4 +25,16 @@ $plugin_tx['poll']['label_result_5']="%2\$s – %3\$s%% (%1\$s Stimmen)";
 $plugin_tx['poll']['error_invalid_name']="Ungültiger Umfragename '%s'! (darf nur 'a'-'z', '0'-'9' und '-' enthalten)";
 $plugin_tx['poll']['error_exceeded_max']="Sie dürfen höchstens %d Optionen wählen!";
 
+$plugin_tx['poll']['syscheck_extension']="die PHP-Extension '%s' geladen wurde";
+$plugin_tx['poll']['syscheck_fail']="Fehlschlag";
+$plugin_tx['poll']['syscheck_message']="Prüfe, dass %1\$s … %2\$s";
+$plugin_tx['poll']['syscheck_pfwversion']="die Pfw_XH-Version mindestens %s ist";
+$plugin_tx['poll']['syscheck_phpversion']="die PHP-Version mindestens %s ist";
+$plugin_tx['poll']['syscheck_plugin']="das CMSimple_XH-Plugin '%s' installiert ist";
+$plugin_tx['poll']['syscheck_success']="Okay";
+$plugin_tx['poll']['syscheck_title']="System-Prüfung";
+$plugin_tx['poll']['syscheck_warning']="Warnung";
+$plugin_tx['poll']['syscheck_writable']="'%s' is writable";
+$plugin_tx['poll']['syscheck_xhversion']="die CMSimple_XH-Version mindestens %s ist";
+
 $plugin_tx['poll']['alt_logo']="Balkendiagramm";
