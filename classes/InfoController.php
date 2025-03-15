@@ -24,7 +24,7 @@ namespace Poll;
 use Pfw\View\View;
 use Pfw\SystemCheckService;
 
-class InfoController extends Controller
+class InfoController
 {
     /**
      * @return void
