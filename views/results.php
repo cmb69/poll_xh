@@ -1,3 +1,17 @@
+<?php
+
+use Plib\View;
+
+/**
+ * @var View $this
+ * @var bool $isAdministration
+ * @var bool $isFinished
+ * @var bool $hasMessage
+ * @var int $totalVotes
+ * @var list<object{count:int,key:string,percentage:float}> $votes
+ */
+?>
+
 <?php if (!$isAdministration):?>
 <?php   if ($isFinished):?>
 <p><?=$this->text('caption_ended')?></p>
