@@ -56,6 +56,7 @@ class WidgetControllerTest extends TestCase
     private function poll(): Poll
     {
         $poll = new Poll();
+        $poll->setName("fifa-2018");
         $poll->setEndDate(2147483647);
         $poll->setMaxVotes(1);
         $poll->setVoteCount("Germany", 1);

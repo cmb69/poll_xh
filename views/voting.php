@@ -11,12 +11,12 @@ use Plib\View;
  */
 ?>
 
-<form class="poll" action="<?=$action?>" method="post">
+<form class="poll" action="<?=$this->esc($action)?>" method="post">
     <p><?=$this->text('caption_vote')?></p>
 <?php foreach ($keys as $key):?>
     <label class="poll_option">
-        <input type="<?=$type?>" name="poll_<?=$name?>[]" value="<?=$key?>">
-        <?=$key?>
+        <input type="<?=$this->esc($type)?>" name="poll_<?=$this->esc($name)?>[]" value="<?=$this->esc($key)?>">
+        <?=$this->esc($key)?>
     </label>
 <?php endforeach?>
     <p>
