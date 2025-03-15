@@ -36,12 +36,12 @@ function poll($name)
             . '</b></li>' . PHP_EOL;
         return '';
     }
-    $controller = new Poll\WidgetController($name, new DataService(), new View('poll'));
+    $controller = new Poll\WidgetController(new DataService(), new View('poll'));
     ob_start();
     if (isset($_POST['poll_' . $name])) {
-        $controller->voteAction();
+        $controller->voteAction($name);
     } else {
-        $controller->defaultAction();
+        $controller->defaultAction($name);
     }
     return (string) ob_get_clean();
 }

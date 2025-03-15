@@ -26,58 +26,43 @@ use stdClass;
 
 class WidgetController
 {
-    /**
-     * @var string
-     */
-    private $name;
-
     /** @var DataService */
     private $dataService;
 
     /** @var View */
     private $view;
 
-    /**
-     * @var Poll
-     */
-    private $poll;
-
-    /**
-     * @param string $name
-     */
-    public function __construct($name, DataService $dataService, View $view)
+    public function __construct(DataService $dataService, View $view)
     {
-        $this->name = $name;
         $this->dataService = $dataService;
         $this->view = $view;
-        $this->poll = $this->dataService->findPoll($name);
     }
 
     /**
      * @return void
      */
-    public function defaultAction()
+    public function defaultAction(string $name)
     {
-
-        if ($this->poll->hasEnded() || $this->hasVoted()) {
-            $this->prepareResultsView($this->poll)->render();
+        $poll = $this->dataService->findPoll($name);
+        if ($poll->hasEnded() || $this->hasVoted($name)) {
+            $this->prepareResultsView($poll)->render();
         } else {
-            $this->prepareVotingView()->render();
+            $this->prepareVotingView($poll)->render();
         }
     }
 
     /**
      * @return bool
      */
-    private function hasVoted()
+    private function hasVoted(string $name)
     {
         if (
-            isset($_COOKIE['poll_' . $this->name])
-            && $_COOKIE['poll_' . $this->name] == CMSIMPLE_ROOT
+            isset($_COOKIE['poll_' . $name])
+            && $_COOKIE['poll_' . $name] == CMSIMPLE_ROOT
         ) {
             return true;
         }
-        $filename = $this->dataService->getFolder() . $this->name . '.ips';
+        $filename = $this->dataService->getFolder() . $name . '.ips';
         if (!file_exists($filename)) {
             touch($filename);
         }
@@ -93,7 +78,7 @@ class WidgetController
     /**
      * @return View
      */
-    private function prepareVotingView()
+    private function prepareVotingView(Poll $poll)
     {
         global $sn, $su;
 
@@ -101,41 +86,42 @@ class WidgetController
             ->template('voting')
             ->data([
                 'action' => "$sn?$su",
-                'name' => $this->poll->getName(),
-                'type' => $this->poll->getMaxVotes() > 1 ? 'checkbox' : 'radio',
-                'keys' => array_keys($this->poll->getVotes())
+                'name' => $poll->getName(),
+                'type' => $poll->getMaxVotes() > 1 ? 'checkbox' : 'radio',
+                'keys' => array_keys($poll->getVotes())
             ]);
     }
 
     /**
      * @return void
      */
-    public function voteAction()
+    public function voteAction(string $name)
     {
         global $plugin_tx;
 
-        if ($this->poll->hasEnded() || $this->hasVoted()) {
-            $this->prepareResultsView($this->poll)->render();
+        $poll = $this->dataService->findPoll($name);
+        if ($poll->hasEnded() || $this->hasVoted($name)) {
+            $this->prepareResultsView($poll)->render();
             return;
         }
         $ptx = $plugin_tx['poll'];
-        if (count($_POST['poll_' . $this->name]) > $this->poll->getMaxVotes()) {
-            echo XH_message('fail', $ptx['error_exceeded_max'], $this->poll->getMaxVotes());
-            $this->prepareVotingView()->render();
+        if (count($_POST['poll_' . $name]) > $poll->getMaxVotes()) {
+            echo XH_message('fail', $ptx['error_exceeded_max'], $poll->getMaxVotes());
+            $this->prepareVotingView($poll)->render();
             return;
         }
-        $filename = $this->dataService->getFolder() . $this->name . '.ips';
+        $filename = $this->dataService->getFolder() . $name . '.ips';
         if (
             ($stream = fopen($filename, 'a')) !== false
             && fwrite($stream, $_SERVER['REMOTE_ADDR'] . PHP_EOL) !== false
         ) {
-            setcookie('poll_' . $this->name, CMSIMPLE_ROOT, $this->poll->getEndDate());
-            foreach ($_POST['poll_' . $this->name] as $vote) {
-                $this->poll->increaseVoteCount($vote);
+            setcookie('poll_' . $name, CMSIMPLE_ROOT, $poll->getEndDate());
+            foreach ($_POST['poll_' . $name] as $vote) {
+                $poll->increaseVoteCount($vote);
             }
-            $this->poll->increaseTotalVotes();
-            if (!$this->dataService->storePoll($this->name, $this->poll)) {
-                e('cntsave', 'file', $this->dataService->getFolder() . $this->name . '.csv');
+            $poll->increaseTotalVotes();
+            if (!$this->dataService->storePoll($name, $poll)) {
+                e('cntsave', 'file', $this->dataService->getFolder() . $name . '.csv');
             }
             $err = false;
         } else {
@@ -146,10 +132,10 @@ class WidgetController
             fclose($stream);
         }
         if ($err) {
-            $this->prepareVotingView()->render();
+            $this->prepareVotingView($poll)->render();
         } else {
             echo XH_message('info', $ptx['caption_just_voted']);
-            $this->prepareResultsView($this->poll, false)->render();
+            $this->prepareResultsView($poll, false)->render();
         }
     }
 
