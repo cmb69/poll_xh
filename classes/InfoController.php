@@ -39,7 +39,7 @@ class InfoController extends Controller
                 'logo' => "{$pth['folder']['plugins']}poll/poll.png",
                 'version' => Plugin::VERSION,
                 'checks' => (new SystemCheckService())
-                    ->minPhpVersion('5.4.0')
+                    ->minPhpVersion('7.1.0')
                     ->minXhVersion('1.7.0')
                     ->minPfwVersion('0.2.0')
                     ->writable("{$pth['folder']['plugins']}poll/css")
