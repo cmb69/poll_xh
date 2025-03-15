@@ -85,7 +85,7 @@ class DataService
         $lines[] = self::MAX . "\t" . $poll->getMaxVotes();
         $lines[] = self::END . "\t" . $poll->getEndDate();
         $lines[] = self::TOTAL . "\t" . $poll->getTotalVotes();
-        return file_put_contents($filename, implode(PHP_EOL, $lines) . PHP_EOL) !== false;
+        return file_put_contents($filename, implode("\n", $lines) . "\n") !== false;
     }
 
     /**
