@@ -1,207 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<meta http-equiv="content-type" content="text/html;charset=utf-8">
-<title>Poll_XH – User Manual</title>
-<link rel="stylesheet" type="text/css" href="../../pfw/help/stylesheet.css">
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Poll_XH – User Manual</title>
+  <style type="text/css">
+    body {
+        font-family: Georgia, serif;
+        line-height: 1.5;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+        background: #ffffe1;
+        max-width: 32em;
+    }
+    p {
+        text-align: justify;
+    }
+    pre {
+        color: black;
+        background: #ffe;
+        overflow: auto;
+        padding: 0.2em 0.5em;
+        border: 1px solid silver;
+    }
+  </style>
 </head>
-
 <body>
-
-<article>
-
-<h1>Poll_XH – User Manual</h1>
-<img src="../poll.png" style="float:left; margin: 0 1.5em 0.5em 0" alt="Bar Chart">
-<p>
-    Poll_XH facilitates to place polls on your CMSimple_XH website. You can have
-    as many polls you like, with as many options you like (single or multiple
-    choice). The voters are distinguished by cookie and IP address, so cheating
-    is somewhat unlikely.
-</p>
-
-<nav id="nav">
-<h2>Table of Contents</h2>
+<h1 id="poll_xh">Poll_XH</h1>
+<p>Poll_XH facilitates to place polls on your CMSimple_XH website. You can have as many polls you like, with as many options you like (single or multiple choice). The voters are distinguished by cookie and IP address, so cheating is somewhat unlikely.</p>
 <ul>
-<li><a href="#notice">Important Notice</a></li>
 <li><a href="#requirements">Requirements</a></li>
+<li><a href="#download">Download</a></li>
 <li><a href="#installation">Installation</a></li>
 <li><a href="#settings">Settings</a></li>
 <li><a href="#usage">Usage</a></li>
 <li><a href="#limitations">Limitations</a></li>
+<li><a href="#troubleshooting">Troubleshooting</a></li>
 <li><a href="#license">License</a></li>
 <li><a href="#credits">Credits</a></li>
 </ul>
-</nav>
-
-<section id="notice">
-<h2>Important Notice</h2>
-<p class="important">
-    Poll_XH couldn't be tested so far in various environments. It is a so called
-    beta version. Use with caution!
-</p>
-</section>
-
-<section id="requirements">
-<h2>Requirements</h2>
-<p>
-    Poll_XH requires CMSimple_XH ≥ 1.7.0 with <a
-    href="http://3-magi.net/?CMSimple_XH/Pfw_XH">Pfw_XH</a> ≥ 0.2.0, and PHP ≥
-    7.1.0.
-</p>
-</section>
-
-<section id="installation">
-<h2>Installation</h2>
-<p>
-    The installation is done as with many other CMSimple_XH plugins. See the <a
-    href="http://www.cmsimple-xh.org/wiki/doku.php/installation">CMSimple_XH
-    wiki</a> for further details.
-</p>
-<ol>
-<li class="important">
-    Backup the data on your server.
-</li>
-<li>
-    Unzip the distribution on your computer.
-</li>
-<li>
-    Upload the whole directory <code>poll/</code> to your server into
-    CMSimple_XH's <code>plugins/</code> directory.
-</li>
-<li>
-    Set write permissions to the subdirectories <code>css/</code> and
-    <code>languages/</code>.
-</li>
-<li class="important">
-    Browse to <i>Plugins</i> → <i>Poll</i> and check if all requirements are
-    fulfilled.
-</li>
+<h2 id="requirements">Requirements</h2>
+<p>Poll_XH is a plugin for <a href="https://www.cmsimple-xh.org/">CMSimple_XH</a>. It requires CMSimple_XH ≥ 1.7.0, and PHP ≥ 7.1.0. Poll_XH also requires the <a href="https://github.com/cmb69/plib_xh">Plib_XH</a> plugin; if that is not already installed (see <em>Settings</em>→<em>Info</em>), get the <a href="https://github.com/cmb69/plib_xh/releases/latest">lastest release</a>, and install it.</p>
+<h2 id="download">Download</h2>
+<p>The <a href="https://github.com/cmb69/poll_xh/releases/latest">lastest release</a> is available for download on Github.</p>
+<h1 id="installation">Installation</h1>
+<p>The installation is done as with many other CMSimple_XH plugins.</p>
+<ol type="1">
+<li>Backup the data on your server.</li>
+<li>Unzip the distribution on your computer.</li>
+<li>Upload the whole directory <code>poll/</code> to your server into the <code>plugins/</code> directory of CMSimple_XH.</li>
+<li>Set write permissions for the subdirectories <code>css/</code> and <code>languages/</code>.</li>
+<li>Navigate to <code>Plugins</code> → <code>Poll</code> in the back-end to check if all requirements are fulfilled.</li>
 </ol>
-</section>
-
-<section id="settings">
-<h2><a name="settings">Settings</a></h2>
-<p>
-    The plugin's configuration is done as with many other CMSimple_XH plugins in
-    the website's back-end. Select <i>Plugins</i> → <i>Poll</i>.
-</p>
-<!--
-<p>
-    You can change the default settings of Poll_XH under <i>Config</i>. Hints
-    for the options will be displayed when hovering over the help icon with your
-    mouse.
-</p>
--->
-<p>
-    Localization is done under <i>Language</i>. You can translate the character
-    strings to your own language (if there is no appropriate language file
-    available), or customize them according to your needs.
-</p>
-<p>
-    The look of Poll_XH can be customized under <i>Stylesheet</i>.
-</p>
-</section>
-
-<section id="usage">
-<h2>Usage</h2>
-<p>
-    You can embed a poll on a CMSimple_XH page with the following plugin call:
-</p>
-<pre>{{{poll('name-of-the-poll')}}}</pre>
-<p>
-    To embed a poll in the template use:
-</p>
-<pre>&lt;?=poll('name-of-the-poll')?&gt;</pre>
-<p>
-    Instead of <code>name-of-the-poll</code> you can use any name as long as it
-    consists of lowercase letters (<code>a</code>-<code>z</code>), digits
-    (<code>0</code>-<code>9</code>) and hyphens only. You can embed as many
-    polls on any single page as you like – they're working independent of each
-    other as long as they have different names.
-</p>
-<p>
-    If the poll has not ended and the visitor has not voted yet, they will be
-    presented the voting view and can submit their vote. After they have voted,
-    they can see the results of the poll.
-</p>
-<p>
-    Currently the poll data files have to be created and edited manually. Just
-    put a file <code>name-of-the-poll.csv</code> into the subfolder
-    <code>poll/</code> of CMSimple_XH's <code>content/</code> folder. Each
-    voting option has it's own line in the file. Additionally there are two meta
-    options, namely <code>%%%MAX%%%</code> and <code>%%%END%%%</code>, which you
-    have to put in separate lines too. Both are optional.
-<p>
-<pre>%%%MAX%%%&rarr;3</pre>
-<p>
-    will make a multiple-choice poll where the user can check 3 options at most,
-    and with
-</p>
-<pre>%%%END%%%&rarr;1335744000</pre>
-<p>
-    you can specify the end date of the poll as UNIX timestamp. Note that the
-    <code>&rarr;</code> stands for a <code>&lt;tab&gt;</code> character. To
-    calculate the UNIX timestamp of a date, you can use an <a
-    href="http://www.onlineconversion.com/unix_time.htm">online converter</a>.
-</p>
-<p>
-    As an example a <code>fifa-2018.csv</code> file is delivered in the
-    <code>help/</code> folder, which is supposed to explain the file format. The
-    end date of this poll is set to the beginning of the 2018 FIFA World Cup
-    Russia (which is June, 14th 2018). After moving the file to
-    <code>content/poll/</code>, you can embed this poll on a page by writing:
-</p>
-<pre>{{{poll('fifa-2018')}}}</pre>
-</section>
-
-<section id="limitations">
-<h2>Limitations</h2>
-<p>
-    Resetting an already running poll is not possible, because respective
-    cookies may already been stored on the computer of a voter, so they could
-    not vote again. As workaround you would have to rename the poll.
-</p>
-<p>
-    32bit versions of PHP can't handle Unix timestamps larger than 2147483647
-    (which is January, 19th 2038). Therefore, with such versions it is not
-    possible to end polls after that date.
-</p>
-</section>
-
-<section id="license">
-<h2>License</h2>
-<p>
-    Poll_XH is licensed under <a
-    href="http://www.gnu.org/licenses/gpl.html">GPLv3</a>.
-</p>
+<h2 id="settings">Settings</h2>
+<p>The configuration of the plugin is done as with many other CMSimple_XH plugins in the back-end of the Website. Go to <code>Plugins</code> → <code>Poll</code>.</p>
+<p>Localization is done under <code>Language</code>. You can translate the character strings to your own language (if there is no appropriate language file available), or customize them according to your needs.</p>
+<p>The look of Poll_XH can be customized under <code>Stylesheet</code>.</p>
+<h2 id="usage">Usage</h2>
+<p>You can embed a poll on a CMSimple_XH page with the following plugin call:</p>
+<pre><code>{{{poll(&#39;name-of-the-poll&#39;)}}}</code></pre>
+<p>To embed a poll in the template use:</p>
+<pre><code>&lt;?=poll(&#39;name-of-the-poll&#39;)?&gt;</code></pre>
+<p>Instead of <code>name-of-the-poll</code> you can use any name as long as it consists of lowercase latin letters (<code>a</code>-<code>z</code>), digits (<code>0</code>-<code>9</code>) and hyphens only. You can embed as many polls on any single page as you like – they are working independent of each other as long as they have different names.</p>
+<p>If the poll has not ended and the visitor has not voted yet, they will be presented the voting view and can submit their vote. After they have voted, they can see the results of the poll.</p>
+<p>Currently the poll data files have to be created and edited manually. Just put a file <code>name-of-the-poll.csv</code> into the subfolder <code>poll/</code> of the <code>content/</code> folder of CMSimple_XH. Each voting option has its own line in the file. Additionally there are two meta options, namely <code>%%%MAX%%%</code> and <code>%%%END%%%</code>, which you have to put in separate lines too. Both are optional.</p>
+<pre><code>%%%MAX%%%→3</code></pre>
+<p>will make a multiple-choice poll where the user can check 3 options at most, and with</p>
+<pre><code>%%%END%%%→1335744000</code></pre>
+<p>you can specify the end date of the poll as Unix timestamp. Note that the <code>→</code> stands for a <code>TAB</code> character. To calculate the Unix timestamp of a date, you can use an <a href="https://www.onlineconversion.com/unix_time.htm">online converter</a>.</p>
+<p>As an example a <code>fifa-2018.csv</code> file is delivered in the <code>help/</code> folder, which is supposed to explain the file format. The end date of this poll is set to the beginning of the 2018 FIFA World Cup Russia (which was in June, 14th 2018). After moving the file to <code>content/poll/</code>, you can embed this poll on a page by writing:</p>
+<pre><code>{{{poll(&#39;fifa-2018&#39;)}}}</code></pre>
+<h2 id="limitations">Limitations</h2>
+<p>Resetting an already running poll is not possible, because respective cookies may already been stored on the computer of a voter, so they could not vote again. As workaround you would have to rename the poll.</p>
+<p>32bit versions of PHP cannot handle Unix timestamps larger than <code>2147483647</code> (which is January, 19th 2038). Therefore, with such versions it is not possible to end polls after that date.</p>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<p>Report bugs and ask for support either on <a href="https://github.com/cmb69/imgzoom_xh/issues">Github</a> or in the <a href="https://cmsimpleforum.com/">CMSimple_XH Forum</a>.</p>
+<h2 id="license">License</h2>
+<p>Poll_XH is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+<p>Poll_XH is distributed in the hope that it will be useful, but without any warranty; without even the implied warranty of merchantibility or fitness for a particular purpose. See the GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License along with Poll_XH. If not, see https://www.gnu.org/licenses/.</p>
 <p>Copyright © Christoph M. Becker</p>
-</section>
-
-<section id="credits">
-<h2>Credits</h2>
-<p>
-    The plugin logo is designed by <a
-    href="http://www.doublejdesign.co.uk/">Jack Cai</a>. Many thanks for
-    publishing this icon under CC BY-ND.
-</p>
-<p>
-    Many thanks to the community at the <a
-    href="http://www.cmsimpleforum.com">CMSimple_XH forum</a>
-    for tips, suggestions and testing. Particularly I want to thank
-    <i>oldnema</i>, <i>svasti</i>, <i>bca</i> and <i>Tata</i> for early
-    feedback.
-</p>
-<p>
-    And last but not least many thanks to <a href="http://www.harteg.dk/">Peter
-    Harteg</a>, the "father" of CMSimple, and all developers of <a
-    href="http://www.cmsimple-xh.org">CMSimple_XH</a> without whom this amazing
-    CMS wouldn't exist.
-</p>
-</section>
-
-</article>
-
+<p>Czech translation © Josef Němec.</p>
+<h2 id="credits">Credits</h2>
+<p>The plugin logo is designed by <a href="https://www.doublejdesign.co.uk/">Jack Cai</a>. Many thanks for publishing this icon under CC BY-ND.</p>
+<p>Many thanks to the community at the <a href="https://www.cmsimpleforum.com">CMSimple_XH forum</a> for tips, suggestions and testing. Particularly I want to thank <em>oldnema</em>, <em>svasti</em>, <em>bca</em> and <em>Tata</em> for early feedback.</p>
+<p>And last but not least many thanks to <a href="https://www.harteg.dk/">Peter Harteg</a>, the “father” of CMSimple, and all developers of <a href="https://www.cmsimple-xh.org/">CMSimple_XH</a> without whom this amazing CMS would not exist.</p>
 </body>
-
 </html>
