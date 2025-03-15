@@ -109,11 +109,7 @@ class WidgetController
                 . $this->view->render("voting", $this->votingData($poll))
             );
         }
-        $filename = $this->dataService->getFolder() . $name . '.ips';
-        if (
-            ($stream = fopen($filename, 'a')) !== false
-            && fwrite($stream, $_SERVER['REMOTE_ADDR'] . PHP_EOL) !== false
-        ) {
+        if ($this->dataService->registerVote($name, $_SERVER["REMOTE_ADDR"])) {
             foreach ($_POST['poll_' . $name] as $vote) {
                 $poll->increaseVoteCount($vote);
             }
@@ -125,9 +121,6 @@ class WidgetController
             }
         } else {
             $err = true;
-        }
-        if ($stream !== false) {
-            fclose($stream);
         }
         if ($err) {
             return Response::create(

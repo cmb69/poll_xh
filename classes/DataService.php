@@ -107,6 +107,20 @@ class DataService
         return $polls;
     }
 
+    public function registerVote(string $name, string $ip): bool
+    {
+        $res = false;
+        $filename = $this->getFolder() . $name . ".ips";
+        $stream = fopen($filename, "a");
+        if ($stream) {
+            if (fwrite($stream, $ip . "\n") !== false) {
+                $res = true;
+            }
+            fclose($stream);
+        }
+        return $res;
+    }
+
     /**
      * @return string
      */

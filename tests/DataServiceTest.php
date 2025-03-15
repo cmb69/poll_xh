@@ -45,6 +45,13 @@ class DataServiceTest extends TestCase
         $this->assertStringEqualsFile(vfsStream::url("root/fifa-2018.csv"), self::CONTENTS . "\n");
     }
 
+    public function testRegistersVote(): void
+    {
+        $dataService = new DataService(vfsStream::url("root/"));
+        $this->assertTrue($dataService->registerVote("fifa-2018", "79.251.201.250"));
+        $this->assertSame("79.251.201.250\n", file_get_contents(vfsStream::url("root/fifa-2018.ips")));
+    }
+
     private function poll(): Poll
     {
         $poll = new Poll();

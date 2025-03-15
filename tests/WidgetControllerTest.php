@@ -45,6 +45,7 @@ class WidgetControllerTest extends TestCase
         $dataService->method("getFolder")->willReturn(vfsStream::url("root/"));
         $dataService->method("findPoll")->willReturn($this->poll());
         $dataService->method("storePoll")->willReturn(true);
+        $dataService->method("registerVote")->willReturn(true);
         $sut = new WidgetController(
             $dataService,
             new View("./views/", XH_includeVar("./languages/en.php", "plugin_tx")["poll"])
