@@ -40,7 +40,7 @@ class InfoController extends Controller
                 'version' => Plugin::VERSION,
                 'checks' => (new SystemCheckService)
                     ->minPhpVersion('5.4.0')
-                    ->minXhVersion('1.6.3')
+                    ->minXhVersion('1.7.0')
                     ->minPfwVersion('0.2.0')
                     ->writable("{$pth['folder']['plugins']}poll/css")
                     ->writable("{$pth['folder']['plugins']}poll/languages")
