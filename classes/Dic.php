@@ -26,6 +26,11 @@ use Pfw\View\View;
 
 class Dic
 {
+    public static function widgetController(): WidgetController
+    {
+        return new WidgetController(new DataService(), new View('poll'));
+    }
+
     public static function infoController(): InfoController
     {
         return new InfoController(new DataService(), new SystemCheckService(), new View('poll'));

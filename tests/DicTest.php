@@ -13,6 +13,11 @@ class DicTest extends TestCase
         $plugin_tx = ["pfw" => []];
     }
 
+    public function testWidgetController(): void
+    {
+        $this->assertInstanceOf(WidgetController::class, Dic::widgetController());
+    }
+
     public function testInfoController(): void
     {
         $this->assertInstanceOf(InfoController::class, Dic::infoController());
