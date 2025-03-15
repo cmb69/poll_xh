@@ -90,14 +90,14 @@ Note that the `→` stands for a `TAB` character.
 To calculate the Unix timestamp of a date, you can use an
 [online converter](https://www.onlineconversion.com/unix_time.htm).
 
-As an example a `fifa-2018.csv` file is delivered in the
+As an example a `fifa-2026.csv` file is delivered in the
 `help/` folder, which is supposed to explain the file format.
-The end date of this poll is set to the beginning of the 2018 FIFA World Cup
-Russia (which was in June, 14th 2018).
+The end date of this poll is set to the beginning of the 2026 FIFA World Cup
+(which is on June, 11th 2026).
 After moving the file to `content/poll/`,
 you can embed this poll on a page by writing:
 
-    {{{poll('fifa-2018')}}}
+    {{{poll('fifa-2026')}}}
 
 ## Limitations
 

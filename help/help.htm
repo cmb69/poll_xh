@@ -71,8 +71,8 @@
 <p>will make a multiple-choice poll where the user can check 3 options at most, and with</p>
 <pre><code>%%%END%%%→1335744000</code></pre>
 <p>you can specify the end date of the poll as Unix timestamp. Note that the <code>→</code> stands for a <code>TAB</code> character. To calculate the Unix timestamp of a date, you can use an <a href="https://www.onlineconversion.com/unix_time.htm">online converter</a>.</p>
-<p>As an example a <code>fifa-2018.csv</code> file is delivered in the <code>help/</code> folder, which is supposed to explain the file format. The end date of this poll is set to the beginning of the 2018 FIFA World Cup Russia (which was in June, 14th 2018). After moving the file to <code>content/poll/</code>, you can embed this poll on a page by writing:</p>
-<pre><code>{{{poll(&#39;fifa-2018&#39;)}}}</code></pre>
+<p>As an example a <code>fifa-2026.csv</code> file is delivered in the <code>help/</code> folder, which is supposed to explain the file format. The end date of this poll is set to the beginning of the 2026 FIFA World Cup (which is on June, 11th 2026). After moving the file to <code>content/poll/</code>, you can embed this poll on a page by writing:</p>
+<pre><code>{{{poll(&#39;fifa-2026&#39;)}}}</code></pre>
 <h2 id="limitations">Limitations</h2>
 <p>Resetting an already running poll is not possible, because respective cookies may already been stored on the computer of a voter, so they could not vote again. As workaround you would have to rename the poll.</p>
 <p>32bit versions of PHP cannot handle Unix timestamps larger than <code>2147483647</code> (which is January, 19th 2038). Therefore, with such versions it is not possible to end polls after that date.</p>

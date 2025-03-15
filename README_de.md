@@ -95,14 +95,14 @@ Um den Unix-Zeitstempel eines Datum zu berechnen kann ein
 [Online-Konverter](https://www.onlineconversion.com/unix_time.htm)
 verwendet werden.
 
-Als Beispiel wird `fifa-2018.csv` im `help/` Ordner ausgeliefert,
+Als Beispiel wird `fifa-2026.csv` im `help/` Ordner ausgeliefert,
 das das Dateiformat erklären sollte.
-Das Ende dieser Umfrage wurde auf den Beginn des 2018 FIFA
-World Cup Russia festgelegt (nämlich dem 14. Juni 2018).
+Das Ende dieser Umfrage wurde auf den Beginn des 2026 FIFA
+World Cup festgelegt (nämlich dem 11. Juni 2026).
 Nachdem diese Datei nach `content/poll/` verschoben wurde,
 kann sie auf einer Seite wie folgt eingebettet werden:
 
-    {{{poll('fifa-2018')}}}
+    {{{poll('fifa-2026')}}}
 
 ## Einschränkungen
 

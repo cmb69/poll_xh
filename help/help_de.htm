@@ -71,8 +71,8 @@
 <p>erzeugt eine Umfrage mit Mehrfachauswahl, bei der der Benutzer höchstens 3 Optionen auswählen kann, und mit</p>
 <pre><code>%%%END%%%→1335744000</code></pre>
 <p>kann das Enddatum der Umfrage als Unix-Zeitstempel angegeben werden. Es ist zu beachten, dass das <code>→</code> für ein <code>TAB</code>- Zeichen steht. Um den Unix-Zeitstempel eines Datum zu berechnen kann ein <a href="https://www.onlineconversion.com/unix_time.htm">Online-Konverter</a> verwendet werden.</p>
-<p>Als Beispiel wird <code>fifa-2018.csv</code> im <code>help/</code> Ordner ausgeliefert, das das Dateiformat erklären sollte. Das Ende dieser Umfrage wurde auf den Beginn des 2018 FIFA World Cup Russia festgelegt (nämlich dem 14. Juni 2018). Nachdem diese Datei nach <code>content/poll/</code> verschoben wurde, kann sie auf einer Seite wie folgt eingebettet werden:</p>
-<pre><code>{{{poll(&#39;fifa-2018&#39;)}}}</code></pre>
+<p>Als Beispiel wird <code>fifa-2026.csv</code> im <code>help/</code> Ordner ausgeliefert, das das Dateiformat erklären sollte. Das Ende dieser Umfrage wurde auf den Beginn des 2026 FIFA World Cup festgelegt (nämlich dem 11. Juni 2026). Nachdem diese Datei nach <code>content/poll/</code> verschoben wurde, kann sie auf einer Seite wie folgt eingebettet werden:</p>
+<pre><code>{{{poll(&#39;fifa-2026&#39;)}}}</code></pre>
 <h2 id="einschränkungen">Einschränkungen</h2>
 <p>Das Zurücksetzen einer bereits gestarteten Umfrage ist nicht möglich, da entsprechende Cookies bereits auf dem Rechner von Wählern gespeichert sein können, so dass diese nicht erneut abstimmen könnten. Als Workaround müsste die Umfrage umbenannt werden.</p>
 <p>32bit PHP-Versionen können nicht mit Unix Zeitstempeln umgehen, die größer als <code>2147483647</code> sind (was dem 19. Januar 2038 entspricht). Daher ist es mit solchen Versionen nicht möglich, dass Umfragen nach diesem Datum enden.</p>
