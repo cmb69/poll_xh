@@ -2,7 +2,7 @@
 
 require_once './vendor/autoload.php';
 
-require_once '../pfw/classes/view/View.php';
+require_once '../pfw/classes/View/View.php';
 require_once '../pfw/classes/SystemCheckService.php';
 
 require_once './classes/DataService.php';
