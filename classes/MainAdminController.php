@@ -28,7 +28,7 @@ class MainAdminController extends Controller
      */
     public function defaultAction()
     {
-        $dataService = new DataService;
+        $dataService = new DataService();
         $o = '<div id="poll_admin">' . PHP_EOL;
         foreach ($dataService->getPollNames() as $name) {
             $poll = $dataService->findPoll($name);

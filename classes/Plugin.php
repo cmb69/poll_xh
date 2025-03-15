@@ -51,12 +51,12 @@ class Plugin
         switch ($admin) {
             case '':
                 ob_start();
-                (new InfoController)->defaultAction();
+                (new InfoController())->defaultAction();
                 $o .= ob_get_clean();
                 break;
             case 'plugin_main':
                 ob_start();
-                (new MainAdminController)->defaultAction();
+                (new MainAdminController())->defaultAction();
                 $o .= ob_get_clean();
                 break;
             default:

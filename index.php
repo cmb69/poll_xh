@@ -43,4 +43,4 @@ function poll($name)
     return (string) ob_get_clean();
 }
 
-(new Poll\Plugin)->run();
+(new Poll\Plugin())->run();

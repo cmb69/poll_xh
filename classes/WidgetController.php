@@ -41,7 +41,7 @@ class WidgetController extends Controller
     public function __construct($name)
     {
         $this->name = $name;
-        $this->poll = (new DataService)->findPoll($name);
+        $this->poll = (new DataService())->findPoll($name);
     }
 
     /**
@@ -62,12 +62,13 @@ class WidgetController extends Controller
      */
     private function hasVoted()
     {
-        if (isset($_COOKIE['poll_' . $this->name])
+        if (
+            isset($_COOKIE['poll_' . $this->name])
             && $_COOKIE['poll_' . $this->name] == CMSIMPLE_ROOT
         ) {
             return true;
         }
-        $filename = (new DataService)->getFolder() . $this->name . '.ips';
+        $filename = (new DataService())->getFolder() . $this->name . '.ips';
         if (!file_exists($filename)) {
             touch($filename);
         }
@@ -108,7 +109,7 @@ class WidgetController extends Controller
             $this->prepareResultsView($this->poll)->render();
             return;
         }
-        $dataService = new DataService;
+        $dataService = new DataService();
         $ptx = $plugin_tx['poll'];
         if (count($_POST['poll_' . $this->name]) > $this->poll->getMaxVotes()) {
             echo XH_message('fail', $ptx['error_exceeded_max'], $this->poll->getMaxVotes());
@@ -116,7 +117,8 @@ class WidgetController extends Controller
             return;
         }
         $filename = $dataService->getFolder() . $this->name . '.ips';
-        if (($stream = fopen($filename, 'a')) !== false
+        if (
+            ($stream = fopen($filename, 'a')) !== false
             && fwrite($stream, $_SERVER['REMOTE_ADDR'] . PHP_EOL) !== false
         ) {
             setcookie('poll_' . $this->name, CMSIMPLE_ROOT, $this->poll->getEndDate());

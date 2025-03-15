@@ -40,7 +40,7 @@ abstract class Controller
                 'isAdministration' => ($admin == 'plugin_main'),
                 'isFinished' => $poll->hasEnded(),
                 'hasMessage' => $msg,
-                'totalVotes'=> $poll->getTotalVotes(),
+                'totalVotes' => $poll->getTotalVotes(),
                 'votes' => $this->getVotes($poll)
             ]);
     }
