@@ -29,6 +29,14 @@ class DataService
 
     private const END = '%%%END%%%';
 
+    /** @var string */
+    private $folder;
+
+    public function __construct(string $folder)
+    {
+        $this->folder = $folder;
+    }
+
     /**
      * @param string $name
      * @return Poll
@@ -102,17 +110,10 @@ class DataService
      */
     public function getFolder()
     {
-        global $pth, $sl, $cf;
-
-        $folder = $pth['folder']['content'];
-        if ($sl !== $cf['language']['default']) {
-            $folder = dirname($folder) . '/';
+        if (!file_exists($this->folder)) {
+            mkdir($this->folder, 0777, true);
+            chmod($this->folder, 0777);
         }
-        $folder .= 'poll/';
-        if (!file_exists($folder)) {
-            mkdir($folder, 0777, true);
-            chmod($folder, 0777);
-        }
-        return $folder;
+        return $this->folder;
     }
 }

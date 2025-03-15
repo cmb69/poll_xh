@@ -28,7 +28,7 @@ class Dic
 {
     public static function widgetController(): WidgetController
     {
-        return new WidgetController(new DataService(), self::view());
+        return new WidgetController(self::dataService(), self::view());
     }
 
     public static function infoController(): InfoController
@@ -37,7 +37,7 @@ class Dic
 
         return new InfoController(
             $pth["folder"]["plugins"] . "poll/",
-            new DataService(),
+            self::dataService(),
             new SystemChecker(),
             self::view()
         );
@@ -45,7 +45,19 @@ class Dic
 
     public static function mainAdminController(): MainAdminController
     {
-        return new MainAdminController(new DataService(), self::view());
+        return new MainAdminController(self::dataService(), self::view());
+    }
+
+    private static function dataService(): DataService
+    {
+        global $pth, $sl, $cf;
+
+        $folder = $pth["folder"]["content"];
+        if ($sl !== $cf["language"]["default"]) {
+            $folder = dirname($folder) . "/";
+        }
+        $folder .= "poll/";
+        return new DataService($folder);
     }
 
     private static function view(): View
