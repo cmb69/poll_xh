@@ -1,8 +1,7 @@
-*.komodoproject
-.komodotools
-doc
-tests/coverage
-vendor
+/coverage
+/vendor
 /classes.svg
 /README.htm
 /tools
+/.phpunit.result.cache
+/composer.lock
