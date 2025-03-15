@@ -23,15 +23,22 @@ namespace Poll;
 
 class MainAdminController extends Controller
 {
+    /** @var DataService */
+    private $dataService;
+
+    public function __construct(DataService $dataService)
+    {
+        $this->dataService = $dataService;
+    }
+
     /**
      * @return void
      */
     public function defaultAction()
     {
-        $dataService = new DataService();
         $o = '<div id="poll_admin">' . PHP_EOL;
-        foreach ($dataService->getPollNames() as $name) {
-            $poll = $dataService->findPoll($name);
+        foreach ($this->dataService->getPollNames() as $name) {
+            $poll = $this->dataService->findPoll($name);
             $o .= '<h1>' . $name . '</h1>' . PHP_EOL;
             ob_start();
             $this->prepareResultsView($poll)->render();

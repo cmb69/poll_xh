@@ -30,6 +30,12 @@ class WidgetController extends Controller
      */
     private $name;
 
+    /** @var DataService */
+    private $dataService;
+
+    /** @var View */
+    private $view;
+
     /**
      * @var Poll
      */
@@ -38,10 +44,12 @@ class WidgetController extends Controller
     /**
      * @param string $name
      */
-    public function __construct($name)
+    public function __construct($name, DataService $dataService, View $view)
     {
         $this->name = $name;
-        $this->poll = (new DataService())->findPoll($name);
+        $this->dataService = $dataService;
+        $this->view = $view;
+        $this->poll = $this->dataService->findPoll($name);
     }
 
     /**
@@ -68,7 +76,7 @@ class WidgetController extends Controller
         ) {
             return true;
         }
-        $filename = (new DataService())->getFolder() . $this->name . '.ips';
+        $filename = $this->dataService->getFolder() . $this->name . '.ips';
         if (!file_exists($filename)) {
             touch($filename);
         }
@@ -88,7 +96,7 @@ class WidgetController extends Controller
     {
         global $sn, $su;
 
-        return (new View('poll'))
+        return $this->view
             ->template('voting')
             ->data([
                 'action' => "$sn?$su",
@@ -109,14 +117,13 @@ class WidgetController extends Controller
             $this->prepareResultsView($this->poll)->render();
             return;
         }
-        $dataService = new DataService();
         $ptx = $plugin_tx['poll'];
         if (count($_POST['poll_' . $this->name]) > $this->poll->getMaxVotes()) {
             echo XH_message('fail', $ptx['error_exceeded_max'], $this->poll->getMaxVotes());
             $this->prepareVotingView()->render();
             return;
         }
-        $filename = $dataService->getFolder() . $this->name . '.ips';
+        $filename = $this->dataService->getFolder() . $this->name . '.ips';
         if (
             ($stream = fopen($filename, 'a')) !== false
             && fwrite($stream, $_SERVER['REMOTE_ADDR'] . PHP_EOL) !== false
@@ -126,8 +133,8 @@ class WidgetController extends Controller
                 $this->poll->increaseVoteCount($vote);
             }
             $this->poll->increaseTotalVotes();
-            if (!$dataService->storePoll($this->name, $this->poll)) {
-                e('cntsave', 'file', $dataService->getFolder() . $this->name . '.csv');
+            if (!$this->dataService->storePoll($this->name, $this->poll)) {
+                e('cntsave', 'file', $this->dataService->getFolder() . $this->name . '.csv');
             }
             $err = false;
         } else {

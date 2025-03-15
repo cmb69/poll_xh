@@ -26,6 +26,22 @@ use Pfw\SystemCheckService;
 
 class InfoController
 {
+    /** @var DataService */
+    private $dataService;
+
+    /** @var SystemCheckService */
+    private $systemCheckService;
+
+    /** @var View */
+    private $view;
+
+    public function __construct(DataService $dataService, SystemCheckService $systemCheckService, View $view)
+    {
+        $this->dataService = $dataService;
+        $this->systemCheckService = $systemCheckService;
+        $this->view = $view;
+    }
+
     /**
      * @return void
      */
@@ -33,18 +49,18 @@ class InfoController
     {
         global $pth;
 
-        (new View('poll'))
+        $this->view
             ->template('info')
             ->data([
                 'logo' => "{$pth['folder']['plugins']}poll/poll.png",
                 'version' => Plugin::VERSION,
-                'checks' => (new SystemCheckService())
+                'checks' => $this->systemCheckService
                     ->minPhpVersion('7.1.0')
                     ->minXhVersion('1.7.0')
                     ->minPfwVersion('0.2.0')
                     ->writable("{$pth['folder']['plugins']}poll/css")
                     ->writable("{$pth['folder']['plugins']}poll/languages")
-                    ->writable((new DataService())->getFolder())
+                    ->writable($this->dataService->getFolder())
                     ->getChecks()
             ])
             ->render();

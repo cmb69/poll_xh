@@ -19,6 +19,9 @@
  * along with Poll_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Pfw\View\View;
+use Poll\DataService;
+
 /**
  * @param string $name
  * @return string
@@ -33,7 +36,7 @@ function poll($name)
             . '</b></li>' . PHP_EOL;
         return '';
     }
-    $controller = new Poll\WidgetController($name);
+    $controller = new Poll\WidgetController($name, new DataService(), new View('poll'));
     ob_start();
     if (isset($_POST['poll_' . $name])) {
         $controller->voteAction();

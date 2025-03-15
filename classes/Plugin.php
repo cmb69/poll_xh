@@ -21,6 +21,8 @@
 
 namespace Poll;
 
+use Pfw\SystemCheckService;
+use Pfw\View\View;
 use stdClass;
 
 class Plugin
@@ -51,12 +53,12 @@ class Plugin
         switch ($admin) {
             case '':
                 ob_start();
-                (new InfoController())->defaultAction();
+                (new InfoController(new DataService(), new SystemCheckService(), new View('poll')))->defaultAction();
                 $o .= ob_get_clean();
                 break;
             case 'plugin_main':
                 ob_start();
-                (new MainAdminController())->defaultAction();
+                (new MainAdminController(new DataService()))->defaultAction();
                 $o .= ob_get_clean();
                 break;
             default:
