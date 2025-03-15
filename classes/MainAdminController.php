@@ -38,10 +38,7 @@ class MainAdminController
         $this->view = $view;
     }
 
-    /**
-     * @return void
-     */
-    public function defaultAction()
+    public function defaultAction(): string
     {
         $o = '<div id="poll_admin">' . PHP_EOL;
         foreach ($this->dataService->getPollNames() as $name) {
@@ -52,7 +49,7 @@ class MainAdminController
             $o .= ob_get_clean();
         }
         $o .= '</div>' . PHP_EOL;
-        echo $o;
+        return $o;
     }
 
     /**

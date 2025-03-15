@@ -48,14 +48,10 @@ class Plugin
         $o .= print_plugin_admin('on');
         switch ($admin) {
             case '':
-                ob_start();
-                Dic::infoController()->defaultAction();
-                $o .= ob_get_clean();
+                $o .= Dic::infoController()->defaultAction();
                 break;
             case 'plugin_main':
-                ob_start();
-                Dic::mainAdminController()->defaultAction();
-                $o .= ob_get_clean();
+                $o .= Dic::mainAdminController()->defaultAction();
                 break;
             default:
                 $o .= plugin_admin_common();

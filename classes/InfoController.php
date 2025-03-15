@@ -42,13 +42,11 @@ class InfoController
         $this->view = $view;
     }
 
-    /**
-     * @return void
-     */
-    public function defaultAction()
+    public function defaultAction(): string
     {
         global $pth;
 
+        ob_start();
         $this->view
             ->template('info')
             ->data([
@@ -64,5 +62,6 @@ class InfoController
                     ->getChecks()
             ])
             ->render();
+        return (string) ob_get_clean();
     }
 }

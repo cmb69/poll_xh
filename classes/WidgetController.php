@@ -38,16 +38,17 @@ class WidgetController
         $this->view = $view;
     }
 
-    /**
-     * @return void
-     */
-    public function defaultAction(string $name)
+    public function defaultAction(string $name): string
     {
         $poll = $this->dataService->findPoll($name);
         if ($poll->hasEnded() || $this->hasVoted($name)) {
+            ob_start();
             $this->prepareResultsView($poll)->render();
+            return (string) ob_get_clean();
         } else {
+            ob_start();
             $this->prepareVotingView($poll)->render();
+            return (string) ob_get_clean();
         }
     }
 
@@ -92,23 +93,22 @@ class WidgetController
             ]);
     }
 
-    /**
-     * @return void
-     */
-    public function voteAction(string $name)
+    public function voteAction(string $name): string
     {
         global $plugin_tx;
 
         $poll = $this->dataService->findPoll($name);
         if ($poll->hasEnded() || $this->hasVoted($name)) {
+            ob_start();
             $this->prepareResultsView($poll)->render();
-            return;
+            return (string) ob_get_clean();
         }
         $ptx = $plugin_tx['poll'];
         if (count($_POST['poll_' . $name]) > $poll->getMaxVotes()) {
+            ob_start();
             echo XH_message('fail', $ptx['error_exceeded_max'], $poll->getMaxVotes());
             $this->prepareVotingView($poll)->render();
-            return;
+            return (string) ob_get_clean();
         }
         $filename = $this->dataService->getFolder() . $name . '.ips';
         if (
@@ -132,10 +132,14 @@ class WidgetController
             fclose($stream);
         }
         if ($err) {
+            ob_start();
             $this->prepareVotingView($poll)->render();
+            return (string) ob_get_clean();
         } else {
+            ob_start();
             echo XH_message('info', $ptx['caption_just_voted']);
             $this->prepareResultsView($poll, false)->render();
+            return (string) ob_get_clean();
         }
     }
 

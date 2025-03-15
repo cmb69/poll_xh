@@ -36,13 +36,11 @@ function poll($name)
         return '';
     }
     $controller = Dic::widgetController();
-    ob_start();
     if (isset($_POST['poll_' . $name])) {
-        $controller->voteAction($name);
+        return $controller->voteAction($name);
     } else {
-        $controller->defaultAction($name);
+        return $controller->defaultAction($name);
     }
-    return (string) ob_get_clean();
 }
 
 (new Poll\Plugin())->run();
