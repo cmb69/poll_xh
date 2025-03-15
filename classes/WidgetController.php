@@ -21,7 +21,7 @@
 
 namespace Poll;
 
-use Pfw\View\View;
+use Plib\View;
 use stdClass;
 
 class WidgetController
@@ -40,11 +40,11 @@ class WidgetController
 
     public function __invoke(string $name): string
     {
-        global $e, $plugin_tx;
+        global $e;
 
         if (!preg_match('/^[a-z0-9\-]+$/', $name)) {
             $e = '<li><b>'
-                . sprintf($plugin_tx['poll']['error_invalid_name'], $name)
+                . $this->view->text("error_invalid_name", $name)
                 . '</b></li>' . PHP_EOL;
             return '';
         }
@@ -59,13 +59,9 @@ class WidgetController
     {
         $poll = $this->dataService->findPoll($name);
         if ($poll->hasEnded() || $this->hasVoted($name)) {
-            ob_start();
-            $this->prepareResultsView($poll)->render();
-            return (string) ob_get_clean();
+            return $this->view->render("results", $this->resultData($poll));
         } else {
-            ob_start();
-            $this->prepareVotingView($poll)->render();
-            return (string) ob_get_clean();
+            return $this->view->render("voting", $this->votingData($poll));
         }
     }
 
@@ -93,39 +89,28 @@ class WidgetController
         return in_array($_SERVER['REMOTE_ADDR'], $ips);
     }
 
-    /**
-     * @return View
-     */
-    private function prepareVotingView(Poll $poll)
+    /** @return array<string,mixed> */
+    private function votingData(Poll $poll): array
     {
         global $sn, $su;
 
-        return $this->view
-            ->template('voting')
-            ->data([
-                'action' => "$sn?$su",
-                'name' => $poll->getName(),
-                'type' => $poll->getMaxVotes() > 1 ? 'checkbox' : 'radio',
-                'keys' => array_keys($poll->getVotes())
-            ]);
+        return [
+            'action' => "$sn?$su",
+            'name' => $poll->getName(),
+            'type' => $poll->getMaxVotes() > 1 ? 'checkbox' : 'radio',
+            'keys' => array_keys($poll->getVotes())
+        ];
     }
 
     private function voteAction(string $name): string
     {
-        global $plugin_tx;
-
         $poll = $this->dataService->findPoll($name);
         if ($poll->hasEnded() || $this->hasVoted($name)) {
-            ob_start();
-            $this->prepareResultsView($poll)->render();
-            return (string) ob_get_clean();
+            return $this->view->render("results", $this->resultData($poll));
         }
-        $ptx = $plugin_tx['poll'];
         if (count($_POST['poll_' . $name]) > $poll->getMaxVotes()) {
-            ob_start();
-            echo XH_message('fail', $ptx['error_exceeded_max'], $poll->getMaxVotes());
-            $this->prepareVotingView($poll)->render();
-            return (string) ob_get_clean();
+            return $this->view->message('fail', 'error_exceeded_max', $poll->getMaxVotes())
+                . $this->view->render("voting", $this->votingData($poll));
         }
         $filename = $this->dataService->getFolder() . $name . '.ips';
         if (
@@ -149,34 +134,28 @@ class WidgetController
             fclose($stream);
         }
         if ($err) {
-            ob_start();
-            $this->prepareVotingView($poll)->render();
-            return (string) ob_get_clean();
+            return $this->view->render("voting", $this->votingData($poll));
         } else {
-            ob_start();
-            echo XH_message('info', $ptx['caption_just_voted']);
-            $this->prepareResultsView($poll, false)->render();
-            return (string) ob_get_clean();
+            return $this->view->message('info', 'caption_just_voted')
+                . $this->view->render("results", $this->resultData($poll, false));
         }
     }
 
     /**
      * @param bool $msg
-     * @return View
+     * @return array<string,mixed>
      */
-    protected function prepareResultsView(Poll $poll, $msg = true)
+    protected function resultData(Poll $poll, $msg = true)
     {
         global $admin;
 
-        return $this->view
-            ->template('results')
-            ->data([
-                'isAdministration' => ($admin == 'plugin_main'),
-                'isFinished' => $poll->hasEnded(),
-                'hasMessage' => $msg,
-                'totalVotes' => $poll->getTotalVotes(),
-                'votes' => $this->getVotes($poll)
-            ]);
+        return [
+            'isAdministration' => ($admin == 'plugin_main'),
+            'isFinished' => $poll->hasEnded(),
+            'hasMessage' => $msg,
+            'totalVotes' => $poll->getTotalVotes(),
+            'votes' => $this->getVotes($poll)
+        ];
     }
 
     /**

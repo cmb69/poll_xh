@@ -8,9 +8,10 @@ class DicTest extends TestCase
 {
     public function setUp(): void
     {
-        global $plugin_tx;
+        global $pth, $plugin_tx;
 
-        $plugin_tx = ["pfw" => []];
+        $pth = ["folder" => ["plugins" => ""]];
+        $plugin_tx = ["poll" => [], "pfw" => []];
     }
 
     public function testWidgetController(): void

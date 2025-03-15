@@ -23,12 +23,16 @@ namespace Poll;
 
 use Pfw\SystemCheckService;
 use Pfw\View\View;
+use Plib\View as PlibView;
 
 class Dic
 {
     public static function widgetController(): WidgetController
     {
-        return new WidgetController(new DataService(), new View('poll'));
+        global $pth, $plugin_tx;
+
+        $view = new PlibView($pth["folder"]["plugins"] . "poll/views/", $plugin_tx["poll"]);
+        return new WidgetController(new DataService(), $view);
     }
 
     public static function infoController(): InfoController
