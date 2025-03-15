@@ -23,7 +23,7 @@ namespace Poll;
 
 class Plugin
 {
-    const VERSION = '1.0beta3';
+    public const VERSION = '1.0beta3';
 
     /**
      * @return void

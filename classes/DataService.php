@@ -23,11 +23,11 @@ namespace Poll;
 
 class DataService
 {
-    const TOTAL = '%%%TOTAL%%%';
+    private const TOTAL = '%%%TOTAL%%%';
 
-    const MAX = '%%%MAX%%%';
+    private const MAX = '%%%MAX%%%';
 
-    const END = '%%%END%%%';
+    private const END = '%%%END%%%';
 
     /**
      * @param string $name
