@@ -40,13 +40,8 @@ class WidgetController
 
     public function __invoke(string $name): string
     {
-        global $e;
-
         if (!preg_match('/^[a-z0-9\-]+$/', $name)) {
-            $e = '<li><b>'
-                . $this->view->text("error_invalid_name", $name)
-                . '</b></li>' . PHP_EOL;
-            return '';
+            return $this->view->message("fail", "error_invalid_name", $name);
         }
         if (isset($_POST['poll_' . $name])) {
             return $this->voteAction($name);
@@ -82,7 +77,6 @@ class WidgetController
         }
         $lines = file($filename);
         if ($lines === false) {
-            e('cntopen', 'file', $filename);
             return false;
         }
         $ips = array_map('rtrim', $lines);
@@ -123,18 +117,19 @@ class WidgetController
             }
             $poll->increaseTotalVotes();
             if (!$this->dataService->storePoll($name, $poll)) {
-                e('cntsave', 'file', $this->dataService->getFolder() . $name . '.csv');
+                $err = true;
+            } else {
+                $err = false;
             }
-            $err = false;
         } else {
-            e('cntwriteto', 'file', $filename);
             $err = true;
         }
         if ($stream !== false) {
             fclose($stream);
         }
         if ($err) {
-            return $this->view->render("voting", $this->votingData($poll));
+            return $this->view->message("fail", "error_save")
+                 . $this->view->render("voting", $this->votingData($poll));
         } else {
             return $this->view->message('info', 'caption_just_voted')
                 . $this->view->render("results", $this->resultData($poll, false));

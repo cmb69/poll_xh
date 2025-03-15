@@ -24,6 +24,7 @@ $plugin_tx['poll']['label_result_5']="%2\$s – %3\$s%% (%1\$s Stimmen)";
 
 $plugin_tx['poll']['error_invalid_name']="Ungültiger Umfragename '%s'! (darf nur 'a'-'z', '0'-'9' und '-' enthalten)";
 $plugin_tx['poll']['error_exceeded_max']="Sie dürfen höchstens %d Optionen wählen!";
+$plugin_tx['poll']['error_save']="Die Abstimmung konnte nicht gespeichert werden!";
 
 $plugin_tx['poll']['syscheck_fail']="Fehlschlag";
 $plugin_tx['poll']['syscheck_message']="Prüfe, dass %1\$s … %2\$s";
