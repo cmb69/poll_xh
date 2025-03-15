@@ -85,7 +85,7 @@ class DataService
         $lines[] = self::MAX . "\t" . $poll->getMaxVotes();
         $lines[] = self::END . "\t" . $poll->getEndDate();
         $lines[] = self::TOTAL . "\t" . $poll->getTotalVotes();
-        return XH_writeFile($filename, implode(PHP_EOL, $lines) . PHP_EOL) !== false;
+        return file_put_contents($filename, implode(PHP_EOL, $lines) . PHP_EOL) !== false;
     }
 
     /**
@@ -94,13 +94,15 @@ class DataService
     public function getPollNames()
     {
         $folder = $this->getFolder();
-        $files = glob($folder . '*.csv');
+        $files = scandir($folder);
         $polls = array();
         if ($files === false) {
             return $polls;
         }
         foreach ($files as $file) {
-            $polls[] = basename($file, '.csv');
+            if (pathinfo($file, PATHINFO_EXTENSION) === "csv") {
+                $polls[] = basename($file, '.csv');
+            }
         }
         return $polls;
     }
