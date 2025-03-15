@@ -22,10 +22,10 @@ use Plib\View;
 <?php endif?>
 <div class="poll_results">
 <?php foreach ($votes as $vote):?>
-    <div class="poll_result">
-        <div class="poll_text"><?=$this->plural('label_result', $vote->count, $vote->key, $vote->percentage)?></div>
-        <div class="poll_bar" style="width: <?=$vote->percentage?>%">&nbsp;</div>
-    </div>
+  <div class="poll_result">
+    <div class="poll_text"><?=$this->plural('label_result', $vote->count, $vote->key, $vote->percentage)?></div>
+    <div class="poll_bar" style="width: <?=$vote->percentage?>%">&nbsp;</div>
+  </div>
 <?php endforeach?>
 </div>
 <p><strong><?=$this->plural('caption_total', $totalVotes)?></strong></p>
