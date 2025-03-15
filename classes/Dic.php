@@ -22,8 +22,7 @@
 namespace Poll;
 
 use Pfw\SystemCheckService;
-use Pfw\View\View;
-use Plib\View as PlibView;
+use Plib\View;
 
 class Dic
 {
@@ -46,13 +45,13 @@ class Dic
 
     public static function mainAdminController(): MainAdminController
     {
-        return new MainAdminController(new DataService(), new View('poll'));
+        return new MainAdminController(new DataService(), self::view());
     }
 
-    private static function view(): PlibView
+    private static function view(): View
     {
         global $pth, $plugin_tx;
 
-        return new PlibView($pth["folder"]["plugins"] . "poll/views/", $plugin_tx["poll"]);
+        return new View($pth["folder"]["plugins"] . "poll/views/", $plugin_tx["poll"]);
     }
 }

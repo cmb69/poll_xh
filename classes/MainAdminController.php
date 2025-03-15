@@ -21,7 +21,7 @@
 
 namespace Poll;
 
-use Pfw\View\View;
+use Plib\View;
 use stdClass;
 
 class MainAdminController
@@ -44,9 +44,7 @@ class MainAdminController
         foreach ($this->dataService->getPollNames() as $name) {
             $poll = $this->dataService->findPoll($name);
             $o .= '<h1>' . $name . '</h1>' . PHP_EOL;
-            ob_start();
-            $this->prepareResultsView($poll)->render();
-            $o .= ob_get_clean();
+            $o .= $this->renderResultsView($poll);
         }
         $o .= '</div>' . PHP_EOL;
         return $o;
@@ -54,21 +52,19 @@ class MainAdminController
 
     /**
      * @param bool $msg
-     * @return View
+     * @return string
      */
-    protected function prepareResultsView(Poll $poll, $msg = true)
+    protected function renderResultsView(Poll $poll, $msg = true)
     {
         global $admin;
 
-        return $this->view
-            ->template('results')
-            ->data([
-                'isAdministration' => ($admin == 'plugin_main'),
-                'isFinished' => $poll->hasEnded(),
-                'hasMessage' => $msg,
-                'totalVotes' => $poll->getTotalVotes(),
-                'votes' => $this->getVotes($poll)
-            ]);
+        return $this->view->render("results", [
+            'isAdministration' => ($admin == 'plugin_main'),
+            'isFinished' => $poll->hasEnded(),
+            'hasMessage' => $msg,
+            'totalVotes' => $poll->getTotalVotes(),
+            'votes' => $this->getVotes($poll)
+        ]);
     }
 
     /**
