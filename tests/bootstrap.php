@@ -16,4 +16,5 @@ require_once './classes/Poll.php';
 require_once './classes/WidgetController.php';
 
 const CMSIMPLE_XH_VERSION = "CMSimple_XH 1.7.5";
+const CMSIMPLE_ROOT = "/";
 const POLL_VERSION = "1.0beta3";
