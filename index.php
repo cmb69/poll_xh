@@ -21,6 +21,8 @@
 
 use Poll\Dic;
 
+const POLL_VERSION = "1.0beta3";
+
 /**
  * @param string $name
  * @return string
@@ -29,5 +31,3 @@ function poll($name)
 {
     return Dic::widgetController()($name);
 }
-
-(new Poll\Plugin())->run();

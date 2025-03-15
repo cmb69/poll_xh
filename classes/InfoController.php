@@ -54,7 +54,7 @@ class InfoController
     {
         return $this->view->render("info", [
             'logo' => $this->pluginFolder . "poll.png",
-            'version' => Plugin::VERSION,
+            'version' => POLL_VERSION,
             'checks' => $this->systemCheckService
                 ->minPhpVersion('7.1.0')
                 ->minXhVersion('1.7.0')
