@@ -53,10 +53,10 @@ class DataService
                         $poll->setEndDate($record[1] <= PHP_INT_MAX ? (int) $record[1] : PHP_INT_MAX);
                         break;
                     case self::TOTAL:
-                        $poll->setTotalVotes($record[1]);
+                        $poll->setTotalVotes((int) $record[1]);
                         break;
                     default:
-                        $poll->setVoteCount($record[0], isset($record[1]) ? $record[1] : 0);
+                        $poll->setVoteCount($record[0], isset($record[1]) ? (int) $record[1] : 0);
                 }
             }
         }
@@ -81,13 +81,16 @@ class DataService
     }
 
     /**
-     * @return array
+     * @return list<string>
      */
     public function getPollNames()
     {
         $folder = $this->getFolder();
         $files = glob($folder . '*.csv');
         $polls = array();
+        if ($files === false) {
+            return $polls;
+        }
         foreach ($files as $file) {
             $polls[] = basename($file, '.csv');
         }

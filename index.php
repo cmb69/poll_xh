@@ -40,7 +40,7 @@ function poll($name)
     } else {
         $controller->defaultAction();
     }
-    return ob_get_clean();
+    return (string) ob_get_clean();
 }
 
 (new Poll\Plugin)->run();

@@ -32,7 +32,7 @@ class Plugin
      */
     public function run()
     {
-        if (XH_ADM) {
+        if (XH_ADM) { // @phpstan-ignore-line
             XH_registerStandardPluginMenuItems(true);
             if (XH_wantsPluginAdministration('poll')) {
                 $this->handleAdministration();
@@ -45,7 +45,7 @@ class Plugin
      */
     private function handleAdministration()
     {
-        global $admin, $action, $o;
+        global $admin, $o;
 
         $o .= print_plugin_admin('on');
         switch ($admin) {
@@ -60,7 +60,7 @@ class Plugin
                 $o .= ob_get_clean();
                 break;
             default:
-                $o .= plugin_admin_common($action, $admin, 'poll');
+                $o .= plugin_admin_common();
         }
     }
 }

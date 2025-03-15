@@ -26,12 +26,12 @@ use Pfw\View\View;
 class WidgetController extends Controller
 {
     /**
-     * @string
+     * @var string
      */
     private $name;
 
     /**
-     * @Poll
+     * @var Poll
      */
     private $poll;
 

@@ -22,6 +22,7 @@
 namespace Poll;
 
 use Pfw\View\View;
+use stdClass;
 
 abstract class Controller
 {
@@ -45,7 +46,7 @@ abstract class Controller
     }
 
     /**
-     * @return stdClass
+     * @return list<stdClass>
      */
     private function getVotes(Poll $poll)
     {
