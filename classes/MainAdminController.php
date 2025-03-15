@@ -21,7 +21,10 @@
 
 namespace Poll;
 
-class MainAdminController extends Controller
+use Pfw\View\View;
+use stdClass;
+
+class MainAdminController
 {
     /** @var DataService */
     private $dataService;
@@ -46,5 +49,40 @@ class MainAdminController extends Controller
         }
         $o .= '</div>' . PHP_EOL;
         echo $o;
+    }
+
+    /**
+     * @param bool $msg
+     * @return View
+     */
+    protected function prepareResultsView(Poll $poll, $msg = true)
+    {
+        global $admin;
+
+        return (new View('poll'))
+            ->template('results')
+            ->data([
+                'isAdministration' => ($admin == 'plugin_main'),
+                'isFinished' => $poll->hasEnded(),
+                'hasMessage' => $msg,
+                'totalVotes' => $poll->getTotalVotes(),
+                'votes' => $this->getVotes($poll)
+            ]);
+    }
+
+    /**
+     * @return list<stdClass>
+     */
+    private function getVotes(Poll $poll)
+    {
+        $votes = [];
+        $poll->sortVotes();
+        foreach ($poll->getVotes() as $key => $count) {
+            $percentage = ($poll->getTotalVotes() == 0)
+                ? 0
+                : number_format(100 * $count / $poll->getTotalVotes());
+            $votes[] = (object) compact('key', 'count', 'percentage');
+        }
+        return $votes;
     }
 }

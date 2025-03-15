@@ -22,8 +22,9 @@
 namespace Poll;
 
 use Pfw\View\View;
+use stdClass;
 
-class WidgetController extends Controller
+class WidgetController
 {
     /**
      * @var string
@@ -150,5 +151,40 @@ class WidgetController extends Controller
             echo XH_message('info', $ptx['caption_just_voted']);
             $this->prepareResultsView($this->poll, false)->render();
         }
+    }
+
+    /**
+     * @param bool $msg
+     * @return View
+     */
+    protected function prepareResultsView(Poll $poll, $msg = true)
+    {
+        global $admin;
+
+        return (new View('poll'))
+            ->template('results')
+            ->data([
+                'isAdministration' => ($admin == 'plugin_main'),
+                'isFinished' => $poll->hasEnded(),
+                'hasMessage' => $msg,
+                'totalVotes' => $poll->getTotalVotes(),
+                'votes' => $this->getVotes($poll)
+            ]);
+    }
+
+    /**
+     * @return list<stdClass>
+     */
+    private function getVotes(Poll $poll)
+    {
+        $votes = [];
+        $poll->sortVotes();
+        foreach ($poll->getVotes() as $key => $count) {
+            $percentage = ($poll->getTotalVotes() == 0)
+                ? 0
+                : number_format(100 * $count / $poll->getTotalVotes());
+            $votes[] = (object) compact('key', 'count', 'percentage');
+        }
+        return $votes;
     }
 }
