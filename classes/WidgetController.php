@@ -72,16 +72,7 @@ class WidgetController
         ) {
             return true;
         }
-        $filename = $this->dataService->getFolder() . $name . '.ips';
-        if (!file_exists($filename)) {
-            touch($filename);
-        }
-        $lines = file($filename);
-        if ($lines === false) {
-            return false;
-        }
-        $ips = array_map('rtrim', $lines);
-        return in_array($_SERVER['REMOTE_ADDR'], $ips);
+        return $this->dataService->isVoteRegistered($name, $_SERVER["REMOTE_ADDR"]);
     }
 
     /** @return array<string,mixed> */

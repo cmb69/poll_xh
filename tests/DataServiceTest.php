@@ -52,6 +52,20 @@ class DataServiceTest extends TestCase
         $this->assertSame("79.251.201.250\n", file_get_contents(vfsStream::url("root/fifa-2018.ips")));
     }
 
+    public function testFindsRegisteredVote(): void
+    {
+        $dataService = new DataService(vfsStream::url("root/"));
+        file_put_contents(vfsStream::url("root/fifa-2018.ips"), "79.251.201.250\n");
+        $this->assertTrue($dataService->isVoteRegistered("fifa-2018", "79.251.201.250"));
+    }
+
+    public function testDoesNotFindNotRegisteredVote(): void
+    {
+        $dataService = new DataService(vfsStream::url("root/"));
+        file_put_contents(vfsStream::url("root/fifa-2018.ips"), "79.251.201.250\n");
+        $this->assertFalse($dataService->isVoteRegistered("fifa-2018", "79.251.201.251"));
+    }
+
     private function poll(): Poll
     {
         $poll = new Poll();

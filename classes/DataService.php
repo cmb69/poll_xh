@@ -121,6 +121,24 @@ class DataService
         return $res;
     }
 
+    public function isVoteRegistered(string $name, string $ip): bool
+    {
+        $filename = $this->getFolder() . $name . ".ips";
+        if (!file_exists($filename)) {
+            return false;
+        }
+        $stream = fopen($filename, "r");
+        if ($stream) {
+            while (($line = fgets($stream)) !== false) {
+                if (rtrim($line) === $ip) {
+                    return true;
+                }
+            }
+            fclose($stream);
+        }
+        return false;
+    }
+
     /**
      * @return string
      */
