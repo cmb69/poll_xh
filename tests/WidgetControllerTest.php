@@ -18,7 +18,7 @@ class WidgetControllerTest extends TestCase
         );
         $this->assertStringContainsString(
             "Invalid poll name 'invalid name'! (must consist of 'a'-'z', '0'-'9' and '-' only)",
-            $sut("invalid name")
+            $sut("invalid name")->output()
         );
     }
 
@@ -33,7 +33,7 @@ class WidgetControllerTest extends TestCase
             $dataService,
             new View("./views/", XH_includeVar("./languages/en.php", "plugin_tx")["poll"])
         );
-        Approvals::verifyHtml($sut("fifa-2018"));
+        Approvals::verifyHtml($sut("fifa-2018")->output());
     }
 
     private function poll(): Poll

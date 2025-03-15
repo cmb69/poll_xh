@@ -21,6 +21,7 @@
 
 namespace Poll;
 
+use Plib\Response;
 use Plib\View;
 use stdClass;
 
@@ -38,10 +39,10 @@ class WidgetController
         $this->view = $view;
     }
 
-    public function __invoke(string $name): string
+    public function __invoke(string $name): Response
     {
         if (!preg_match('/^[a-z0-9\-]+$/', $name)) {
-            return $this->view->message("fail", "error_invalid_name", $name);
+            return Response::create($this->view->message("fail", "error_invalid_name", $name));
         }
         if (isset($_POST['poll_' . $name])) {
             return $this->voteAction($name);
@@ -50,13 +51,13 @@ class WidgetController
         }
     }
 
-    private function defaultAction(string $name): string
+    private function defaultAction(string $name): Response
     {
         $poll = $this->dataService->findPoll($name);
         if ($poll->hasEnded() || $this->hasVoted($name)) {
-            return $this->view->render("results", $this->resultData($poll));
+            return Response::create($this->view->render("results", $this->resultData($poll)));
         } else {
-            return $this->view->render("voting", $this->votingData($poll));
+            return Response::create($this->view->render("voting", $this->votingData($poll)));
         }
     }
 
@@ -96,22 +97,23 @@ class WidgetController
         ];
     }
 
-    private function voteAction(string $name): string
+    private function voteAction(string $name): Response
     {
         $poll = $this->dataService->findPoll($name);
         if ($poll->hasEnded() || $this->hasVoted($name)) {
-            return $this->view->render("results", $this->resultData($poll));
+            return Response::create($this->view->render("results", $this->resultData($poll)));
         }
         if (count($_POST['poll_' . $name]) > $poll->getMaxVotes()) {
-            return $this->view->message('fail', 'error_exceeded_max', $poll->getMaxVotes())
-                . $this->view->render("voting", $this->votingData($poll));
+            return Response::create(
+                $this->view->message('fail', 'error_exceeded_max', $poll->getMaxVotes())
+                . $this->view->render("voting", $this->votingData($poll))
+            );
         }
         $filename = $this->dataService->getFolder() . $name . '.ips';
         if (
             ($stream = fopen($filename, 'a')) !== false
             && fwrite($stream, $_SERVER['REMOTE_ADDR'] . PHP_EOL) !== false
         ) {
-            setcookie('poll_' . $name, CMSIMPLE_ROOT, $poll->getEndDate());
             foreach ($_POST['poll_' . $name] as $vote) {
                 $poll->increaseVoteCount($vote);
             }
@@ -128,11 +130,15 @@ class WidgetController
             fclose($stream);
         }
         if ($err) {
-            return $this->view->message("fail", "error_save")
-                 . $this->view->render("voting", $this->votingData($poll));
+            return Response::create(
+                $this->view->message("fail", "error_save")
+                 . $this->view->render("voting", $this->votingData($poll))
+            );
         } else {
-            return $this->view->message('info', 'caption_just_voted')
-                . $this->view->render("results", $this->resultData($poll, false));
+            return Response::create(
+                $this->view->message('info', 'caption_just_voted')
+                . $this->view->render("results", $this->resultData($poll, false))
+            )->withCookie('poll_' . $name, CMSIMPLE_ROOT, $poll->getEndDate());
         }
     }
 

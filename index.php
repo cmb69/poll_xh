@@ -29,5 +29,5 @@ const POLL_VERSION = "1.0beta3";
  */
 function poll($name)
 {
-    return Dic::widgetController()($name);
+    return Dic::widgetController()($name)();
 }
