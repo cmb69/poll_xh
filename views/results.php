@@ -12,20 +12,20 @@ use Plib\View;
  */
 ?>
 
-<?php if (!$isAdministration):?>
-<?php   if ($isFinished):?>
+<?if (!$isAdministration):?>
+<?  if ($isFinished):?>
 <p><?=$this->text('caption_ended')?></p>
-<?php   elseif ($hasMessage):?>
+<?  elseif ($hasMessage):?>
 <p><?=$this->text('caption_voted')?></p>
-<?php   endif?>
+<?  endif?>
 <h5><?=$this->text('caption_results')?></h5>
-<?php endif?>
+<?endif?>
 <div class="poll_results">
-<?php foreach ($votes as $vote):?>
+<?foreach ($votes as $vote):?>
   <div class="poll_result">
     <div class="poll_text"><?=$this->plural('label_result', $vote->count, $vote->key, $vote->percentage)?></div>
     <div class="poll_bar" style="width: <?=$vote->percentage?>%">&nbsp;</div>
   </div>
-<?php endforeach?>
+<?endforeach?>
 </div>
 <p><strong><?=$this->plural('caption_total', $totalVotes)?></strong></p>
