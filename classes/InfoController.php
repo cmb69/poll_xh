@@ -26,6 +26,9 @@ use Plib\View;
 
 class InfoController
 {
+    /** @var string */
+    private $pluginFolder;
+
     /** @var DataService */
     private $dataService;
 
@@ -35,8 +38,13 @@ class InfoController
     /** @var View */
     private $view;
 
-    public function __construct(DataService $dataService, SystemCheckService $systemCheckService, View $view)
-    {
+    public function __construct(
+        string $pluginFolder,
+        DataService $dataService,
+        SystemCheckService $systemCheckService,
+        View $view
+    ) {
+        $this->pluginFolder = $pluginFolder;
         $this->dataService = $dataService;
         $this->systemCheckService = $systemCheckService;
         $this->view = $view;
@@ -44,17 +52,15 @@ class InfoController
 
     public function defaultAction(): string
     {
-        global $pth;
-
         return $this->view->render("info", [
-            'logo' => "{$pth['folder']['plugins']}poll/poll.png",
+            'logo' => $this->pluginFolder . "poll.png",
             'version' => Plugin::VERSION,
             'checks' => $this->systemCheckService
                 ->minPhpVersion('7.1.0')
                 ->minXhVersion('1.7.0')
                 ->minPfwVersion('0.2.0')
-                ->writable("{$pth['folder']['plugins']}poll/css")
-                ->writable("{$pth['folder']['plugins']}poll/languages")
+                ->writable($this->pluginFolder . "css")
+                ->writable($this->pluginFolder . "languages")
                 ->writable($this->dataService->getFolder())
                 ->getChecks()
         ]);

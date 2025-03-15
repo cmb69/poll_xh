@@ -34,7 +34,14 @@ class Dic
 
     public static function infoController(): InfoController
     {
-        return new InfoController(new DataService(), new SystemCheckService(), self::view());
+        global $pth;
+
+        return new InfoController(
+            $pth["folder"]["plugins"] . "poll/",
+            new DataService(),
+            new SystemCheckService(),
+            self::view()
+        );
     }
 
     public static function mainAdminController(): MainAdminController
