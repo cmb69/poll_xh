@@ -38,7 +38,24 @@ class WidgetController
         $this->view = $view;
     }
 
-    public function defaultAction(string $name): string
+    public function __invoke(string $name): string
+    {
+        global $e, $plugin_tx;
+
+        if (!preg_match('/^[a-z0-9\-]+$/', $name)) {
+            $e = '<li><b>'
+                . sprintf($plugin_tx['poll']['error_invalid_name'], $name)
+                . '</b></li>' . PHP_EOL;
+            return '';
+        }
+        if (isset($_POST['poll_' . $name])) {
+            return $this->voteAction($name);
+        } else {
+            return $this->defaultAction($name);
+        }
+    }
+
+    private function defaultAction(string $name): string
     {
         $poll = $this->dataService->findPoll($name);
         if ($poll->hasEnded() || $this->hasVoted($name)) {
@@ -93,7 +110,7 @@ class WidgetController
             ]);
     }
 
-    public function voteAction(string $name): string
+    private function voteAction(string $name): string
     {
         global $plugin_tx;
 

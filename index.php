@@ -27,20 +27,7 @@ use Poll\Dic;
  */
 function poll($name)
 {
-    global $e, $plugin_tx;
-
-    if (!preg_match('/^[a-z0-9\-]+$/', $name)) {
-        $e = '<li><b>'
-            . sprintf($plugin_tx['poll']['error_invalid_name'], $name)
-            . '</b></li>' . PHP_EOL;
-        return '';
-    }
-    $controller = Dic::widgetController();
-    if (isset($_POST['poll_' . $name])) {
-        return $controller->voteAction($name);
-    } else {
-        return $controller->defaultAction($name);
-    }
+    return Dic::widgetController()($name);
 }
 
 (new Poll\Plugin())->run();
