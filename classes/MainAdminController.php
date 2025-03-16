@@ -23,6 +23,8 @@ namespace Poll;
 
 use Plib\Request;
 use Plib\View;
+use Poll\Model\DataService;
+use Poll\Model\Poll;
 use stdClass;
 
 class MainAdminController

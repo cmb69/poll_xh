@@ -1,6 +1,6 @@
 <?php
 
-namespace Poll;
+namespace Poll\Model;
 
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;

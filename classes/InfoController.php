@@ -23,6 +23,7 @@ namespace Poll;
 
 use Plib\SystemChecker;
 use Plib\View;
+use Poll\Model\DataService;
 
 class InfoController
 {

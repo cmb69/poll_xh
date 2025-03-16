@@ -19,7 +19,7 @@
  * along with Poll_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Poll;
+namespace Poll\Model;
 
 class Poll
 {

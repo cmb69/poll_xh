@@ -7,6 +7,8 @@ use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 use Plib\FakeRequest;
 use Plib\View;
+use Poll\Model\DataService;
+use Poll\Model\Poll;
 
 class WidgetControllerTest extends TestCase
 {

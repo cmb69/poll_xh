@@ -6,6 +6,8 @@ use ApprovalTests\Approvals;
 use PHPUnit\Framework\TestCase;
 use Plib\FakeRequest;
 use Plib\View;
+use Poll\Model\DataService;
+use Poll\Model\Poll;
 
 class MainAdminControllerTest extends TestCase
 {

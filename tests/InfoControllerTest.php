@@ -6,6 +6,7 @@ use ApprovalTests\Approvals;
 use PHPUnit\Framework\TestCase;
 use Plib\FakeSystemChecker;
 use Plib\View;
+use Poll\Model\DataService;
 
 class InfoControllerTest extends TestCase
 {
