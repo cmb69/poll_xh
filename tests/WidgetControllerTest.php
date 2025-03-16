@@ -74,6 +74,26 @@ class WidgetControllerTest extends TestCase
         Approvals::verifyHtml($sut(new FakeRequest(), "fifa-2018")->output());
     }
 
+    public function testCatchesInvalidVotes(): void
+    {
+        $_SERVER["REMOTE_ADDR"] = "79.251.201.250";
+        $_POST = ["poll_fifa-2018" => ["invalid"]];
+        vfsStream::setup("root");
+        $dataService = $this->createStub(DataService::class);
+        $dataService->method("getFolder")->willReturn(vfsStream::url("root/"));
+        $dataService->method("findPoll")->willReturn($this->poll());
+        $dataService->method("storePoll")->willReturn(true);
+        $dataService->method("registerVote")->willReturn(true);
+        $sut = new WidgetController(
+            $dataService,
+            new View("./views/", XH_includeVar("./languages/en.php", "plugin_tx")["poll"])
+        );
+        $this->assertStringContainsString(
+            "The submitted vote was invalid!",
+            $sut(new FakeRequest(), "fifa-2018")->output()
+        );
+    }
+
     private function poll(): Poll
     {
         $poll = new Poll();

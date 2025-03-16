@@ -104,9 +104,13 @@ class Poll
         $this->votes[$optionName] = $count;
     }
 
-    public function increaseVoteCount(string $optionName): void
+    public function increaseVoteCount(string $optionName): bool
     {
+        if (!isset($this->votes[$optionName])) {
+            return false;
+        }
         $this->votes[$optionName]++;
+        return true;
     }
 
     public function sortVotes(): void

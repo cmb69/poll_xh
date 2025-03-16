@@ -23,6 +23,7 @@ $plugin_tx['poll']['label_result_2_4']="%2\$s – %3\$s%% (%1\$s votes)";
 $plugin_tx['poll']['label_result_5']="%2\$s – %3\$s%% (%1\$s votes)";
 
 $plugin_tx['poll']['error_invalid_name']="Invalid poll name '%s'! (must consist of 'a'-'z', '0'-'9' and '-' only)";
+$plugin_tx['poll']['error_invalid_vote']="The submitted vote was invalid!";
 $plugin_tx['poll']['error_exceeded_max']="You may check %d options at most!";
 $plugin_tx['poll']['error_save']="The vote could not be saved!";
 

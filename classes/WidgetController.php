@@ -96,7 +96,10 @@ class WidgetController
                 . $this->renderVotingView($request, $poll));
         }
         foreach ($votes as $vote) {
-            $poll->increaseVoteCount($vote);
+            if (!$poll->increaseVoteCount($vote)) {
+                return Response::create($this->view->message('fail', 'error_invalid_vote')
+                . $this->renderVotingView($request, $poll));
+            }
         }
         $poll->increaseTotalVotes();
         if (
