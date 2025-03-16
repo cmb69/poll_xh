@@ -89,7 +89,7 @@ class InfoController
     }
 
     /** @return array{class:string,label:string,stateLabel:string} */
-    private function checkPlibVersion(string $version)
+    private function checkPlibVersion(string $version): array
     {
         $state = $this->systemChecker->checkPlugin("plib", $version) ? 'success' : 'fail';
         return [

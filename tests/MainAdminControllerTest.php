@@ -23,6 +23,7 @@ class MainAdminControllerTest extends TestCase
     private function poll(): Poll
     {
         $poll = new Poll();
+        $poll->setEndDate(1147483647);
         $poll->setVoteCount("Germany", 1);
         $poll->setVoteCount("Brazil", 0);
         $poll->setTotalVotes(1);

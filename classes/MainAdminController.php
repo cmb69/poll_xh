@@ -50,11 +50,7 @@ class MainAdminController
         return $o;
     }
 
-    /**
-     * @param bool $msg
-     * @return string
-     */
-    protected function renderResultsView(Poll $poll, $msg = true)
+    protected function renderResultsView(Poll $poll, bool $msg = true): string
     {
         global $admin;
 
@@ -70,7 +66,7 @@ class MainAdminController
     /**
      * @return list<stdClass>
      */
-    private function getVotes(Poll $poll)
+    private function getVotes(Poll $poll): array
     {
         $votes = [];
         $poll->sortVotes();

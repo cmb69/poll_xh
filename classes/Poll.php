@@ -23,155 +23,93 @@ namespace Poll;
 
 class Poll
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $name;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $maxVotes;
 
-    /**
-     * @var int A UNIX timestamp.
-     */
+    /** @var int Unix timestamp */
     protected $endDate;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $totalVotes;
 
-    /**
-     * @var array<string, int>
-     */
+    /** @var array<string,int>*/
     protected $votes;
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return int
-     */
-    public function getMaxVotes()
+    public function getMaxVotes(): int
     {
         return $this->maxVotes;
     }
 
-    /**
-     * @return int
-     */
-    public function getEndDate()
+    public function getEndDate(): int
     {
         return $this->endDate;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasEnded()
+    public function hasEnded(): bool
     {
         return $this->getEndDate() <= time();
     }
 
-    /**
-     * @return int
-     */
-    public function getTotalVotes()
+    public function getTotalVotes(): int
     {
         return $this->totalVotes;
     }
 
-    /**
-     * @param string $optionName
-     * @return int
-     */
-    public function getVoteCount($optionName)
+    public function getVoteCount(string $optionName): int
     {
         return $this->votes[$optionName];
     }
 
-    /**
-     * @return array<string, int>
-     */
-    public function getVotes()
+    /** @return array<string,int> */
+    public function getVotes(): array
     {
         return $this->votes;
     }
 
-    /**
-     * @param string $name
-     * @return void
-     */
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @param int $number
-     * @return void
-     */
-    public function setMaxVotes($number)
+    public function setMaxVotes(int $number): void
     {
         $this->maxVotes = $number;
     }
 
-    /**
-     * @param int $timestamp
-     * @return void
-     */
-    public function setEndDate($timestamp)
+    public function setEndDate(int $timestamp): void
     {
         $this->endDate = $timestamp;
     }
 
-    /**
-     * @param int $number
-     * @return void
-     */
-    public function setTotalVotes($number)
+    public function setTotalVotes(int $number): void
     {
         $this->totalVotes = $number;
     }
 
-    /**
-     * @return void
-     */
-    public function increaseTotalVotes()
+    public function increaseTotalVotes(): void
     {
         $this->totalVotes++;
     }
 
-    /**
-     * @param string $optionName
-     * @param int $count
-     * @return void
-     */
-    public function setVoteCount($optionName, $count)
+    public function setVoteCount(string $optionName, int $count): void
     {
         $this->votes[$optionName] = $count;
     }
 
-    /**
-     * @param string $optionName
-     * @return void
-     */
-    public function increaseVoteCount($optionName)
+    public function increaseVoteCount(string $optionName): void
     {
         $this->votes[$optionName]++;
     }
 
-    /**
-     * @return void
-     */
-    public function sortVotes()
+    public function sortVotes(): void
     {
         arsort($this->votes);
     }

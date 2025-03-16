@@ -37,11 +37,7 @@ class DataService
         $this->folder = $folder;
     }
 
-    /**
-     * @param string $name
-     * @return Poll
-     */
-    public function findPoll($name)
+    public function findPoll(string $name): Poll
     {
         $filename = $this->getFolder() . $name . '.csv';
         $poll = new Poll();
@@ -71,11 +67,7 @@ class DataService
         return $poll;
     }
 
-    /**
-     * @param string $name
-     * @return bool
-     */
-    public function storePoll($name, Poll $poll)
+    public function storePoll(string $name, Poll $poll): bool
     {
         $filename = $this->getFolder() . $name . '.csv';
         $lines = array();
@@ -91,7 +83,7 @@ class DataService
     /**
      * @return list<string>
      */
-    public function getPollNames()
+    public function getPollNames(): array
     {
         $folder = $this->getFolder();
         $files = scandir($folder);
@@ -139,10 +131,7 @@ class DataService
         return false;
     }
 
-    /**
-     * @return string
-     */
-    public function getFolder()
+    public function getFolder(): string
     {
         if (!file_exists($this->folder)) {
             mkdir($this->folder, 0777, true);

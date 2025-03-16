@@ -61,10 +61,7 @@ class WidgetController
         }
     }
 
-    /**
-     * @return bool
-     */
-    private function hasVoted(string $name)
+    private function hasVoted(string $name): bool
     {
         if (
             isset($_COOKIE['poll_' . $name])
@@ -126,11 +123,8 @@ class WidgetController
         }
     }
 
-    /**
-     * @param bool $msg
-     * @return array<string,mixed>
-     */
-    protected function resultData(Poll $poll, $msg = true)
+    /** @return array<string,mixed> */
+    protected function resultData(Poll $poll, bool $msg = true): array
     {
         global $admin;
 
@@ -143,10 +137,8 @@ class WidgetController
         ];
     }
 
-    /**
-     * @return list<stdClass>
-     */
-    private function getVotes(Poll $poll)
+    /** @return list<stdClass> */
+    private function getVotes(Poll $poll): array
     {
         $votes = [];
         $poll->sortVotes();
