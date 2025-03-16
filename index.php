@@ -22,7 +22,7 @@
 use Plib\Request;
 use Poll\Dic;
 
-const POLL_VERSION = "1.0beta3";
+const POLL_VERSION = "1.0";
 
 /**
  * @param string $name
