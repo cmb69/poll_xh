@@ -10,7 +10,7 @@ if (!isset($this)) {http_response_code(403); exit;}
  * @var bool $isFinished
  * @var bool $hasMessage
  * @var int $totalVotes
- * @var list<object{count:int,key:string,percentage:float}> $votes
+ * @var list<object{count:int,key:string,percentage:string}> $votes
  */
 ?>
 
@@ -26,7 +26,7 @@ if (!isset($this)) {http_response_code(403); exit;}
 <?foreach ($votes as $vote):?>
   <div class="poll_result">
     <div class="poll_text"><?=$this->plural('label_result', $vote->count, $vote->key, $vote->percentage)?></div>
-    <div class="poll_bar" style="width: <?=$vote->percentage?>%">&nbsp;</div>
+    <div class="poll_bar" style="width: <?=$this->esc($vote->percentage)?>%">&nbsp;</div>
   </div>
 <?endforeach?>
 </div>

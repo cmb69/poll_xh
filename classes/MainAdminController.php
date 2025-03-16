@@ -72,7 +72,7 @@ class MainAdminController
         $poll->sortVotes();
         foreach ($poll->getVotes() as $key => $count) {
             $percentage = ($poll->getTotalVotes() == 0)
-                ? 0
+                ? "0"
                 : number_format(100 * $count / $poll->getTotalVotes());
             $votes[] = (object) compact('key', 'count', 'percentage');
         }
