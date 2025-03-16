@@ -58,7 +58,8 @@ class WidgetController
     {
         $poll = $this->dataService->findPoll($name);
         if ($poll->hasEnded() || $this->hasVoted($request, $name)) {
-            return Response::create($this->renderResultView($poll));
+            $msg = $request->get("poll_voted") ? "caption_just_voted" : "caption_voted";
+            return Response::create($this->renderResultView($poll, $msg));
         } else {
             return Response::create($this->renderVotingView($request, $poll));
         }
@@ -105,17 +106,16 @@ class WidgetController
             return Response::create($this->view->message("fail", "error_save")
                  . $this->renderVotingView($request, $poll));
         }
-        return Response::create($this->view->message('info', 'caption_just_voted')
-            . $this->renderResultView($poll, false))
+        return Response::redirect($request->url()->with("poll_voted", "1")->absolute())
             ->withCookie('poll_' . $name, CMSIMPLE_ROOT, $poll->getEndDate());
     }
 
-    protected function renderResultView(Poll $poll, bool $msg = true): string
+    protected function renderResultView(Poll $poll, string $msg = ""): string
     {
         return $this->view->render("results", [
             'isAdministration' => false,
             'isFinished' => $poll->hasEnded(),
-            'hasMessage' => $msg,
+            'message' => $msg,
             'totalVotes' => $poll->getTotalVotes(),
             'votes' => $this->getVotes($poll)
         ]);

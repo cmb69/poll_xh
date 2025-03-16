@@ -25,7 +25,7 @@ class WidgetControllerTest extends TestCase
         );
     }
 
-    public function testRenderVotingForm(): void
+    public function testRendersVotingForm(): void
     {
         $_SERVER["REMOTE_ADDR"] = "79.251.201.250";
         vfsStream::setup("root");
@@ -39,7 +39,7 @@ class WidgetControllerTest extends TestCase
         Approvals::verifyHtml($sut(new FakeRequest(), "fifa-2018")->output());
     }
 
-    public function testRendersResultsAfterSuccessfulVoting(): void
+    public function testRedirectsAfterSuccessfulVoting(): void
     {
         $_SERVER["REMOTE_ADDR"] = "79.251.201.250";
         $_POST = ["poll_fifa-2018" => ["Germany"]];
@@ -47,6 +47,24 @@ class WidgetControllerTest extends TestCase
         $dataService = $this->createStub(DataService::class);
         $dataService->method("getFolder")->willReturn(vfsStream::url("root/"));
         $dataService->method("findPoll")->willReturn($this->poll());
+        $dataService->method("storePoll")->willReturn(true);
+        $dataService->method("registerVote")->willReturn(true);
+        $sut = new WidgetController(
+            $dataService,
+            new View("./views/", XH_includeVar("./languages/en.php", "plugin_tx")["poll"])
+        );
+        $this->assertSame("http://example.com/?&poll_voted=1", $sut(new FakeRequest(), "fifa-2018")->location());
+    }
+
+    public function testRendersResultsAfterPollHasEnded(): void
+    {
+        $_SERVER["REMOTE_ADDR"] = "79.251.201.250";
+        vfsStream::setup("root");
+        $dataService = $this->createStub(DataService::class);
+        $dataService->method("getFolder")->willReturn(vfsStream::url("root/"));
+        $poll = $this->poll();
+        $poll->setEndDate(0);
+        $dataService->method("findPoll")->willReturn($poll);
         $dataService->method("storePoll")->willReturn(true);
         $dataService->method("registerVote")->willReturn(true);
         $sut = new WidgetController(

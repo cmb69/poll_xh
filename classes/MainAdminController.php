@@ -53,12 +53,12 @@ class MainAdminController
         return $o;
     }
 
-    protected function renderResultsView(Poll $poll, bool $msg = true): string
+    protected function renderResultsView(Poll $poll): string
     {
         return $this->view->render("results", [
             'isAdministration' => true,
             'isFinished' => $poll->hasEnded(),
-            'hasMessage' => $msg,
+            'message' => "",
             'totalVotes' => $poll->getTotalVotes(),
             'votes' => $this->getVotes($poll)
         ]);

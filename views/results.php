@@ -8,7 +8,7 @@ if (!isset($this)) {http_response_code(403); exit;}
  * @var View $this
  * @var bool $isAdministration
  * @var bool $isFinished
- * @var bool $hasMessage
+ * @var string $message
  * @var int $totalVotes
  * @var list<object{count:int,key:string,percentage:string}> $votes
  */
@@ -16,9 +16,9 @@ if (!isset($this)) {http_response_code(403); exit;}
 
 <?if (!$isAdministration):?>
 <?  if ($isFinished):?>
-<p><?=$this->text('caption_ended')?></p>
-<?  elseif ($hasMessage):?>
-<p><?=$this->text('caption_voted')?></p>
+<p class="xh_info"><?=$this->text('caption_ended')?></p>
+<?  elseif ($message):?>
+<p class="xh_info"><?=$this->text($message)?></p>
 <?  endif?>
 <h5><?=$this->text('caption_results')?></h5>
 <?endif?>
