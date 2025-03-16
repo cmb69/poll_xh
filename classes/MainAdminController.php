@@ -21,6 +21,7 @@
 
 namespace Poll;
 
+use Plib\Request;
 use Plib\View;
 use stdClass;
 
@@ -38,24 +39,22 @@ class MainAdminController
         $this->view = $view;
     }
 
-    public function defaultAction(): string
+    public function defaultAction(Request $request): string
     {
         $o = '<div id="poll_admin">' . "\n";
         foreach ($this->dataService->getPollNames() as $name) {
             $poll = $this->dataService->findPoll($name);
             $o .= '<h1>' . $name . '</h1>' . "\n";
-            $o .= $this->renderResultsView($poll);
+            $o .= $this->renderResultsView($request, $poll);
         }
         $o .= '</div>' . "\n";
         return $o;
     }
 
-    protected function renderResultsView(Poll $poll, bool $msg = true): string
+    protected function renderResultsView(Request $request, Poll $poll, bool $msg = true): string
     {
-        global $admin;
-
         return $this->view->render("results", [
-            'isAdministration' => ($admin == 'plugin_main'),
+            'isAdministration' => $request->get("admin") === "plugin_main",
             'isFinished' => $poll->hasEnded(),
             'hasMessage' => $msg,
             'totalVotes' => $poll->getTotalVotes(),

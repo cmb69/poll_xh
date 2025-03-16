@@ -19,6 +19,7 @@
  * along with Poll_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Plib\Request;
 use Poll\Dic;
 
 const POLL_VERSION = "1.0beta3";
@@ -29,5 +30,5 @@ const POLL_VERSION = "1.0beta3";
  */
 function poll($name)
 {
-    return Dic::widgetController()($name)();
+    return Dic::widgetController()(Request::current(), $name)();
 }

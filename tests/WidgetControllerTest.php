@@ -5,6 +5,7 @@ namespace Poll;
 use ApprovalTests\Approvals;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
+use Plib\FakeRequest;
 use Plib\View;
 
 class WidgetControllerTest extends TestCase
@@ -18,7 +19,7 @@ class WidgetControllerTest extends TestCase
         );
         $this->assertStringContainsString(
             "Invalid poll name 'invalid name'! (must consist of 'a'-'z', '0'-'9' and '-' only)",
-            $sut("invalid name")->output()
+            $sut(new FakeRequest(), "invalid name")->output()
         );
     }
 
@@ -33,7 +34,7 @@ class WidgetControllerTest extends TestCase
             $dataService,
             new View("./views/", XH_includeVar("./languages/en.php", "plugin_tx")["poll"])
         );
-        Approvals::verifyHtml($sut("fifa-2018")->output());
+        Approvals::verifyHtml($sut(new FakeRequest(), "fifa-2018")->output());
     }
 
     public function testRendersResultsAfterSuccessfulVoting(): void
@@ -50,7 +51,7 @@ class WidgetControllerTest extends TestCase
             $dataService,
             new View("./views/", XH_includeVar("./languages/en.php", "plugin_tx")["poll"])
         );
-        Approvals::verifyHtml($sut("fifa-2018")->output());
+        Approvals::verifyHtml($sut(new FakeRequest(), "fifa-2018")->output());
     }
 
     private function poll(): Poll

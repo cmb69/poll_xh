@@ -58,7 +58,7 @@ class InfoController
             'checks' => [
                 $this->checkPhpVersion('7.1.0'),
                 $this->checkXhVersion('1.7.0'),
-                $this->checkPlibVersion('1.1'),
+                $this->checkPlibVersion('1.2'),
                 $this->checkWritability($this->pluginFolder . "css"),
                 $this->checkWritability($this->pluginFolder . "languages"),
                 $this->checkWritability($this->dataService->getFolder()),

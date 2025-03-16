@@ -21,6 +21,7 @@
 
 namespace Poll;
 
+use Plib\Request;
 use Plib\Response;
 use Plib\View;
 use stdClass;
@@ -39,66 +40,63 @@ class WidgetController
         $this->view = $view;
     }
 
-    public function __invoke(string $name): Response
+    public function __invoke(Request $request, string $name): Response
     {
         if (!preg_match('/^[a-z0-9\-]+$/', $name)) {
             return Response::create($this->view->message("fail", "error_invalid_name", $name));
         }
-        if (isset($_POST['poll_' . $name])) {
-            return $this->voteAction($name);
+        if ($request->postArray("poll_$name") !== null) {
+            return $this->voteAction($request, $name);
         } else {
-            return $this->defaultAction($name);
+            return $this->defaultAction($request, $name);
         }
     }
 
-    private function defaultAction(string $name): Response
+    private function defaultAction(Request $request, string $name): Response
     {
         $poll = $this->dataService->findPoll($name);
-        if ($poll->hasEnded() || $this->hasVoted($name)) {
-            return Response::create($this->view->render("results", $this->resultData($poll)));
+        if ($poll->hasEnded() || $this->hasVoted($request, $name)) {
+            return Response::create($this->view->render("results", $this->resultData($request, $poll)));
         } else {
-            return Response::create($this->view->render("voting", $this->votingData($poll)));
+            return Response::create($this->view->render("voting", $this->votingData($request, $poll)));
         }
     }
 
-    private function hasVoted(string $name): bool
+    private function hasVoted(Request $request, string $name): bool
     {
-        if (
-            isset($_COOKIE['poll_' . $name])
-            && $_COOKIE['poll_' . $name] == CMSIMPLE_ROOT
-        ) {
+        if ($request->cookie("poll_$name") !== null) {
             return true;
         }
-        return $this->dataService->isVoteRegistered($name, $_SERVER["REMOTE_ADDR"]);
+        return $this->dataService->isVoteRegistered($name, $request->remoteAddr());
     }
 
     /** @return array<string,mixed> */
-    private function votingData(Poll $poll): array
+    private function votingData(Request $request, Poll $poll): array
     {
-        global $sn, $su;
-
         return [
-            'action' => "$sn?$su",
+            'action' => $request->url()->relative(),
             'name' => $poll->getName(),
             'type' => $poll->getMaxVotes() > 1 ? 'checkbox' : 'radio',
             'keys' => array_keys($poll->getVotes())
         ];
     }
 
-    private function voteAction(string $name): Response
+    private function voteAction(Request $request, string $name): Response
     {
         $poll = $this->dataService->findPoll($name);
-        if ($poll->hasEnded() || $this->hasVoted($name)) {
-            return Response::create($this->view->render("results", $this->resultData($poll)));
+        if ($poll->hasEnded() || $this->hasVoted($request, $name)) {
+            return Response::create($this->view->render("results", $this->resultData($request, $poll)));
         }
-        if (count($_POST['poll_' . $name]) > $poll->getMaxVotes()) {
+        $votes = $request->postArray("poll_$name");
+        assert($votes !== null);
+        if (count($votes) > $poll->getMaxVotes()) {
             return Response::create(
                 $this->view->message('fail', 'error_exceeded_max', $poll->getMaxVotes())
-                . $this->view->render("voting", $this->votingData($poll))
+                . $this->view->render("voting", $this->votingData($request, $poll))
             );
         }
-        if ($this->dataService->registerVote($name, $_SERVER["REMOTE_ADDR"])) {
-            foreach ($_POST['poll_' . $name] as $vote) {
+        if ($this->dataService->registerVote($name, $request->remoteAddr())) {
+            foreach ($votes as $vote) {
                 $poll->increaseVoteCount($vote);
             }
             $poll->increaseTotalVotes();
@@ -113,23 +111,21 @@ class WidgetController
         if ($err) {
             return Response::create(
                 $this->view->message("fail", "error_save")
-                 . $this->view->render("voting", $this->votingData($poll))
+                 . $this->view->render("voting", $this->votingData($request, $poll))
             );
         } else {
             return Response::create(
                 $this->view->message('info', 'caption_just_voted')
-                . $this->view->render("results", $this->resultData($poll, false))
+                . $this->view->render("results", $this->resultData($request, $poll, false))
             )->withCookie('poll_' . $name, CMSIMPLE_ROOT, $poll->getEndDate());
         }
     }
 
     /** @return array<string,mixed> */
-    protected function resultData(Poll $poll, bool $msg = true): array
+    protected function resultData(Request $request, Poll $poll, bool $msg = true): array
     {
-        global $admin;
-
         return [
-            'isAdministration' => ($admin == 'plugin_main'),
+            'isAdministration' => $request->get("admin") === "plugin_main",
             'isFinished' => $poll->hasEnded(),
             'hasMessage' => $msg,
             'totalVotes' => $poll->getTotalVotes(),

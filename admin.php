@@ -19,6 +19,7 @@
  * along with Poll_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Plib\Request;
 use Poll\Dic;
 
 if (!defined("CMSIMPLE_XH_VERSION")) {
@@ -39,7 +40,7 @@ if (XH_wantsPluginAdministration("poll")) {
             $o .= Dic::infoController()->defaultAction();
             break;
         case "plugin_main":
-            $o .= Dic::mainAdminController()->defaultAction();
+            $o .= Dic::mainAdminController()->defaultAction(Request::current());
             break;
         default:
             $o .= plugin_admin_common();

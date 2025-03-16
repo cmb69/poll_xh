@@ -4,6 +4,7 @@ namespace Poll;
 
 use ApprovalTests\Approvals;
 use PHPUnit\Framework\TestCase;
+use Plib\FakeRequest;
 use Plib\View;
 
 class MainAdminControllerTest extends TestCase
@@ -17,7 +18,7 @@ class MainAdminControllerTest extends TestCase
             $dataService,
             new View("./views/", XH_includeVar("./languages/en.php", "plugin_tx")["poll"])
         );
-        Approvals::verifyHtml($sut->defaultAction());
+        Approvals::verifyHtml($sut->defaultAction(new FakeRequest()));
     }
 
     private function poll(): Poll
