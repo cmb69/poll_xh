@@ -56,9 +56,9 @@ class WidgetController
     {
         $poll = $this->dataService->findPoll($name);
         if ($poll->hasEnded() || $this->hasVoted($request, $name)) {
-            return Response::create($this->view->render("results", $this->resultData($poll)));
+            return Response::create($this->renderResultView($poll));
         } else {
-            return Response::create($this->view->render("voting", $this->votingData($request, $poll)));
+            return Response::create($this->renderVotingView($request, $poll));
         }
     }
 
@@ -70,67 +70,53 @@ class WidgetController
         return $this->dataService->isVoteRegistered($name, $request->remoteAddr());
     }
 
-    /** @return array<string,mixed> */
-    private function votingData(Request $request, Poll $poll): array
+    private function renderVotingView(Request $request, Poll $poll): string
     {
-        return [
+        return $this->view->render("voting", [
             'action' => $request->url()->relative(),
             'name' => $poll->getName(),
             'type' => $poll->getMaxVotes() > 1 ? 'checkbox' : 'radio',
             'keys' => array_keys($poll->getVotes())
-        ];
+        ]);
     }
 
     private function voteAction(Request $request, string $name): Response
     {
         $poll = $this->dataService->findPoll($name);
         if ($poll->hasEnded() || $this->hasVoted($request, $name)) {
-            return Response::create($this->view->render("results", $this->resultData($poll)));
+            return Response::create($this->renderResultView($poll));
         }
         $votes = $request->postArray("poll_$name");
         assert($votes !== null);
         if (count($votes) > $poll->getMaxVotes()) {
-            return Response::create(
-                $this->view->message('fail', 'error_exceeded_max', $poll->getMaxVotes())
-                . $this->view->render("voting", $this->votingData($request, $poll))
-            );
+            return Response::create($this->view->message('fail', 'error_exceeded_max', $poll->getMaxVotes())
+                . $this->renderVotingView($request, $poll));
         }
-        if ($this->dataService->registerVote($name, $request->remoteAddr())) {
-            foreach ($votes as $vote) {
-                $poll->increaseVoteCount($vote);
-            }
-            $poll->increaseTotalVotes();
-            if (!$this->dataService->storePoll($name, $poll)) {
-                $err = true;
-            } else {
-                $err = false;
-            }
-        } else {
-            $err = true;
+        foreach ($votes as $vote) {
+            $poll->increaseVoteCount($vote);
         }
-        if ($err) {
-            return Response::create(
-                $this->view->message("fail", "error_save")
-                 . $this->view->render("voting", $this->votingData($request, $poll))
-            );
-        } else {
-            return Response::create(
-                $this->view->message('info', 'caption_just_voted')
-                . $this->view->render("results", $this->resultData($poll, false))
-            )->withCookie('poll_' . $name, CMSIMPLE_ROOT, $poll->getEndDate());
+        $poll->increaseTotalVotes();
+        if (
+            !$this->dataService->registerVote($name, $request->remoteAddr())
+            || !$this->dataService->storePoll($name, $poll)
+        ) {
+            return Response::create($this->view->message("fail", "error_save")
+                 . $this->renderVotingView($request, $poll));
         }
+        return Response::create($this->view->message('info', 'caption_just_voted')
+            . $this->renderResultView($poll, false))
+            ->withCookie('poll_' . $name, CMSIMPLE_ROOT, $poll->getEndDate());
     }
 
-    /** @return array<string,mixed> */
-    protected function resultData(Poll $poll, bool $msg = true): array
+    protected function renderResultView(Poll $poll, bool $msg = true): string
     {
-        return [
+        return $this->view->render("results", [
             'isAdministration' => false,
             'isFinished' => $poll->hasEnded(),
             'hasMessage' => $msg,
             'totalVotes' => $poll->getTotalVotes(),
             'votes' => $this->getVotes($poll)
-        ];
+        ]);
     }
 
     /** @return list<stdClass> */
