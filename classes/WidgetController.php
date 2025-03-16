@@ -56,7 +56,7 @@ class WidgetController
     {
         $poll = $this->dataService->findPoll($name);
         if ($poll->hasEnded() || $this->hasVoted($request, $name)) {
-            return Response::create($this->view->render("results", $this->resultData($request, $poll)));
+            return Response::create($this->view->render("results", $this->resultData($poll)));
         } else {
             return Response::create($this->view->render("voting", $this->votingData($request, $poll)));
         }
@@ -85,7 +85,7 @@ class WidgetController
     {
         $poll = $this->dataService->findPoll($name);
         if ($poll->hasEnded() || $this->hasVoted($request, $name)) {
-            return Response::create($this->view->render("results", $this->resultData($request, $poll)));
+            return Response::create($this->view->render("results", $this->resultData($poll)));
         }
         $votes = $request->postArray("poll_$name");
         assert($votes !== null);
@@ -116,16 +116,16 @@ class WidgetController
         } else {
             return Response::create(
                 $this->view->message('info', 'caption_just_voted')
-                . $this->view->render("results", $this->resultData($request, $poll, false))
+                . $this->view->render("results", $this->resultData($poll, false))
             )->withCookie('poll_' . $name, CMSIMPLE_ROOT, $poll->getEndDate());
         }
     }
 
     /** @return array<string,mixed> */
-    protected function resultData(Request $request, Poll $poll, bool $msg = true): array
+    protected function resultData(Poll $poll, bool $msg = true): array
     {
         return [
-            'isAdministration' => $request->get("admin") === "plugin_main",
+            'isAdministration' => false,
             'isFinished' => $poll->hasEnded(),
             'hasMessage' => $msg,
             'totalVotes' => $poll->getTotalVotes(),

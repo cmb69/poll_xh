@@ -45,16 +45,16 @@ class MainAdminController
         foreach ($this->dataService->getPollNames() as $name) {
             $poll = $this->dataService->findPoll($name);
             $o .= '<h1>' . $name . '</h1>' . "\n";
-            $o .= $this->renderResultsView($request, $poll);
+            $o .= $this->renderResultsView($poll);
         }
         $o .= '</div>' . "\n";
         return $o;
     }
 
-    protected function renderResultsView(Request $request, Poll $poll, bool $msg = true): string
+    protected function renderResultsView(Poll $poll, bool $msg = true): string
     {
         return $this->view->render("results", [
-            'isAdministration' => $request->get("admin") === "plugin_main",
+            'isAdministration' => true,
             'isFinished' => $poll->hasEnded(),
             'hasMessage' => $msg,
             'totalVotes' => $poll->getTotalVotes(),
