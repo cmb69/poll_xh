@@ -42,7 +42,6 @@ class WidgetControllerTest extends TestCase
     public function testRedirectsAfterSuccessfulVoting(): void
     {
         $_SERVER["REMOTE_ADDR"] = "79.251.201.250";
-        $_POST = ["poll_fifa-2018" => ["Germany"]];
         vfsStream::setup("root");
         $dataService = $this->createStub(DataService::class);
         $dataService->method("getFolder")->willReturn(vfsStream::url("root/"));
@@ -53,7 +52,10 @@ class WidgetControllerTest extends TestCase
             $dataService,
             new View("./views/", XH_includeVar("./languages/en.php", "plugin_tx")["poll"])
         );
-        $this->assertSame("http://example.com/?&poll_voted=1", $sut(new FakeRequest(), "fifa-2018")->location());
+        $request = new FakeRequest([
+            "post" => ["poll_fifa-2018" => ["Germany"]],
+        ]);
+        $this->assertSame("http://example.com/?&poll_voted=1", $sut($request, "fifa-2018")->location());
     }
 
     public function testRendersResultsAfterPollHasEnded(): void
@@ -77,7 +79,6 @@ class WidgetControllerTest extends TestCase
     public function testCatchesInvalidVotes(): void
     {
         $_SERVER["REMOTE_ADDR"] = "79.251.201.250";
-        $_POST = ["poll_fifa-2018" => ["invalid"]];
         vfsStream::setup("root");
         $dataService = $this->createStub(DataService::class);
         $dataService->method("getFolder")->willReturn(vfsStream::url("root/"));
@@ -88,9 +89,12 @@ class WidgetControllerTest extends TestCase
             $dataService,
             new View("./views/", XH_includeVar("./languages/en.php", "plugin_tx")["poll"])
         );
+        $request = new FakeRequest([
+            "post" => ["poll_fifa-2018" => ["invalid"]],
+        ]);
         $this->assertStringContainsString(
             "The submitted vote was invalid!",
-            $sut(new FakeRequest(), "fifa-2018")->output()
+            $sut($request, "fifa-2018")->output()
         );
     }
 
